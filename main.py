@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import filedialog
-import time
+import os
 
 root = tk.Tk()
 root.title("Roshan System")
-root.geometry("1200x800")
+root.attributes(fullscreen=True)
 window = tk.Frame(root)
 window.pack(fill="both", expand=True)
 
