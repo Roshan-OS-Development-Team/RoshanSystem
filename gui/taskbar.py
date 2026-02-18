@@ -22,3 +22,9 @@ from functions.calculator import calculator
 calculatorimg = tk.PhotoImage(file="textures/calculator.png")
 calculatorbtn = tk.Button(taskbar, image=calculatorimg, bg="black", command=calculator)
 calculatorbtn.pack(side="left")
+
+from functions.closeos import closeos
+
+closeosimg = tk.PhotoImage(file="textures/closeicon.png")
+closeosbtn = tk.Button(taskbar, image=closeosimg, bg="black", command=closeos)
+closeosbtn.pack(side="left")

@@ -12,11 +12,13 @@ from gui import taskbar
 from gui import desktop
 from functions import notepad
 from functions import calculator
+from functions import closeos
 taskbar.root = root
 taskbar.window = window
 desktop.root = root
 desktop.window = window
 notepad.root = root
 calculator.root = root
+closeos.root = root
 
 root.mainloop()
