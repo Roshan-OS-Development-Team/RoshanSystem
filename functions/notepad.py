@@ -31,9 +31,9 @@ def notepad():
         with open(fileload, "r", encoding="utf-8") as f:
             notepadtext.set(f.read())
 
-    savebtn = tk.Button(notepad, bg="black", fg="white", command=savefile, text="Save File")
-    savebtn.pack(side="top", padx=0, fill="x")
-    loadbtn = tk.Button(notepad, bg="black", fg="white", text="Load File", command=loadfile)
-    loadbtn.pack(side="top", fill="x")
-    notepadentry = tk.Entry(notepad, bg="black", fg="white", textvariable=notepadtext, font=("Segoe UI", 15, "bold"))
-    notepadentry.pack(fill="both", expand=True)
+    savebtn = tk.Button(notepad, bg="black", fg="white", command=savefile, text="Save File", font=("Segoe UI", 20, "bold"))
+    savebtn.pack(side="left", fill="x", expand=True)
+    loadbtn = tk.Button(notepad, bg="black", fg="white", text="Load File", command=loadfile, font=("Segoe UI", 20, "bold"))
+    loadbtn.pack(side="left", fill="x", expand=True)
+    notepadentry = tk.Entry(notepad, bg="black", fg="white", textvariable=notepadtext, font=("Segoe UI", 20, "bold"))
+    notepadentry.pack(side="top", fill="both", expand=True)
