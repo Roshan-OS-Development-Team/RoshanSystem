@@ -28,3 +28,9 @@ from functions.closeos import closeos
 closeosimg = tk.PhotoImage(file="textures/closeicon.png")
 closeosbtn = tk.Button(taskbar, image=closeosimg, bg="black", command=closeos)
 closeosbtn.pack(side="left")
+
+from functions.overclocker import overclocker
+
+overclockerimg = tk.PhotoImage(file="textures/overclocker.png")
+overclockerbtn = tk.Button(taskbar, image=overclockerimg, command=overclocker)
+overclockerbtn.pack(side="left")

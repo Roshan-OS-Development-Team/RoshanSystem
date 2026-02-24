@@ -8,11 +8,9 @@ root.attributes(fullscreen=True)
 window = tk.Frame(root)
 window.pack(fill="both", expand=True)
 
-from gui import taskbar
-from gui import desktop
-from functions import notepad
-from functions import calculator
-from functions import closeos
+from gui import taskbar,desktop
+from functions import notepad,calculator,closeos,crash,overclocker
+
 taskbar.root = root
 taskbar.window = window
 desktop.root = root
@@ -20,5 +18,7 @@ desktop.window = window
 notepad.root = root
 calculator.root = root
 closeos.root = root
+crash.root = root
+overclocker.root = root
 
 root.mainloop()
