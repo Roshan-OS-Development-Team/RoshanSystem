@@ -23,6 +23,11 @@
                 <ImageBrush ImageSource="/calculator.png"/>
             </Button.Background>
         </Button>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="185,690,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/closeicon.png"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

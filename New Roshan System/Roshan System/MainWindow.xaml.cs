@@ -32,5 +32,18 @@ namespace Roshan_System
             Calculator calculator = new Calculator();
             calculator.Show();
         }
+
+        private void Shutdown(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to shutdown?", "Confirm Shutdown", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+            if (result == MessageBoxResult.No)
+            {
+                MessageBox.Show("Shutdown cancelled.");
+            }
+        }
     }
 }

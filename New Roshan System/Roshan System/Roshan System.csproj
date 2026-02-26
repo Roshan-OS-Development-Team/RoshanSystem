@@ -12,7 +12,9 @@
   <ItemGroup>
     <None Remove="background2.png" />
     <None Remove="calculator.png" />
+    <None Remove="closeicon.png" />
     <None Remove="notepad.png" />
+    <None Remove="Overclocker.png" />
     <None Remove="startmenu.png" />
     <None Remove="textures\background.png" />
     <None Remove="textures\background1.png" />
@@ -28,7 +30,9 @@
 
   <ItemGroup>
     <Resource Include="calculator.png" />
+    <Resource Include="closeicon.png" />
     <Resource Include="notepad.png" />
+    <Resource Include="Overclocker.png" />
     <Resource Include="textures\background.png" />
   </ItemGroup>
 
