@@ -205,3 +205,73 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# =========================
+# Visual Studio / .NET
+# =========================
+
+## Build results
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio cache
+.vs/
+
+## Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+## Build logs
+*.log
+
+# =========================
+# .NET Core / .NET SDK
+# =========================
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# =========================
+# Publish output
+# =========================
+publish/
+
+# =========================
+# NuGet
+# =========================
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# =========================
+# Test results
+# =========================
+TestResults/
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Crash dumps
+# =========================
+*.dmp
+
+# =========================
+# WPF / XAML generated
+# =========================
+*.g.cs
+*.g.i.cs
+*.tmp

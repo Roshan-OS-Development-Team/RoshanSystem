@@ -1,0 +1,15 @@
+﻿<Window x:Class="Roshan_System.Notepad"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Roshan_System"
+        mc:Ignorable="d"
+        Title="Notepad" Height="360" Width="640" Background="Black">
+    <Grid>
+        <Button Content="Save File" HorizontalAlignment="Center" VerticalAlignment="Top" Width="620" Height="33" Background="Black" Foreground="White" Click="Save_File"/>
+        <Button Content="Load File" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="31" Width="620" Background="Black" Foreground="White" Click="Load_File"/>
+        <TextBox Name="NotepadTextBox" HorizontalAlignment="Center" Margin="0,64,0,0" TextWrapping="Wrap" Text="Put your Text here" VerticalAlignment="Top" Width="620" Height="270" Foreground="White" Background="Black"/>
+
+    </Grid>
+</Window>

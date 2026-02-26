@@ -1,0 +1,28 @@
+﻿<Window x:Class="Roshan_System.Calculator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Roshan_System"
+        mc:Ignorable="d"
+        Title="Calculator" Height="400" Width="200">
+    <Grid Background="Black">
+        <TextBox Name="Val1" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Put your first number here" VerticalAlignment="Top" Width="180" Background="#FF101010" Foreground="White" Height="20"/>
+        <TextBox Name="Val2" HorizontalAlignment="Center" Margin="0,35,0,0" TextWrapping="Wrap" Text="Put your second number here" VerticalAlignment="Top" Width="180" Height="20" Background="#FF101010" Foreground="White"/>
+        <Label x:Name="Answer" Content="Answer will be here&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="180" RenderTransformOrigin="0.5,0.5" Height="23" Background="#FF101010" Foreground="White" FontSize="10">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.309"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Button Content="+&#xA;+" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Height="70" Width="70" Background="#FF101010" Foreground="White" FontSize="48" Click="Add"/>
+        <Button Content="-" HorizontalAlignment="Left" Margin="106,88,0,0" VerticalAlignment="Top" Height="70" Width="70" Background="#FF101010" Foreground="White" FontSize="48" Click="Subtract"/>
+        <Button Content="X" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Height="71" Width="70" Background="#FF101010" Foreground="White" FontSize="48" Click="Multiply"/>
+        <Button Content="/" HorizontalAlignment="Left" Margin="106,180,0,0" VerticalAlignment="Top" Height="71" Width="70" Background="#FF101010" Foreground="White" FontSize="48" Click="Divide"/>
+
+    </Grid>
+</Window>
