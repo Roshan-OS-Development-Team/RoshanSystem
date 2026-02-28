@@ -10,11 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="background.png" />
+    <None Remove="background1.png" />
     <None Remove="background2.png" />
+    <None Remove="background3.png" />
     <None Remove="calculator.png" />
     <None Remove="closeicon.png" />
     <None Remove="notepad.png" />
     <None Remove="Overclocker.png" />
+    <None Remove="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <None Remove="startmenu.png" />
     <None Remove="textures\background.png" />
     <None Remove="textures\background1.png" />
@@ -25,14 +29,19 @@
     <None Remove="textures\ctrlpanel.png" />
     <None Remove="textures\notepad.png" />
     <None Remove="textures\Overclocker.png" />
+    <None Remove="textures\Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <None Remove="textures\startmenu.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="background.png" />
+    <Resource Include="background1.png" />
+    <Resource Include="background3.png" />
     <Resource Include="calculator.png" />
     <Resource Include="closeicon.png" />
     <Resource Include="notepad.png" />
     <Resource Include="Overclocker.png" />
+    <Resource Include="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <Resource Include="textures\background.png" />
   </ItemGroup>
 
@@ -47,6 +56,7 @@
     <Resource Include="textures\ctrlpanel.png" />
     <Resource Include="textures\notepad.png" />
     <Resource Include="textures\Overclocker.png" />
+    <Resource Include="textures\Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <Resource Include="textures\startmenu.png" />
   </ItemGroup>
 

@@ -1,31 +1,44 @@
 ﻿<Window x:Class="Roshan_System.MainWindow"
+        Icon="/textures/startmenu.png"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Roshan_System"
-        Title="Roshan System" Width="1200" Height="800">
+        Title="Roshan System" Width="1200" Height="797">
 
     <Grid>
-        <Image x:Name="BackgroundImage" Source="/background2.png" Stretch="UniformToFill"/>
-        <Rectangle HorizontalAlignment="Left" Height="70" Margin="0,690,0,0" Stroke="Black" VerticalAlignment="Top" Width="1180" Fill="Black"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="10,690,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.543" Height="70" Width="70" Foreground="{x:Null}">
+        <Grid.Background>
+            <ImageBrush ImageSource="/background2.png"/>
+        </Grid.Background>
+        <Rectangle HorizontalAlignment="Left" Height="70" Margin="0,688,0,0" Stroke="Black" VerticalAlignment="Top" Width="1190" Fill="Black"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,688,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.543" Height="70" Width="70" Foreground="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/startmenu.png"/>
             </Button.Background>
 
         </Button>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="80,690,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.517,0.603" Height="70" Width="50" Foreground="{x:Null}" Click="Open_Notepad">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="70,689,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.517,0.603" Height="70" Width="50" Foreground="{x:Null}" Click="Open_Notepad">
             <Button.Background>
                 <ImageBrush ImageSource="/notepad.png"/>
             </Button.Background>
         </Button>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="130,690,0,0" VerticalAlignment="Top" Height="70" Width="50" Foreground="{x:Null}" Click="Open_Calculator">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="120,689,0,0" VerticalAlignment="Top" Height="70" Width="50" Foreground="{x:Null}" Click="Open_Calculator">
             <Button.Background>
                 <ImageBrush ImageSource="/calculator.png"/>
             </Button.Background>
         </Button>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="185,690,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="310,689,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/closeicon.png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="" HorizontalAlignment="Left" Margin="170,689,0,0" VerticalAlignment="Top" Height="70" Width="70" Foreground="{x:Null}" Click="Open_Chilli">
+            <Button.Background>
+                <ImageBrush ImageSource="/Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="240,689,0,0" VerticalAlignment="Top" Height="70" Width="70" Foreground="{x:Null}" Click="Open_Overclocker">
+            <Button.Background>
+                <ImageBrush ImageSource="/Overclocker.png"/>
             </Button.Background>
         </Button>
 

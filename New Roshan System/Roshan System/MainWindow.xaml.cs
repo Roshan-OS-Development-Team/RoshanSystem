@@ -32,7 +32,7 @@ namespace Roshan_System
             Calculator calculator = new Calculator();
             calculator.Show();
         }
-
+        
         private void Shutdown(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to shutdown?", "Confirm Shutdown", MessageBoxButton.YesNo);
@@ -44,6 +44,18 @@ namespace Roshan_System
             {
                 MessageBox.Show("Shutdown cancelled.");
             }
+        }
+
+        private void Open_Chilli(object sender, RoutedEventArgs e)
+        {
+            Chilli chilli = new Chilli();
+            chilli.Show();
+        }
+
+        private void Open_Overclocker(object sender, RoutedEventArgs e)
+        {
+            Overclocker overclocker = new Overclocker();
+            overclocker.Show();
         }
     }
 }

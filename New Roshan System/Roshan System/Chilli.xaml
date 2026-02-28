@@ -1,0 +1,16 @@
+﻿<Window x:Class="Roshan_System.Chilli"
+        Icon="/Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Roshan_System"
+        mc:Ignorable="d"
+        Title="Chilli" Height="360" Width="290">
+    <Window.Background>
+        <ImageBrush ImageSource="/Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg"/>
+    </Window.Background>
+    <Grid>
+        
+    </Grid>
+</Window>
