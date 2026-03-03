@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
@@ -26,25 +27,60 @@ namespace Roshan_System
             InitializeComponent();
         }
 
-        private void Save_File(object sender, RoutedEventArgs e)
+        private void Savefile()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
             saveFileDialog.Title = "Save Notepad Content";
-            saveFileDialog.ShowDialog();
-            string text = NotepadTextBox.Text;
-            File.WriteAllText(saveFileDialog.FileName, text);
-            MessageBox.Show("File saved to:", saveFileDialog.FileName);
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string text = NotepadTextBox.Text;
+                File.WriteAllText(saveFileDialog.FileName, text );
+                MessageBox.Show($"File saved to {saveFileDialog.FileName}", "Saved");
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void Save_File(object sender, RoutedEventArgs e)
+        {
+          Savefile();
         }
 
-        private void Load_File(object sender, RoutedEventArgs e)
+        private void SaveFileKey(object sender, KeyEventArgs s)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && s.Key == Key.S)
+            {
+                Savefile();
+            }
+        }
+
+        private void loadfile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
             openFileDialog.Title = "Open Notepad Content";
-            openFileDialog.ShowDialog();
-            string text = File.ReadAllText(openFileDialog.FileName);
-            NotepadTextBox.Text = text;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string text = File.ReadAllText(openFileDialog.FileName);
+                NotepadTextBox.Text = text;
+            }
+            else
+            { 
+                return;
+            }    
+        }
+        private void Load_File(object sender, RoutedEventArgs e)
+        {
+            loadfile();
+        }
+        private void LoadFileKey(object sender, KeyEventArgs o)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && o.Key == Key.O)
+            {
+                loadfile();
+            }
         }
     }
 }

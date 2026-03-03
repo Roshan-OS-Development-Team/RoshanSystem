@@ -16,6 +16,8 @@
     <None Remove="background3.png" />
     <None Remove="calculator.png" />
     <None Remove="closeicon.png" />
+    <None Remove="Error.png" />
+    <None Remove="Information.png" />
     <None Remove="notepad.png" />
     <None Remove="Overclocker.png" />
     <None Remove="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
@@ -39,6 +41,8 @@
     <Resource Include="background3.png" />
     <Resource Include="calculator.png" />
     <Resource Include="closeicon.png" />
+    <Resource Include="Error.png" />
+    <Resource Include="Information.png" />
     <Resource Include="notepad.png" />
     <Resource Include="Overclocker.png" />
     <Resource Include="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />

@@ -32,7 +32,7 @@ namespace Roshan_System
             cslabel.Content = cs;
             if (cs >= 2)
             {
-                MessageBoxResult message = MessageBox.Show("Your PC crashed", "Crashed", MessageBoxButton.OK);
+                MessageBoxResult message = MessageBox.Show("Your PC crashed", "Crashed", MessageBoxButton.OK, MessageBoxImage.Error);
                 if (message != MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
@@ -50,7 +50,7 @@ namespace Roshan_System
             cslabel.Content = cs;
             if (cs <= 0.5)
             {
-                MessageBoxResult message = MessageBox.Show("Your PC crashed", "Crashed");
+                MessageBoxResult message = MessageBox.Show("Your PC crashed", "Crashed", MessageBoxButton.OK, MessageBoxImage.Error);
                 if (message != MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.AccessControl;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,11 +17,13 @@ namespace Roshan_System
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool startmenuopen = false;
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        Startmenu menu = new Startmenu();
         private void Open_Notepad(object sender, RoutedEventArgs e)
         {
             Notepad notepad = new Notepad();
@@ -35,14 +38,14 @@ namespace Roshan_System
         
         private void Shutdown(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to shutdown?", "Confirm Shutdown", MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to shutdown", "Shutdown", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
                 Application.Current.Shutdown();
             }
             if (result == MessageBoxResult.No)
             {
-                MessageBox.Show("Shutdown cancelled.");
+                return;
             }
         }
 
@@ -56,6 +59,19 @@ namespace Roshan_System
         {
             Overclocker overclocker = new Overclocker();
             overclocker.Show();
+        }
+
+        private void Open_StartMenu(object sender, RoutedEventArgs e)
+        {
+            if (startmenuopen)
+            {
+                MainFrame.Content = null;
+            }
+            else
+            {
+                MainFrame.Navigate(menu);
+            }
+            startmenuopen = !startmenuopen;
         }
     }
 }

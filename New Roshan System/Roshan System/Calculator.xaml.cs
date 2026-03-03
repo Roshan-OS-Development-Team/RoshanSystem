@@ -32,7 +32,7 @@ namespace Roshan_System
             }
             else
             {
-                MessageBox.Show("Please enter valid numbers.");
+                MessageBox.Show("Please enter valid numbers.", "Enter Valid Numbers", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Roshan_System
             }
             else
             {
-                MessageBox.Show("Please enter valid numbers.");
+                MessageBox.Show("Please enter valid numbers.", "Enter Valid Numbers", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Roshan_System
             }
             else
             {
-                MessageBox.Show("Please enter valid numbers.");
+                MessageBox.Show("Please enter valid numbers.", "Enter Valid Numbers", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -70,12 +70,12 @@ namespace Roshan_System
                 }
                 else
                 {
-                    MessageBox.Show("Cannot divide by zero.");
+                    MessageBox.Show("Cannot divide by zero.", "Enter Valid Numbers", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Please enter valid numbers.");
+                MessageBox.Show("Please enter valid numbers.", "Enter Valid Numbers", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
