@@ -36,5 +36,30 @@ namespace Roshan_System
             Calculator calculator = new Calculator();
             calculator.Show();
         }
+
+        private void OpenChilli(object sender, RoutedEventArgs e)
+        {
+            Chilli chilli = new Chilli();
+            chilli.Show();
+        }
+
+        private void OpenOverclocker(object sender, RoutedEventArgs e)
+        {
+            Overclocker overclocker = new Overclocker();
+            overclocker.Show();
+        }
+
+        private void Shutdown1(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to shutdown", "Shutdown", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+            if (result == MessageBoxResult.No)
+            {
+                MessageBox.Show("Shutdown Cancelled", "Shutdown", MessageBoxButton.OK, MessageBoxImage.Information);
+            }    
+        }
     }
 }

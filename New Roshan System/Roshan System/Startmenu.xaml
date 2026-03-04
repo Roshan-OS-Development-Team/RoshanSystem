@@ -9,8 +9,8 @@
       Title="Startmenu" Background="#FF141414">
 
     <Grid>
-        <ScrollViewer>
-            <StackPanel VerticalAlignment="Top" Orientation="Vertical" Width="200" Height="300">
+        <ScrollViewer Width="200" Height="300" VerticalScrollBarVisibility="Auto">
+            <StackPanel VerticalAlignment="Top" Orientation="Vertical" Width="200">
                 <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenNotepad">
                     <StackPanel Orientation="Horizontal" Width="200" Height="50">
                         <Image Source="/notepad.png" Margin="0,0,20,0"/>
@@ -35,6 +35,24 @@
                                 </LinearGradientBrush>
                             </TextBlock.Foreground>
                         </TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenChilli">
+                    <StackPanel Orientation="Horizontal" Width="200" Height="70">
+                        <Image Source="/Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" Width="40" Margin="0,0,20,0"/>
+                        <TextBlock Text="Chilli" Foreground="White" FontSize="48"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenOverclocker">
+                    <StackPanel Orientation="Horizontal" Width="200" Height="70">
+                        <Image Source="/textures/Overclocker.png" Width="60"/>
+                        <TextBlock Text="Overclocker" FontSize="22" Foreground="White" Height="33"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="Shutdown1">
+                    <StackPanel Orientation="Horizontal" Width="200" Height="70">
+                        <Image Source="/textures/closeicon.png"/>
+                        <TextBlock Text="Shutdown" Foreground="White" FontSize="24" Height="30"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

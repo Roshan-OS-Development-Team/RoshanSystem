@@ -45,6 +45,7 @@ namespace Roshan_System
             }
             if (result == MessageBoxResult.No)
             {
+                MessageBox.Show("Shutdown Cancelled", "Shutdown", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
         }
