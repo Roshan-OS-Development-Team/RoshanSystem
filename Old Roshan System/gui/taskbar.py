@@ -7,8 +7,12 @@ window = None
 taskbar = tk.Frame(window, bg="black")
 taskbar.pack(side="bottom", fill="x", expand=True, pady=0)
 
+from functions import startmenu
+from functions.startmenu import togglestartmenu
+
+startmenu.taskbar = taskbar
 startmenuimg = tk.PhotoImage(file="textures/startmenu.png")
-startmenubtn = tk.Button(taskbar, image=startmenuimg, bg="black")
+startmenubtn = tk.Button(taskbar, image=startmenuimg, bg="black", command=togglestartmenu)
 startmenubtn.pack(side="left")
 
 from functions.notepad import notepad

@@ -9,7 +9,14 @@
         <Grid.Background>
             <ImageBrush ImageSource="/background2.png"/>
         </Grid.Background>
-        <Rectangle HorizontalAlignment="Left" Height="70" Margin="0,688,0,0" Stroke="Black" VerticalAlignment="Top" Width="1190" Fill="Black"/>
+        <Rectangle HorizontalAlignment="Left" Height="70" Margin="0,688,0,0" Stroke="Black" VerticalAlignment="Top" Width="1190">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF141414" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Button Content="Button" HorizontalAlignment="Left" Margin="0,688,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.543" Height="70" Width="70" Foreground="{x:Null}" Click="Open_StartMenu">
             <Button.Background>
                 <ImageBrush ImageSource="/startmenu.png"/>
@@ -26,7 +33,7 @@
                 <ImageBrush ImageSource="/calculator.png"/>
             </Button.Background>
         </Button>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="310,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="450,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/closeicon.png"/>
             </Button.Background>
@@ -42,6 +49,16 @@
             </Button.Background>
         </Button>
         <Frame x:Name="MainFrame" Content="" HorizontalAlignment="Left" Height="300" Margin="0,388,0,0" VerticalAlignment="Top" Width="200" Foreground="{x:Null}" NavigationUIVisibility="Hidden"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="310,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Foreground="{x:Null}" Click="Open_Browser">
+            <Button.Background>
+                <ImageBrush ImageSource="/Browser.png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Button" HorizontalAlignment="Left" Height="70" Margin="380,688,0,0" VerticalAlignment="Top" Width="70" Foreground="{x:Null}" Click="Open_Terminal">
+            <Button.Background>
+                <ImageBrush ImageSource="/terminal.png"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

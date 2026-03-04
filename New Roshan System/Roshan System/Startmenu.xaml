@@ -5,11 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Roshan_System"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="200"
+      d:DesignHeight="500" d:DesignWidth="200"
       Title="Startmenu" Background="#FF141414">
 
     <Grid>
-        <ScrollViewer Width="200" Height="300" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Width="200" VerticalScrollBarVisibility="Auto" Foreground="{x:Null}" Margin="0,0,0,0">
             <StackPanel VerticalAlignment="Top" Orientation="Vertical" Width="200">
                 <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenNotepad">
                     <StackPanel Orientation="Horizontal" Width="200" Height="50">
@@ -47,6 +47,12 @@
                     <StackPanel Orientation="Horizontal" Width="200" Height="70">
                         <Image Source="/textures/Overclocker.png" Width="60"/>
                         <TextBlock Text="Overclocker" FontSize="22" Foreground="White" Height="33"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenBrowser">
+                    <StackPanel Orientation="Horizontal" Width="200" Height="70">
+                        <Image Source="/textures/browser.png"/>
+                        <TextBlock Text="Browser" Foreground="White" FontSize="36" Height="49"/>
                     </StackPanel>
                 </Button>
                 <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="Shutdown1">

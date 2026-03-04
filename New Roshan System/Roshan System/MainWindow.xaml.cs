@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Roshan_System
 {
@@ -73,6 +74,17 @@ namespace Roshan_System
                 MainFrame.Navigate(menu);
             }
             startmenuopen = !startmenuopen;
+        }
+
+        private void Open_Browser(object sender, RoutedEventArgs e)
+        {
+            Browser browser = new Browser();
+            browser.Show();
+        }
+
+        private void Open_Terminal(object sender, RoutedEventArgs e)
+        {
+            Process.Start("cmd.exe");
         }
     }
 }

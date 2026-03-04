@@ -9,7 +9,7 @@ window = tk.Frame(root)
 window.pack(fill="both", expand=True)
 
 from gui import taskbar,desktop
-from functions import notepad,calculator,closeos,crash,overclocker
+from functions import notepad,calculator,closeos,crash,overclocker,startmenu
 
 taskbar.root = root
 taskbar.window = window
@@ -20,5 +20,7 @@ calculator.root = root
 closeos.root = root
 crash.root = root
 overclocker.root = root
+startmenu.root = root
+startmenu.window = window
 
 root.mainloop()

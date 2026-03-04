@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="background2.png" />
+    <None Remove="Browser.png" />
     <None Remove="calculator.png" />
     <None Remove="closeicon.png" />
     <None Remove="Error.png" />
@@ -19,10 +20,12 @@
     <None Remove="Overclocker.png" />
     <None Remove="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <None Remove="startmenu.png" />
+    <None Remove="terminal.png" />
     <None Remove="textures\background.png" />
     <None Remove="textures\background1.png" />
     <None Remove="textures\background2.png" />
     <None Remove="textures\background3.png" />
+    <None Remove="textures\browser.png" />
     <None Remove="textures\calculator.png" />
     <None Remove="textures\closeicon.png" />
     <None Remove="textures\ctrlpanel.png" />
@@ -33,11 +36,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Browser.png" />
     <Resource Include="calculator.png" />
     <Resource Include="closeicon.png" />
     <Resource Include="notepad.png" />
     <Resource Include="Overclocker.png" />
     <Resource Include="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
+    <Resource Include="terminal.png" />
     <Resource Include="textures\background.png" />
   </ItemGroup>
 
@@ -47,6 +56,7 @@
     <Resource Include="textures\background1.png" />
     <Resource Include="textures\background2.png" />
     <Resource Include="textures\background3.png" />
+    <Resource Include="textures\browser.png" />
     <Resource Include="textures\calculator.png" />
     <Resource Include="textures\closeicon.png" />
     <Resource Include="textures\ctrlpanel.png" />

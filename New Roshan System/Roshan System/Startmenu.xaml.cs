@@ -61,5 +61,11 @@ namespace Roshan_System
                 MessageBox.Show("Shutdown Cancelled", "Shutdown", MessageBoxButton.OK, MessageBoxImage.Information);
             }    
         }
+
+        private void OpenBrowser(object sender, RoutedEventArgs e)
+        {
+            Browser browser = new Browser();
+            browser.Show();
+        }
     }
 }
