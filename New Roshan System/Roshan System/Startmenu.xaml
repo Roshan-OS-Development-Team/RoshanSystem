@@ -5,8 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Roshan_System"
       mc:Ignorable="d" 
-      d:DesignHeight="500" d:DesignWidth="200"
-      Title="Startmenu" Background="#FF141414">
+      d:DesignHeight="300" d:DesignWidth="200"
+      Title="Startmenu">
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="#FF1E1E1E" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Background>
 
     <Grid>
         <ScrollViewer Width="200" VerticalScrollBarVisibility="Auto" Foreground="{x:Null}" Margin="0,0,0,0">
@@ -53,6 +59,18 @@
                     <StackPanel Orientation="Horizontal" Width="200" Height="70">
                         <Image Source="/textures/browser.png"/>
                         <TextBlock Text="Browser" Foreground="White" FontSize="36" Height="49"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenTerminal">
+                    <StackPanel Orientation="Horizontal" Width="200" Height="70">
+                        <Image Source="/terminal.png"/>
+                        <TextBlock Text="Terminal" Foreground="White" FontSize="32" Height="46"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenRun">
+                    <StackPanel Height="70" Width="200" Orientation="Horizontal">
+                        <Image Source="/run.png" Width="70" Margin="0,0,20,0"/>
+                        <TextBlock Text="Run" Foreground="White" FontSize="48"/>
                     </StackPanel>
                 </Button>
                 <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="Shutdown1">

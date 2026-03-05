@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Roshan_System
 {
@@ -84,7 +85,13 @@ namespace Roshan_System
 
         private void Open_Terminal(object sender, RoutedEventArgs e)
         {
-            Process.Start("cmd.exe");
+            Process.Start("wt.exe");
+        }
+
+        private void Open_Run(object sender, RoutedEventArgs e)
+        {
+            Run run = new Run();
+            run.Show();
         }
     }
 }

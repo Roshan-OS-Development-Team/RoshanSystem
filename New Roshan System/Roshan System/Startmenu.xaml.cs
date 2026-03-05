@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Roshan_System
 {
@@ -66,6 +67,17 @@ namespace Roshan_System
         {
             Browser browser = new Browser();
             browser.Show();
+        }
+
+        private void OpenTerminal(object sender, RoutedEventArgs e)
+        {
+            Process.Start("wt.exe");
+        }
+
+        private void OpenRun(object sender, RoutedEventArgs e)
+        {
+            Run run = new Run();
+            run.Show();
         }
     }
 }

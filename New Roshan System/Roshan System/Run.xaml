@@ -1,13 +1,12 @@
-﻿<Window
+﻿<Window x:Class="Roshan_System.Run"
+        Icon="run.png"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        Icon="/textures/browser.png"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Roshan_System"
-        xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Class="Roshan_System.Browser"
         mc:Ignorable="d"
-        Title="Browser" Height="360" Width="660">
+        Title="Run" Height="180" Width="320">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black"/>
@@ -15,26 +14,7 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
-
-
-        <Wpf:WebView2 x:Name="WebView" HorizontalAlignment="Center" Height="318" Margin="0,26,0,0" VerticalAlignment="Top" Width="630" Source="https://www.google.com"/>
-        <Button Content="&lt;" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Foreground="White" Click="Goback">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FF1E1E1E" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="&gt;" HorizontalAlignment="Left" Margin="25,6,0,0" VerticalAlignment="Top" Foreground="White" Click="Goforward">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FF1E1E1E" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <TextBox x:Name="Urlbox" HorizontalAlignment="Left" Margin="42,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="569" Height="20" Foreground="White">
+        <TextBox x:Name="Appname" HorizontalAlignment="Center" Margin="0,40,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" Height="30" Foreground="White" FontSize="20">
             <TextBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -42,7 +22,7 @@
                 </LinearGradientBrush>
             </TextBox.Background>
         </TextBox>
-        <Button Content="Go" HorizontalAlignment="Left" Margin="616,6,0,0" VerticalAlignment="Top" Foreground="White" Click="Navigate">
+        <Button Content="OK" HorizontalAlignment="Left" Height="33" Margin="188,104,0,0" VerticalAlignment="Top" Width="122" Foreground="White" Click="RunApp">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -50,7 +30,14 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-
+        <Button Content="Cancel" HorizontalAlignment="Left" Height="34" Margin="10,104,0,0" VerticalAlignment="Top" Width="124" Foreground="White" Click="CloseApp">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF1E1E1E" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

@@ -13,7 +13,7 @@
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
-                    <GradientStop Color="#FF141414" Offset="1"/>
+                    <GradientStop Color="#FF1E1E1E" Offset="1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -33,7 +33,7 @@
                 <ImageBrush ImageSource="/calculator.png"/>
             </Button.Background>
         </Button>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="450,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="520,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/closeicon.png"/>
             </Button.Background>
@@ -59,6 +59,10 @@
                 <ImageBrush ImageSource="/terminal.png"/>
             </Button.Background>
         </Button>
-
+        <Button Content="Button" HorizontalAlignment="Left" Height="70" Margin="450,688,0,0" VerticalAlignment="Top" Width="70" Foreground="{x:Null}" Click="Open_Run">
+            <Button.Background>
+                <ImageBrush ImageSource="/run.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
