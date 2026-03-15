@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="RoshanSystem.Browser/RoshanSystem.Browser.csproj" />
+  <Project Path="RoshanSystem.Desktop/RoshanSystem.Desktop.csproj" />
+  <Project Path="RoshanSystem.iOS/RoshanSystem.iOS.csproj" />
+  <Project Path="RoshanSystem/RoshanSystem.csproj" />
+</Solution>

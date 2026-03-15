@@ -33,7 +33,7 @@
                 <ImageBrush ImageSource="/calculator.png"/>
             </Button.Background>
         </Button>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="520,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="590,688,0,0" VerticalAlignment="Top" Height="70" Width="70" Click="Shutdown" Foreground="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/closeicon.png"/>
             </Button.Background>
@@ -62,6 +62,11 @@
         <Button Content="Button" HorizontalAlignment="Left" Height="70" Margin="450,688,0,0" VerticalAlignment="Top" Width="70" Foreground="{x:Null}" Click="Open_Run">
             <Button.Background>
                 <ImageBrush ImageSource="/run.png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Button" HorizontalAlignment="Left" Height="70" Margin="520,688,0,0" VerticalAlignment="Top" Width="70" Foreground="{x:Null}" Click="Open_Pong">
+            <Button.Background>
+                <ImageBrush ImageSource="/Pong.png"/>
             </Button.Background>
         </Button>
     </Grid>

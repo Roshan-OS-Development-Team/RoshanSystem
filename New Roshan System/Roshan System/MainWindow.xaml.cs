@@ -93,5 +93,11 @@ namespace Roshan_System
             Run run = new Run();
             run.Show();
         }
+
+        private void Open_Pong(object sender, RoutedEventArgs e)
+        {
+            Pong pong = new Pong();
+            pong.Show();
+        }
     }
 }

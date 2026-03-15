@@ -32,9 +32,21 @@ namespace Roshan_System
                 winver winver = new winver();
                 winver.Show();
             }
+            else if (Appname.Text == "winver.exe")
+            {
+                winver winver = new winver();
+                winver.Show();
+            }
             else
             {
-                Process.Start($"{Appname.Text}.exe");
+                if (!Appname.Text.Contains(".exe"))
+                {
+                    Process.Start($"{Appname.Text}.exe");
+                }
+                else
+                {
+                    Process.Start(Appname.Text);
+                }
             }
         }
 

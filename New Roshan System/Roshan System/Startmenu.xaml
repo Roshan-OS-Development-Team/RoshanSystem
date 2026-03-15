@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Roshan_System"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="200"
+      d:DesignHeight="700" d:DesignWidth="200"
       Title="Startmenu">
     <Page.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -15,8 +15,8 @@
     </Page.Background>
 
     <Grid>
-        <ScrollViewer Width="200" VerticalScrollBarVisibility="Auto" Foreground="{x:Null}" Margin="0,0,0,0">
-            <StackPanel VerticalAlignment="Top" Orientation="Vertical" Width="200">
+        <ScrollViewer x:Name="StartMenu" Width="200" VerticalScrollBarVisibility="Auto" Foreground="{x:Null}" Margin="0,0,0,0">
+            <StackPanel x:Name="Buttons" VerticalAlignment="Top" Orientation="Vertical" Width="200">
                 <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="OpenNotepad">
                     <StackPanel Orientation="Horizontal" Width="200" Height="50">
                         <Image Source="/notepad.png" Margin="0,0,20,0"/>
@@ -73,6 +73,13 @@
                         <TextBlock Text="Run" Foreground="White" FontSize="48"/>
                     </StackPanel>
                 </Button>
+                <Button Background="{x:Null}" Foreground="{x:Null}" Click="OpenPong">
+                    <StackPanel Orientation="Horizontal" Width="200" Height="70">
+                        <Image Source="/Pong.png" Width="70" Margin="0,0,20,0"/>
+                        <TextBlock Text="Pong" Foreground="White" FontSize="36" Height="49"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="70" Background="{x:Null}" Content="Modlist" Foreground="White" FontSize="48" Click="OpenModList"/>
                 <Button Height="70" Background="{x:Null}" Foreground="{x:Null}" Click="Shutdown1">
                     <StackPanel Orientation="Horizontal" Width="200" Height="70">
                         <Image Source="/textures/closeicon.png"/>

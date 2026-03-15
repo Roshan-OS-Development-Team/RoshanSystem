@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <RootNamespace>Roshan_System</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -18,6 +18,7 @@
     <None Remove="Information.png" />
     <None Remove="notepad.png" />
     <None Remove="Overclocker.png" />
+    <None Remove="Pong.png" />
     <None Remove="run.png" />
     <None Remove="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <None Remove="startmenu.png" />
@@ -44,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
   </ItemGroup>
 
@@ -53,6 +55,7 @@
     <Resource Include="closeicon.png" />
     <Resource Include="notepad.png" />
     <Resource Include="Overclocker.png" />
+    <Resource Include="Pong.png" />
     <Resource Include="run.png" />
     <Resource Include="Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg" />
     <Resource Include="terminal.png" />
