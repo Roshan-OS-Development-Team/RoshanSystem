@@ -1,0 +1,38 @@
+from gui.window import WindowPackManager
+import customtkinter as ctk
+
+
+class Notepad(WindowPackManager):
+    def __init__(self, master):
+        super().__init__(master, title="Notepad", size=(640, 360))
+        fileoperationsframe = ctk.CTkFrame(self)
+        fileoperationsframe.pack(side="top", fill="x")
+        savebtn = ctk.CTkButton(
+            fileoperationsframe, text="Save File", command=self.save_file
+        )
+        savebtn.pack(side="left", fill="x", expand=True)
+        loadbtn = ctk.CTkButton(
+            fileoperationsframe, text="Load File", command=self.load_file
+        )
+        loadbtn.pack(side="left", fill="x", expand=True)
+        self.textbox = ctk.CTkTextbox(self, wrap="word")
+        self.textbox.pack(side="top", fill="both", expand=True)
+
+    def save_file(self):
+        filename = ctk.filedialog.asksaveasfilename(
+            title="Save text file",
+            defaultextension="*.txt",
+            filetypes=(["Text Files", ".txt"]),
+        )
+        with open(filename, "w") as f:
+            f.write(self.textbox.get("0.0" "end").strip())
+
+    def load_file(self):
+        filename = ctk.filedialog.askopenfilename(
+            title="Open text file",
+            defaultextension="*.txt",
+            filetypes=(["Text Files", ".txt"]),
+        )
+        with open(filename, "r") as f:
+            self.textbox.delete("0.0", "end")
+            self.textbox.insert("0.0", f.read())

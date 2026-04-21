@@ -14,4 +14,8 @@ public partial class MainView : UserControl
         Calculator calculator = new Calculator();
         calculator.Show();
     }
+    private void OpenNotepad(object? sender, RoutedEventArgs e)
+    {
+        
+    }
 }

@@ -1,0 +1,68 @@
+import customtkinter as ctk
+
+
+class WindowGridManager(ctk.CTkFrame):
+    """A window that uses the grid module,
+    You have to input the title,
+    Inputting size is optional"""
+
+    def __init__(self, master, title: str, size: tuple[int, int] = None):
+        super().__init__(master)
+        if not size == None:
+            self.configure(width=size[0], height=size[1])
+            self.grid_propagate(False)
+        self.title_bar = ctk.CTkLabel(self, text=title, cursor="fleur")
+        self.title_bar.grid(row=0, column=0, sticky="w")
+        self.title_bar.bind("<Button-1>", self.start_drag)
+        self.title_bar.bind("<B1-Motion>", self.do_drag)
+        self.closebtn = ctk.CTkButton(
+            self,
+            command=self.place_forget,
+            text="X",
+            fg_color="red",
+            width=25,
+            hover_color="#A00000",
+        )
+        self.closebtn.grid(row=0, column=1, sticky="e")
+
+    def start_drag(self, event):
+        self.startX = event.x_root - self.winfo_x()
+        self.startY = event.y_root - self.winfo_y()
+
+    def do_drag(self, event):
+        x = event.x_root - self.startX
+        y = event.y_root - self.startY
+        self.place(x=x, y=y)
+
+
+class WindowPackManager(ctk.CTkFrame):
+    """A window that uses the pack manager,
+    You need to input the title,
+    Inputting size is optional"""
+
+    def __init__(self, master, title: str, size: tuple = None):
+        super().__init__(master)
+        if not size == None:
+            self.pack_propagate(False)
+            self.configure(width=size[0], height=size[1])
+        self.title_bar_frame = ctk.CTkFrame(self)
+        self.title_bar_frame.pack(side="top", fill="x")
+        ctk.CTkLabel(self.title_bar_frame, text=title).pack(side="left", fill="x")
+        ctk.CTkButton(
+            self.title_bar_frame,
+            text="X",
+            width=25,
+            command=self.place_forget,
+            fg_color="red",
+        ).pack(side="right")
+        self.title_bar_frame.bind("<Button-1>", self.start_drag)
+        self.title_bar_frame.bind("<B1-Motion>", self.do_drag)
+
+    def start_drag(self, event):
+        self.startX = event.x_root - self.winfo_x()
+        self.startY = event.y_root - self.winfo_y()
+
+    def do_drag(self, event):
+        x = event.x_root - self.startX
+        y = event.y_root - self.startY
+        self.place(x=x, y=y)

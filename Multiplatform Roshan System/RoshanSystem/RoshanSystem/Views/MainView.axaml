@@ -28,6 +28,9 @@
       <Button Background="{x:Null}" Foreground="{x:Null}" Click="OpenCalculator">
         <Image Source="avares://RoshanSystem/Assets/calculator.png" Width="70" Height="70" Stretch="Uniform"/>
       </Button>
+      <Button Background="{x:Null}" Foreground="{x:Null}" Click="OpenNotepad">
+        <Image Source="avares://RoshanSystem/Assets/notepad.png" Width="70" Height="70" Stretch="Uniform"/>  
+      </Button>
     </StackPanel>
   </Grid>
 </UserControl>
