@@ -1,4 +1,5 @@
 from gui.window import WindowPackManager
+from gui.fileexplorer import SaveAsFilename
 import customtkinter as ctk
 
 
@@ -19,13 +20,11 @@ class Notepad(WindowPackManager):
         self.textbox.pack(side="top", fill="both", expand=True)
 
     def save_file(self):
-        filename = ctk.filedialog.asksaveasfilename(
-            title="Save text file",
-            defaultextension="*.txt",
-            filetypes=(["Text Files", ".txt"]),
-        )
-        with open(filename, "w") as f:
-            f.write(self.textbox.get("0.0" "end").strip())
+        SaveAsFilename(self.master, ".txt", self.preform_save)
+
+    def preform_save(self, filename):
+        with open(f"{filename}.txt", "w") as f:
+            f.write(self.textbox.get("1.0", "end"))
 
     def load_file(self):
         filename = ctk.filedialog.askopenfilename(
@@ -34,5 +33,9 @@ class Notepad(WindowPackManager):
             filetypes=(["Text Files", ".txt"]),
         )
         with open(filename, "r") as f:
-            self.textbox.delete("0.0", "end")
-            self.textbox.insert("0.0", f.read())
+            self.textbox.delete("1.0", "end")
+            self.textbox.insert("1.0", f.read())
+
+    def set_text(self, text: str):
+        self.textbox.delete("1.0", "end")
+        self.textbox.insert("1.0", text)

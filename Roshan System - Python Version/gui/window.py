@@ -47,13 +47,16 @@ class WindowPackManager(ctk.CTkFrame):
             self.configure(width=size[0], height=size[1])
         self.title_bar_frame = ctk.CTkFrame(self)
         self.title_bar_frame.pack(side="top", fill="x")
-        ctk.CTkLabel(self.title_bar_frame, text=title).pack(side="left", fill="x")
+        self.title_bar = ctk.CTkLabel(self.title_bar_frame, text=title).pack(
+            side="left", fill="x"
+        )
         ctk.CTkButton(
             self.title_bar_frame,
             text="X",
             width=25,
             command=self.place_forget,
             fg_color="red",
+            hover_color="#A00000",
         ).pack(side="right")
         self.title_bar_frame.bind("<Button-1>", self.start_drag)
         self.title_bar_frame.bind("<B1-Motion>", self.do_drag)

@@ -3,6 +3,7 @@ import customtkinter as ctk
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
 from gui.startmenu import StartMenu
+from gui.fileexplorer import FileExplorer
 
 
 class App(ctk.CTk):
@@ -11,7 +12,7 @@ class App(ctk.CTk):
         self.title("Roshan System")
         self.geometry("1200x800")
         self.attributes(fullscreen=True)
-        self.backgroundimg = Image.open("textures/background9.png")
+        self.backgroundimg = Image.open("textures/background13.png")
         self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(1200, 800))
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
@@ -54,13 +55,31 @@ class App(ctk.CTk):
             text="",
             fg_color="transparent",
             bg_color="transparent",
-            command=self.open_notepad,
+            command=lambda: self.open_app(self.notepad),
         )
         self.notepadbtn.pack(side="left")
         self.notepad = Notepad(self)
 
-    def open_notepad(self):
-        self.notepad.place(x=60, y=60)
+        # File Explorer Stuff
+        fileexplorerimg = Image.open("textures/filexplorer.png")
+        fileexplorerimgctk = ctk.CTkImage(fileexplorerimg, size=(60, 60))
+        self.fileexplorerbtn = ctk.CTkButton(
+            self.taskbar,
+            border_width=0,
+            image=fileexplorerimgctk,
+            width=70,
+            height=70,
+            hover_color="#343435",
+            text="",
+            bg_color="transparent",
+            fg_color="transparent",
+            command=lambda: self.open_app(self.fileexplorer),
+        )
+        self.fileexplorerbtn.pack(side="left")
+        self.fileexplorer = FileExplorer(self)
+
+    def open_app(self, app):
+        app.place(x=60, y=60)
 
     def resize_background(self, event=None):
         if event.widget == self:
