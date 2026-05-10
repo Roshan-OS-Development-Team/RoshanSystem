@@ -2,6 +2,8 @@ from PIL import Image
 import customtkinter as ctk
 from gui.window import WindowPackManager
 
+ctk.set_default_color_theme("dark-blue")
+
 
 class ImageViewer(WindowPackManager):
     def __init__(self, master):

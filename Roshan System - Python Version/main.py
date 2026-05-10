@@ -5,6 +5,8 @@ from gui.notepad import Notepad
 from gui.startmenu import StartMenu
 from gui.fileexplorer import FileExplorer
 
+ctk.set_default_color_theme("dark-blue")
+
 
 class App(ctk.CTk):
     def __init__(self):
@@ -12,7 +14,7 @@ class App(ctk.CTk):
         self.title("Roshan System")
         self.geometry("1200x800")
         self.attributes(fullscreen=True)
-        self.backgroundimg = Image.open("textures/background13.png")
+        self.backgroundimg = Image.open("textures/background7.png")
         self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(1200, 800))
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
@@ -81,7 +83,7 @@ class App(ctk.CTk):
     def open_app(self, app):
         app.place(x=60, y=60)
 
-    def resize_background(self, event=None):
+    def resize_background(self, event):
         if event.widget == self:
             self.backgroundctk.configure(size=(self.winfo_width(), self.winfo_height()))
             self.background.configure(image=self.backgroundctk)

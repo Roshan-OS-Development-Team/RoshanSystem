@@ -1,6 +1,8 @@
 from gui.window import WindowPackManager
-from gui.fileexplorer import SaveAsFilename
+from gui.fileexplorer import SaveAsFilename, OpenAsFilename
 import customtkinter as ctk
+
+ctk.set_default_color_theme("dark-blue")
 
 
 class Notepad(WindowPackManager):
@@ -27,12 +29,10 @@ class Notepad(WindowPackManager):
             f.write(self.textbox.get("1.0", "end"))
 
     def load_file(self):
-        filename = ctk.filedialog.askopenfilename(
-            title="Open text file",
-            defaultextension="*.txt",
-            filetypes=(["Text Files", ".txt"]),
-        )
-        with open(filename, "r") as f:
+        OpenAsFilename(self.master, ".txt", self.preform_load)
+
+    def preform_load(self, filename):
+        with open(f"{filename}.txt", "r") as f:
             self.textbox.delete("1.0", "end")
             self.textbox.insert("1.0", f.read())
 

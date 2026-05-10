@@ -1,12 +1,14 @@
 import customtkinter as ctk
 
+ctk.set_default_color_theme("dark-blue")
+
 
 class WindowGridManager(ctk.CTkFrame):
     """A window that uses the grid module,
     You have to input the title,
     Inputting size is optional"""
 
-    def __init__(self, master, title: str, size: tuple[int, int] = None):
+    def __init__(self, master, title: str, size: tuple[int, int] | None = None):
         super().__init__(master)
         if not size == None:
             self.configure(width=size[0], height=size[1])
@@ -40,7 +42,7 @@ class WindowPackManager(ctk.CTkFrame):
     You need to input the title,
     Inputting size is optional"""
 
-    def __init__(self, master, title: str, size: tuple = None):
+    def __init__(self, master, title: str, size: tuple[int, int] | None = None):
         super().__init__(master)
         if not size == None:
             self.pack_propagate(False)
