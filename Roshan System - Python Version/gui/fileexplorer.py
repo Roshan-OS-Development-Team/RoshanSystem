@@ -76,7 +76,7 @@ class FileExplorer(WindowPackManager):
 
 
 class SaveAsFilename(WindowPackManager):
-    def __init__(self, master, filetype: tuple[str] | str, callback: Callable):
+    def __init__(self, master, filetype: tuple[str, ...] | str, callback: Callable):
         super().__init__(master, title=f"Save {filetype} file", size=(600, 300))
         self.place(x=60, y=60)
         self.filetype = filetype
@@ -108,9 +108,7 @@ class SaveAsFilename(WindowPackManager):
         ctk.CTkButton(self.bottomframe, text="Cancel", command=self.destroy).pack(
             side="left"
         )
-        ctk.CTkLabel(
-            self.bottomframe, text=f"Filename (Without the {filetype}): "
-        ).pack(side="left")
+        ctk.CTkLabel(self.bottomframe, text=f"Filename: ").pack(side="left")
         ctk.CTkEntry(self.bottomframe, textvariable=self.filename).pack(
             side="left", fill="x", expand=True
         )
@@ -135,7 +133,7 @@ class SaveAsFilename(WindowPackManager):
                 ctk.CTkButton(
                     self.contentsframe,
                     text=f"{self.filetype}: {file}",
-                    command=lambda f=file.strip(self.filetype): self.filename.set(f),
+                    command=lambda f=file: self.filename.set(f),
                 ).pack(side="top", fill="x", pady=2)
 
     def prefrom_save(self):
@@ -143,7 +141,7 @@ class SaveAsFilename(WindowPackManager):
 
 
 class OpenAsFilename(WindowPackManager):
-    def __init__(self, master, filetype: tuple[str] | str, callback: Callable):
+    def __init__(self, master, filetype: tuple[str, ...] | str, callback: Callable):
         super().__init__(master, f"Open {filetype} file", (600, 400))
         self.place(x=60, y=60)
         self.filetype = filetype
@@ -175,9 +173,7 @@ class OpenAsFilename(WindowPackManager):
         ctk.CTkButton(self.bottomframe, text="Cancel", command=self.destroy).pack(
             side="left"
         )
-        ctk.CTkLabel(
-            self.bottomframe, text=f"Filename (Without the {filetype}): "
-        ).pack(side="left")
+        ctk.CTkLabel(self.bottomframe, text=f"Filename: ").pack(side="left")
         ctk.CTkEntry(self.bottomframe, textvariable=self.filename).pack(
             side="left", fill="x", expand=True
         )
@@ -202,7 +198,7 @@ class OpenAsFilename(WindowPackManager):
                 ctk.CTkButton(
                     self.contentsframe,
                     text=f"{self.filetype}: {file}",
-                    command=lambda f=file.strip(self.filetype): self.filename.set(f),
+                    command=lambda f=file: self.filename.set(f),
                 ).pack(side="top", fill="x", pady=2)
 
     def prefrom_save(self):

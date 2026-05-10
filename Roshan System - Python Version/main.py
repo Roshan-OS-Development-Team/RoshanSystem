@@ -4,6 +4,7 @@ from gui.taskbar import Taskbar
 from gui.notepad import Notepad
 from gui.startmenu import StartMenu
 from gui.fileexplorer import FileExplorer
+from gui.imageviewer import ImageViewer
 
 ctk.set_default_color_theme("dark-blue")
 
@@ -79,6 +80,19 @@ class App(ctk.CTk):
         )
         self.fileexplorerbtn.pack(side="left")
         self.fileexplorer = FileExplorer(self)
+        self.imageviewer = ImageViewer(self)
+        self.imageviewerbtn = ctk.CTkButton(
+            self.taskbar,
+            border_width=0,
+            width=70,
+            height=70,
+            hover_color="#343435",
+            text="Image Viewer",
+            bg_color="transparent",
+            fg_color="transparent",
+            command=lambda: self.open_app(self.imageviewer),
+        )
+        self.imageviewerbtn.pack(side="left")
 
     def open_app(self, app):
         app.place(x=60, y=60)
@@ -93,7 +107,7 @@ class App(ctk.CTk):
 
     def toggle_start_menu(self):
         if not self.startmenuopened:
-            self.startmenu.place(x=10, y=self.winfo_height() - 480)
+            self.startmenu.place(x=0, y=self.winfo_height() - 480)
             self.startmenuopened = True
         else:
             self.startmenu.place_forget()
