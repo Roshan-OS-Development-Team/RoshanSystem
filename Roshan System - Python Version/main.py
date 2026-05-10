@@ -5,6 +5,7 @@ from gui.notepad import Notepad
 from gui.startmenu import StartMenu
 from gui.fileexplorer import FileExplorer
 from gui.imageviewer import ImageViewer
+from gui.calculator import Calculator
 
 ctk.set_default_color_theme("dark-blue")
 
@@ -63,6 +64,23 @@ class App(ctk.CTk):
         self.notepadbtn.pack(side="left")
         self.notepad = Notepad(self)
 
+        # Calculator Stuff
+        calculatorimage = Image.open("textures/calculator.png")
+        calculatorimagectk = ctk.CTkImage(calculatorimage, size=(36, 52))
+        self.calculator = Calculator(self)
+        self.calculatorbtn = ctk.CTkButton(
+            self.taskbar,
+            text="",
+            fg_color="transparent",
+            bg_color="transparent",
+            hover_color="#343435",
+            image=calculatorimagectk,
+            width=70,
+            height=70,
+            command=lambda: self.open_app(self.calculator),
+        )
+        self.calculatorbtn.pack(side="left")
+
         # File Explorer Stuff
         fileexplorerimg = Image.open("textures/filexplorer.png")
         fileexplorerimgctk = ctk.CTkImage(fileexplorerimg, size=(60, 60))
@@ -80,6 +98,8 @@ class App(ctk.CTk):
         )
         self.fileexplorerbtn.pack(side="left")
         self.fileexplorer = FileExplorer(self)
+
+        # Image Viewer Stuff
         self.imageviewer = ImageViewer(self)
         self.imageviewerbtn = ctk.CTkButton(
             self.taskbar,
@@ -94,6 +114,9 @@ class App(ctk.CTk):
         )
         self.imageviewerbtn.pack(side="left")
 
+        self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
+        self.startmenuio.pack_propagate(False)
+
     def open_app(self, app):
         app.place(x=60, y=60)
 
@@ -107,10 +130,12 @@ class App(ctk.CTk):
 
     def toggle_start_menu(self):
         if not self.startmenuopened:
-            self.startmenu.place(x=0, y=self.winfo_height() - 480)
+            self.startmenu.place(x=50, y=self.winfo_height() - 480)
+            self.startmenuio.place(x=0, y=self.winfo_height() - 480)
             self.startmenuopened = True
         else:
             self.startmenu.place_forget()
+            self.startmenuio.place_forget()
             self.startmenuopened = False
 
 
