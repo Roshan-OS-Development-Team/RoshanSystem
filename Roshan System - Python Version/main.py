@@ -1,5 +1,6 @@
 from PIL import Image
 import customtkinter as ctk
+import os
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
 from gui.startmenu import StartMenu
@@ -21,6 +22,7 @@ class App(ctk.CTk):
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
         self.bind("<Configure>", self.resize_background)
+        os.makedirs("user_dirf")
         self.taskbar = Taskbar(
             self.background,
             width=self.winfo_width(),
