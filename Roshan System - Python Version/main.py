@@ -103,6 +103,8 @@ class App(ctk.CTk):
         self.fileexplorer = FileExplorer(self)
 
         # Image Viewer Stuff
+        imageviewerimg = Image.open("textures/imageviewer.png")
+        imageviewerimgctk = ctk.CTkImage(imageviewerimg, imageviewerimg, size=(70, 70))
         self.imageviewer = ImageViewer(self)
         self.imageviewerbtn = ctk.CTkButton(
             self.taskbar,
@@ -110,9 +112,10 @@ class App(ctk.CTk):
             width=70,
             height=70,
             hover_color="#343435",
-            text="Image Viewer",
+            text="",
             bg_color="transparent",
             fg_color="transparent",
+            image=imageviewerimgctk,
             command=lambda: self.open_app(self.imageviewer),
         )
         self.imageviewerbtn.pack(side="left")
