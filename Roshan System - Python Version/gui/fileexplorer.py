@@ -19,7 +19,7 @@ class FileExplorer(WindowPackManager):
             os.makedirs(initial_path)
         self.folder = StringVar(value=initial_path)
         self.last_folder = StringVar()
-        self.image_exts = (".png", ".jpg", ".jpeg", ".svg", ".ico", ".gif", ".bmp")
+        self.image_exts = (".png", ".jpg", ".jpeg", ".ico", ".gif", ".bmp")
         self.open_folder(initial_path, "")
         self.backbtn = ctk.CTkButton(
             self.toolbar,
@@ -61,7 +61,7 @@ class FileExplorer(WindowPackManager):
                 ctk.CTkButton(
                     self.main,
                     text=f"🖼️ {file}",
-                    command=lambda f=full_path: os.startfile(f),
+                    command=lambda f=full_path: self.open_file(f),
                 ).pack(side="top", fill="x", pady=2)
 
     def open_file(self, filepath):
@@ -73,6 +73,14 @@ class FileExplorer(WindowPackManager):
                 self.notepad.set_text(f.read())
             self.notepad.place(x=70, y=70)
             self.notepad.lift()
+        if filepath.endswith(self.image_exts):
+            from gui.imageviewer import ImageViewer
+
+            self.imageviewer = ImageViewer(self.master)
+
+            self.imageviewer.set_image(filepath)
+            self.imageviewer.place(x=70, y=70)
+            self.imageviewer.lift()
 
 
 class SaveAsFilename(WindowPackManager):

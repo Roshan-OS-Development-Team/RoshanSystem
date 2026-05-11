@@ -30,3 +30,9 @@ class ImageViewer(WindowPackManager):
         img.thumbnail((600, 400))
         ctkimg = ctk.CTkImage(img, size=img.size)
         self.imglabel.configure(image=ctkimg)
+
+    def set_image(self, filename):
+        img = Image.open(filename)
+        img.thumbnail((600, 400))
+        ctkimg = ctk.CTkImage(img, size=img.size)
+        self.imglabel.configure(image=ctkimg)

@@ -22,7 +22,8 @@ class App(ctk.CTk):
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
         self.bind("<Configure>", self.resize_background)
-        os.makedirs("user_dirf")
+        if not os.path.exists("user_dir"):
+            os.makedirs("user_dir")
         self.taskbar = Taskbar(
             self.background,
             width=self.winfo_width(),
