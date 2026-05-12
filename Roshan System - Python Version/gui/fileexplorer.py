@@ -5,7 +5,7 @@ from typing import Callable
 import os
 
 ctk.set_default_color_theme("dark-blue")
-
+ctk.set_appearance_mode("dark") 
 
 class FileExplorer(WindowPackManager):
     def __init__(self, master):

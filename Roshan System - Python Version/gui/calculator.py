@@ -2,6 +2,8 @@ from gui.window import WindowGridManager
 import customtkinter as ctk
 from tkinter import DoubleVar
 
+ctk.set_appearance_mode("dark") 
+ctk.set_default_color_theme("dark-blue")
 
 class Calculator(WindowGridManager):
     def __init__(self, master):
