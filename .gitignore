@@ -281,3 +281,78 @@ user_dir/
 
 # VS Code
 .vscode/
+
+# === C/C++ Compilation ===
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.out
+*.app
+*.exp
+*.pdb
+*.ilk
+
+# === Qt Specific ===
+# Generated source files
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.moc
+qmake_qmake_immediate.qrc
+
+# Qt Creator project local settings (NEVER commit these)
+*.pro.user
+*.pro.user.*
+*.cmake.user
+*.cmake.user.*
+*.qmake.stash
+
+# Qt Resource Python files (if you ever use PyQt)
+*_rc.py
+
+# === Build Directories ===
+# Matches the default "Shadow Build" naming convention
+build-*/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# === Visual Studio (VS) ===
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.VC.db
+*.VC.opendb
+MSVC.Analysis.json
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm64/
+
+# === Visual Studio Code (VS Code) ===
+.vscode/
+# Note: Keep .vscode/launch.json if you want to share debug configs, 
+# but usually it's best to ignore the whole folder in C++ projects.
+
+# === OS & Misc ===
+.DS_Store
+Thumbs.db
+*.swp
+*~
+*.log
+*.tmp

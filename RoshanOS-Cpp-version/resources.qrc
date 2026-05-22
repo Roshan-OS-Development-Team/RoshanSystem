@@ -1,0 +1,35 @@
+<RCC>
+    <qresource prefix="/">
+        <file>textures/background.png</file>
+        <file>textures/background1.png</file>
+        <file>textures/background2.png</file>
+        <file>textures/background3.png</file>
+        <file>textures/background4.png</file>
+        <file>textures/background5.png</file>
+        <file>textures/background6.png</file>
+        <file>textures/background7.png</file>
+        <file>textures/background8.png</file>
+        <file>textures/background9.png</file>
+        <file>textures/background10.png</file>
+        <file>textures/background11.png</file>
+        <file>textures/background12.png</file>
+        <file>textures/background13.png</file>
+        <file>textures/Bootscreen.mp4</file>
+        <file>textures/browser.png</file>
+        <file>textures/calculator.png</file>
+        <file>textures/closeicon.png</file>
+        <file>textures/ctrlpanel.png</file>
+        <file>textures/error.png</file>
+        <file>textures/filexplorer.png</file>
+        <file>textures/imageviewer.png</file>
+        <file>textures/information.png</file>
+        <file>textures/notepad.png</file>
+        <file>textures/Overclocker.png</file>
+        <file>textures/Pong.png</file>
+        <file>textures/run.png</file>
+        <file>textures/Simply-Recipes-Chili-Powder-LEAD-03-f41743b528fe4b728cf868e547cb2247.jpg</file>
+        <file>textures/startmenu.png</file>
+        <file>textures/terminal.png</file>
+        <file>textures/warning.png</file>
+    </qresource>
+</RCC>
