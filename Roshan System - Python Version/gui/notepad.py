@@ -3,7 +3,8 @@ from gui.fileexplorer import SaveAsFilename, OpenAsFilename
 import customtkinter as ctk
 
 ctk.set_default_color_theme("dark-blue")
-ctk.set_appearance_mode("dark") 
+ctk.set_appearance_mode("dark")
+
 
 class Notepad(WindowPackManager):
     def __init__(self, master):
@@ -32,7 +33,7 @@ class Notepad(WindowPackManager):
         OpenAsFilename(self.master, ".txt", self.preform_load)
 
     def preform_load(self, filename):
-        with open(f"{filename}.txt", "r") as f:
+        with open(f"{filename}", "r") as f:
             self.textbox.delete("1.0", "end")
             self.textbox.insert("1.0", f.read())
 

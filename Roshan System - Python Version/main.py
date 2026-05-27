@@ -1,4 +1,5 @@
 from PIL import Image
+from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
 from gui.taskbar import Taskbar
@@ -9,7 +10,7 @@ from gui.imageviewer import ImageViewer
 from gui.calculator import Calculator
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
-ctk.set_appearance_mode("dark") 
+ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
 
@@ -122,6 +123,22 @@ class App(ctk.CTk):
         )
         self.imageviewerbtn.pack(side="left")
 
+        shutdownimg = Image.open("textures/closeicon.png")
+        shutdownimgctk = ctk.CTkImage(shutdownimg, size=(70, 70))
+        self.shutdownbtn = ctk.CTkButton(
+            self.taskbar,
+            border_width=0,
+            width=70,
+            height=70,
+            hover_color="#343435",
+            text="",
+            bg_color="transparent",
+            fg_color="transparent",
+            image=shutdownimgctk,
+            command=self.shutdown,
+        )
+        self.shutdownbtn.pack(side="left")
+
         self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
         self.startmenuio.pack_propagate(False)
 
@@ -145,6 +162,19 @@ class App(ctk.CTk):
             self.startmenu.place_forget()
             self.startmenuio.place_forget()
             self.startmenuopened = False
+
+    def shutdown(self):
+        ShutdownMsgBox = MessageBoxYesNo(
+            self,
+            "Shutdown",
+            "Are you sure you want to shutdown",
+            self.destroy,
+            self.no_shutdown,
+        )
+        ShutdownMsgBox.place(x=60, y=60)
+
+    def no_shutdown(self):
+        pass
 
 
 if __name__ == "__main__":
