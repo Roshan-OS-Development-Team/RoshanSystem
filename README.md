@@ -2,7 +2,7 @@
 
 > A multi-language experimental operating system simulation with desktop GUI and utility applications.
 
-[![Python](https://img.shields.io/badge/Python-86.2%25-3776ab?logo=python&logoColor=white)]()
+[![Python](https://img.shields.io/badge/Python-86.2%25-3776ab?logo=python&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/Roshan%20System%20-%20Python%20Version)
 [![C++](https://img.shields.io/badge/C%2B%2B-10.8%25-00599c?logo=cplusplus&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/RoshanOS-Cpp-version)
 [![CMake](https://img.shields.io/badge/CMake-3%25-064f8c?logo=cmake&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/RoshanOS-Cpp-version)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
