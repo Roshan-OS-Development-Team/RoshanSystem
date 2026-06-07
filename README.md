@@ -1,114 +1,238 @@
 # RoshanSystem
 
-> A small experimental "desktop" implemented in Python — a GUI-based toy operating-system-like environment.
+> A multi-language experimental operating system simulation with desktop GUI and utility applications.
 
-[![Python](https://img.shields.io/badge/python-100%25-blue)]()
-[![License](https://img.shields.io/badge/license--see%20LICENSE-lightgrey)]()
+[![Python](https://img.shields.io/badge/Python-86.2%25-3776ab?logo=python&logoColor=white)]()
+[![C++](https://img.shields.io/badge/C%2B%2B-10.8%25-00599c?logo=cplusplus&logoColor=white)]()
+[![CMake](https://img.shields.io/badge/CMake-3%25-064f8c?logo=cmake&logoColor=white)]()
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-experimental-orange)]()
 
-This repository contains the Python version of "Roshan System" — a windowed GUI environment built with CustomTkinter and Pillow. It provides a simple taskbar, a start menu placeholder, window manager utilities, a Notepad app, a File Explorer, and an image viewer helper.
+RoshanSystem is an experimental project that implements an OS-like environment with desktop GUI capabilities. The project includes two distinct implementations: a **Python-based version** featuring a desktop environment with native applications, and a **C++ version** using Qt framework for cross-platform compatibility.
 
-## Quick overview
+## 📁 Repository Structure
 
-- Entry point: `Roshan System - Python Version/main.py`
-- Dependencies: `Roshan System - Python Version/requirements.txt` (customtkinter, Pillow)
-- Main GUI package: `Roshan System - Python Version/gui/`
-- Textures / images: `Roshan System - Python Version/textures/`
-- A local working directory is created/used at runtime: `user_dir/`
-- Repository root includes community and governance files:
-  - `LICENSE`
-  - `CONTRIBUTING.md`
-  - `CODE_OF_CONDUCT.md`
-  - `ISSUE_TEMPLATE.md`
-
-## Features
-
-- Full-window desktop with background image and resizable layout.
-- Taskbar with app-launch buttons (Start button, Notepad, File Explorer).
-- Notepad: create, load, and save `.txt` files.
-- File Explorer: browse `user_dir/`, open text files in Notepad, open images.
-- Simple window management utilities (drag, close, pack/grid window styles).
-- Image assets reside in `Roshan System - Python Version/textures/`. The main background referenced in the code is `textures/background13.png`.
-
-## Requirements
-
-- Python 3.8+ (3.10+ recommended)
-- pip
-- The repository includes exact Python package versions in:
-  `Roshan System - Python Version/requirements.txt`
-  - customtkinter==5.2.2
-  - Pillow==12.2.0
-
-Install dependencies with:
-
-```bash
-python -m pip install -r "Roshan System - Python Version/requirements.txt"
+```
+RoshanSystem/
+├── Roshan System - Python Version/    # 86.2% of codebase
+│   ├── main.py                        # Desktop application entry point
+│   ├── requirements.txt               # Python dependencies
+│   ├── gui/                          # GUI components & applications
+│   ├── messagebox/                   # Message box utilities
+│   └── textures/                     # Image assets
+│
+├── RoshanOS-Cpp-version/             # 10.8% C++, 3% CMake
+│   ├── CMakeLists.txt               # Build configuration
+│   ├── main.cpp                     # Application entry point
+│   ├── mainwindow.h/cpp             # Main window implementation
+│   ├── mainwindow.ui                # Qt UI definition
+│   ├── calculator.h/cpp             # Calculator application
+│   ├── calculator.ui                # Calculator UI
+│   ├── resources.qrc                # Qt resource file
+│   └── textures/                    # Image resources
+│
+└── Project governance files
+    ├── LICENSE                      # MIT License
+    ├── CONTRIBUTING.md              # Contribution guidelines
+    ├── CODE_OF_CONDUCT.md          # Community standards
+    └── ISSUE_TEMPLATE.md            # Issue reporting template
 ```
 
-Note: Paths contain spaces; wrap them in quotes or change directory before running commands.
+## 🐍 Python Version (Primary Implementation)
 
-## Run
+A feature-rich desktop environment built with **CustomTkinter** and **Pillow**.
 
-From the repository root, run one of the following:
+### Features
 
-Option A — run directly (from repository root):
+- **Desktop Environment**: Full-window GUI with background imagery and resizable layouts
+- **Taskbar**: Application launcher with quick-access buttons
+- **File Explorer**: Browse user files with directory navigation and file type handling
+- **Notepad**: Text editor with create, load, and save functionality
+- **Image Viewer**: Display images from the file system
+- **Window Management**: Drag, resize, and close window controls
+- **Modular Architecture**: Easy-to-extend application framework
+
+### Requirements
+
+- **Python 3.8+** (3.10+ recommended)
+- **pip** (Python package manager)
+
+### Dependencies
+
+```
+customtkinter==5.2.2
+Pillow==12.2.0
+```
+
+### Installation & Setup
+
+1. **Install dependencies**:
+   ```bash
+   python -m pip install -r "Roshan System - Python Version/requirements.txt"
+   ```
+
+2. **Run the application**:
+   
+   Option A — From repository root:
+   ```bash
+   python "Roshan System - Python Version/main.py"
+   ```
+   
+   Option B — From the Python Version directory:
+   ```bash
+   cd "Roshan System - Python Version"
+   python main.py
+   ```
+
+### Key Files
+
+| File/Folder | Purpose |
+|---|---|
+| `main.py` | Application entry point; sets up desktop, taskbar, and app launchers |
+| `gui/window.py` | Window management classes (pack/grid managers, drag/close behavior) |
+| `gui/taskbar.py` | Taskbar container and layout |
+| `gui/startmenu.py` | Start menu frame |
+| `gui/notepad.py` | Notepad application with save/load |
+| `gui/fileexplorer.py` | File browser with SaveAs dialog |
+| `gui/imageviewer.py` | Image display helper |
+| `textures/` | Background images and icons |
+| `messagebox/` | Message box utilities |
+| `user_dir/` | User data directory (created at runtime) |
+
+### Python Version: Development
+
+To extend the Python implementation:
+
+1. **Add new applications**: Create a new module in `gui/` and inherit from `WindowPackManager` or `WindowGridManager`
+2. **Register launchers**: Add buttons to the taskbar in `main.py`
+3. **Update assets**: Replace images in `textures/` as needed
+4. **Keep modular**: Each application should have its own module file
+
+### Python Version: Troubleshooting
+
+| Issue | Solution |
+|---|---|
+| Import errors | Activate virtual environment; verify requirements are installed |
+| UI appearance issues | Use pinned customtkinter version from `requirements.txt` |
+| Texture loading failures | Verify image files exist in `textures/`; check working directory paths |
+| File save issues | Ensure `user_dir/` exists and has write permissions |
+
+---
+
+## ⚙️ C++ Version (Qt Implementation)
+
+A cross-platform implementation using **Qt** framework and **CMake** build system.
+
+### Features
+
+- **Qt Framework**: Native cross-platform GUI capabilities
+- **Calculator Application**: Functional calculator utility
+- **Modular UI**: Separate UI definitions and logic
+- **Resource Management**: Qt resource system for assets
+
+### Build Requirements
+
+- **C++ 11 or higher**
+- **Qt 5.x or later** (Qt Creator recommended)
+- **CMake 3.0+**
+- **C++ compiler** (g++, clang, MSVC, etc.)
+
+### Build & Run
 
 ```bash
+mkdir build && cd build
+cmake ..
+cmake --build .
+./RoshanOS
+```
+
+### Key Files
+
+| File | Purpose |
+|---|---|
+| `CMakeLists.txt` | CMake build configuration |
+| `main.cpp` | Application entry point |
+| `mainwindow.h/cpp` | Main window class |
+| `mainwindow.ui` | Main window UI definition (Qt Designer) |
+| `calculator.h/cpp` | Calculator application logic |
+| `calculator.ui` | Calculator UI definition |
+| `resources.qrc` | Qt resource file (textures, icons) |
+| `textures/` | Image assets |
+
+### C++ Version: Development
+
+To extend the C++ implementation:
+
+1. **Add new applications**: Create `.h/cpp` and `.ui` files following the calculator pattern
+2. **Update CMakeLists.txt**: Add new source files to the build configuration
+3. **Use Qt Designer**: Edit `.ui` files for visual layout design
+4. **Add resources**: Include new assets in `resources.qrc`
+
+---
+
+## 🚀 Quick Start
+
+### For Python Users
+```bash
+# Install and run in 2 commands
+python -m pip install -r "Roshan System - Python Version/requirements.txt"
 python "Roshan System - Python Version/main.py"
 ```
 
-Option B — change directory then run:
-
+### For C++ Developers
 ```bash
-cd "Roshan System - Python Version"
-python main.py
+# Build and run in 3 commands
+cmake -B build && cmake --build build
+cd build
+./RoshanOS
 ```
 
-On first run the File Explorer will create `user_dir/` if it does not exist.
+---
 
-## Project structure
+## 📋 Platform Considerations
 
-Root files:
-- README.md — this file
-- LICENSE
-- CONTRIBUTING.md
-- CODE_OF_CONDUCT.md
-- ISSUE_TEMPLATE.md
+**Python Version:**
+- ✅ Windows: Fully supported
+- ✅ macOS: Generally supported (some platform differences in file handlers)
+- ✅ Linux: Supported (file opening uses OS defaults; may need adjustments)
 
-Roshan System - Python Version/
-- main.py — application entrypoint; sets up the desktop, taskbar, and app buttons.
-- requirements.txt — dependencies.
-- textures/ — image assets used by the app (background, icons, etc.).
-- gui/
-  - window.py — window management classes (pack/grid window managers, drag/close behavior).
-  - taskbar.py — Taskbar container used by main app.
-  - startmenu.py — StartMenu frame (placeholder).
-  - notepad.py — Notepad application (save/load, text box).
-  - fileexplorer.py — File Explorer and a SaveAs dialog helper.
-  - imageviewer.py — helper to open/display images.
+**C++ Version:**
+- ✅ Cross-platform via Qt
+- Requires Qt development libraries installed
 
-## Usage notes & platform considerations
+---
 
-- The app uses CustomTkinter (modern themed tkinter). If the UI appears inconsistent, verify that the installed customtkinter version matches the pinned version in `requirements.txt`.
-- File Explorer treats `user_dir/` as the default user folder; files saved via the Notepad Save-as helper are stored in that directory.
-- Opening image files uses the OS default handlers (`os.startfile(...)` is used in code). Behavior may differ across platforms; adjustments may be required for Linux/macOS.
+## 🤝 Contributing
 
-## Development
+This project welcomes contributions! Please see `CONTRIBUTING.md` for guidelines and `CODE_OF_CONDUCT.md` for community standards.
 
-- To add new GUI applications, extend `WindowPackManager` or `WindowGridManager` in `gui/window.py` and register a launcher button in `main.py`.
-- To change the background or icons, replace images in `Roshan System - Python Version/textures/`. Filenames are referenced directly from `main.py`.
-- Keep UI components focused; place each app in its own module under `gui/`.
+### How to contribute:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a pull request
 
-## Troubleshooting
+---
 
-- Import errors: ensure the virtual environment is active and the requirements are installed for the Python interpreter in use.
-- customtkinter theme/layout differences: use the pinned version in `requirements.txt` for reproducible behavior.
-- If textures fail to load, confirm image files exist in `Roshan System - Python Version/textures/` and that `main.py` is executed with correct working directory so relative paths resolve.
+## 📝 License
 
-## Contributing & governance
+This project is licensed under the **MIT License** — see the [`LICENSE`](LICENSE) file for details.
 
-This project includes CONTRIBUTING and CODE_OF_CONDUCT documents. Contributions should follow the guidelines in `CONTRIBUTING.md`.
+---
 
-## License
+## 📞 Support & Issues
 
-See the `LICENSE` file at the repository root for licensing details.
+Found a bug or have a feature request? Please open an issue using the [`ISSUE_TEMPLATE.md`](ISSUE_TEMPLATE.md) format.
+
+---
+
+## 🎯 Project Status
+
+**Status**: Experimental
+
+This is an ongoing experimental project showcasing OS-like GUI design in both Python and C++. Features and architecture may change as development progresses.
+
+---
+
+**Last Updated**: 2026 | **Language Composition**: 86.2% Python, 10.8% C++, 3% CMake
