@@ -169,12 +169,8 @@ class App(ctk.CTk):
             "Shutdown",
             "Are you sure you want to shutdown",
             self.destroy,
-            self.no_shutdown,
         )
         ShutdownMsgBox.place(x=60, y=60)
-
-    def no_shutdown(self):
-        pass
 
 
 if __name__ == "__main__":
