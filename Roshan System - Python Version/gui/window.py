@@ -17,6 +17,7 @@ class WindowGridManager(ctk.CTkFrame):
         self.title_bar.grid(row=0, column=0, sticky="w")
         self.title_bar.bind("<Button-1>", self.start_drag)
         self.title_bar.bind("<B1-Motion>", self.do_drag)
+        self.position: dict[str, int] = {"x": 0, "y": 0}
         self.closebtn = ctk.CTkButton(
             self,
             command=self.place_forget,
@@ -30,11 +31,12 @@ class WindowGridManager(ctk.CTkFrame):
     def start_drag(self, event):
         self.startX = event.x_root - self.winfo_x()
         self.startY = event.y_root - self.winfo_y()
+        self.lift()
 
     def do_drag(self, event):
-        x = event.x_root - self.startX
-        y = event.y_root - self.startY
-        self.place(x=x, y=y)
+        self.position["x"] = event.x_root - self.startX
+        self.position["y"] = event.y_root - self.startY
+        self.place(x=self.position["x"], y=self.position["y"])
 
 
 class WindowPackManager(ctk.CTkFrame):
@@ -52,6 +54,7 @@ class WindowPackManager(ctk.CTkFrame):
         self.title_bar = ctk.CTkLabel(self.title_bar_frame, text=title).pack(
             side="left", fill="x"
         )
+        self.position: dict[str, int] = {"x": 0, "y": 0}
         ctk.CTkButton(
             self.title_bar_frame,
             text="X",
@@ -66,8 +69,9 @@ class WindowPackManager(ctk.CTkFrame):
     def start_drag(self, event):
         self.startX = event.x_root - self.winfo_x()
         self.startY = event.y_root - self.winfo_y()
+        self.lift()
 
     def do_drag(self, event):
-        x = event.x_root - self.startX
-        y = event.y_root - self.startY
-        self.place(x=x, y=y)
+        self.position["x"] = event.x_root - self.startX
+        self.position["y"] = event.y_root - self.startY
+        self.place(x=self.position["x"], y=self.position["y"])

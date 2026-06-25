@@ -8,6 +8,7 @@ from gui.startmenu import StartMenu
 from gui.fileexplorer import FileExplorer
 from gui.imageviewer import ImageViewer
 from gui.calculator import Calculator
+from gui.window import WindowPackManager, WindowGridManager
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
 ctk.set_appearance_mode("dark")
@@ -142,8 +143,9 @@ class App(ctk.CTk):
         self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
         self.startmenuio.pack_propagate(False)
 
-    def open_app(self, app):
-        app.place(x=60, y=60)
+    def open_app(self, app: WindowGridManager | WindowPackManager):
+        app.place(x=app.position["x"], y=app.position["y"])
+        app.lift()
 
     def resize_background(self, event):
         if event.widget == self:
@@ -169,6 +171,7 @@ class App(ctk.CTk):
             "Shutdown",
             "Are you sure you want to shutdown",
             self.destroy,
+            image="textures/information.png"
         )
         ShutdownMsgBox.place(x=60, y=60)
 

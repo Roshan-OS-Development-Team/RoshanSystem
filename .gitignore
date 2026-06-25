@@ -356,3 +356,6 @@ Thumbs.db
 *~
 *.log
 *.tmp
+
+# === Jetbrains IDE stuff ===
+.idea
