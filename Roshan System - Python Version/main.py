@@ -22,6 +22,7 @@ class App(ctk.CTk):
         self.title("Roshan System")
         self.geometry("1200x800")
         self.attributes("-fullscreen", True)
+        self.protocol("WM_DELETE_WINDOW", self.shutdown)
         self.backgroundimg = Image.open("textures/background7.png")
         self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(1200, 800))
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
