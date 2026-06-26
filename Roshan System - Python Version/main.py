@@ -193,9 +193,9 @@ class App(ctk.CTk):
             if sys.platform == "win32":
                 os.system("shutdown -s -t 0")
             if sys.platform == "darwin":
-                os.system("sudo shutdown -h now")
+                os.system("osascript -e 'tell application "System Events" to shut down'")
             if sys.platform == "linux":
-                os.system("sudo shutdown now")
+                os.system("systemctl shutdown")
             else:
                 self.destroy()
 
