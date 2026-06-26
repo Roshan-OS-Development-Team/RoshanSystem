@@ -2,6 +2,7 @@ from PIL import Image
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
+import sys
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
 from gui.startmenu import StartMenu
@@ -188,11 +189,21 @@ class App(ctk.CTk):
             self.startmenuopened = False
 
     def shutdown(self):
+        def _shutdown():
+            if sys.platform == "win32":
+                os.system("shutdown -s -t 0")
+            if sys.platform == "darwin":
+                os.system("sudo shutdown -h now")
+            if sys.platform == "linux":
+                os.system("sudo shutdown now")
+            else:
+                self.destroy()
+
         ShutdownMsgBox = MessageBoxYesNo(
             self,
             "Shutdown",
             "Are you sure you want to shutdown",
-            self.destroy,
+            _shutdown,
             image="textures/information.png"
         )
         ShutdownMsgBox.place(x=60, y=60)
