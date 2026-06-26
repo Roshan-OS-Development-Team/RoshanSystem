@@ -9,6 +9,7 @@ from gui.fileexplorer import FileExplorer
 from gui.imageviewer import ImageViewer
 from gui.calculator import Calculator
 from gui.window import WindowPackManager, WindowGridManager
+from gui.paint import  Paint
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
 ctk.set_appearance_mode("dark")
@@ -20,7 +21,7 @@ class App(ctk.CTk):
         super().__init__()
         self.title("Roshan System")
         self.geometry("1200x800")
-        self.attributes(fullscreen=True)
+        self.attributes("-fullscreen", True)
         self.backgroundimg = Image.open("textures/background7.png")
         self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(1200, 800))
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
@@ -123,6 +124,26 @@ class App(ctk.CTk):
             command=lambda: self.open_app(self.imageviewer),
         )
         self.imageviewerbtn.pack(side="left")
+
+        paintimg = Image.open("textures/Paint.png")
+        paintimgctk = ctk.CTkImage(paintimg, size=(70, 70))
+        self.paint = Paint(self)
+
+        self.paintbtn = ctk.CTkButton(
+            self.taskbar,
+            border_width=0,
+            width=70,
+            height=70,
+            hover_color="#343435",
+            text="",
+            bg_color="transparent",
+            fg_color="transparent",
+            image=paintimgctk,
+            command=lambda: self.open_app(self.paint)
+        )
+        self.paintbtn.pack(
+            side="left"
+        )
 
         shutdownimg = Image.open("textures/closeicon.png")
         shutdownimgctk = ctk.CTkImage(shutdownimg, size=(70, 70))
