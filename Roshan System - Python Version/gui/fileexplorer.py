@@ -9,7 +9,7 @@ ctk.set_appearance_mode("dark")
 
 class FileExplorer(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, title="File Explorer", size=(600, 400))
+        super().__init__(master, "File Explorer", (600, 400), "textures/filexplorer.png")
         self.toolbar = ctk.CTkFrame(self)
         self.toolbar.pack(side="top", fill="x")
         self.main = ctk.CTkScrollableFrame(self)

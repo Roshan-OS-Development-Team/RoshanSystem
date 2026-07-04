@@ -2,14 +2,13 @@ from PIL import Image
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
-import sys
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
 from gui.startmenu import StartMenu
 from gui.fileexplorer import FileExplorer
 from gui.imageviewer import ImageViewer
 from gui.calculator import Calculator
-from gui.window import WindowPackManager, WindowGridManager
+from gui.window import WindowPackManager
 from gui.paint import  Paint
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
@@ -21,11 +20,11 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Roshan System")
-        self.geometry("1200x800")
         self.attributes("-fullscreen", True)
+        self.update_idletasks()
         self.protocol("WM_DELETE_WINDOW", self.shutdown)
-        self.backgroundimg = Image.open("textures/background7.png")
-        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(1200, 800))
+        self.backgroundimg = Image.open("textures/background7.png").resize((self.winfo_width(), self.winfo_height()))
+        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=self.backgroundimg.size)
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
         self.bind("<Configure>", self.resize_background)
@@ -166,7 +165,8 @@ class App(ctk.CTk):
         self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
         self.startmenuio.pack_propagate(False)
 
-    def open_app(self, app: WindowGridManager | WindowPackManager):
+    @staticmethod
+    def open_app(app: WindowPackManager):
         app.place(x=app.position["x"], y=app.position["y"])
         app.lift()
 
@@ -190,14 +190,7 @@ class App(ctk.CTk):
 
     def shutdown(self):
         def _shutdown():
-            if sys.platform == "win32":
-                os.system("shutdown -s -t 0")
-            if sys.platform == "darwin":
-                os.system("osascript -e 'tell application \"System Events\" to shut down'")
-            if sys.platform == "linux":
-                os.system("systemctl shutdown")
-            else:
-                self.destroy()
+            self.destroy()
 
         ShutdownMsgBox = MessageBoxYesNo(
             self,

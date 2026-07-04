@@ -10,7 +10,7 @@ ctk.set_default_color_theme("dark-blue")
 
 class Paint(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, "Paint", (960, 480))
+        super().__init__(master, "Paint", (960, 480), "textures/paint.png")
         self.colors_frame = ctk.CTkFrame(self)
         self.colors_frame.pack(side="top", fill="x", pady=5)
         self.color = StringVar(value="black")

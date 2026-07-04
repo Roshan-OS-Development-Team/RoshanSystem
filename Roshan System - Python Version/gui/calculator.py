@@ -1,13 +1,13 @@
 from gui.window import WindowPackManager
 import customtkinter as ctk
-from tkinter import DoubleVar, StringVar
+from tkinter import StringVar
 
 ctk.set_appearance_mode("dark") 
 ctk.set_default_color_theme("dark-blue")
 
 class Calculator(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, "Calculator", (250, 337))
+        super().__init__(master, "Calculator", (250, 337), "textures/calculator.png")
         self.flipped: bool = False
         self.nums_var = StringVar()
         ctk.CTkLabel(self, textvariable=self.nums_var, height=50).pack(side="top", fill="x")

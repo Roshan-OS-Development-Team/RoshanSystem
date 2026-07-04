@@ -8,7 +8,7 @@ ctk.set_appearance_mode("dark")
 
 class Notepad(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, title="Notepad", size=(640, 360))
+        super().__init__(master, "Notepad", (640, 360), "textures/notepad.png")
         fileoperationsframe = ctk.CTkFrame(self)
         fileoperationsframe.pack(side="top", fill="x")
         savebtn = ctk.CTkButton(

@@ -8,7 +8,7 @@ ctk.set_appearance_mode("dark")
 
 class ImageViewer(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, "Image Viewer", (600, 400))
+        super().__init__(master, "Image Viewer", (600, 400), "textures/imageviewer.png")
         self.toolbarframe = ctk.CTkFrame(self)
         self.toolbarframe.pack(side="top", fill="x")
         self.open_image_btn = ctk.CTkButton(
