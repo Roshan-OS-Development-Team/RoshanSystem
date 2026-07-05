@@ -3,9 +3,6 @@ import customtkinter as ctk
 from gui.fileexplorer import OpenAsFilename
 from gui.window import WindowPackManager
 
-ctk.set_default_color_theme("dark-blue")
-ctk.set_appearance_mode("dark") 
-
 class ImageViewer(WindowPackManager):
     def __init__(self, master):
         super().__init__(master, "Image Viewer", (600, 400), "textures/imageviewer.png")

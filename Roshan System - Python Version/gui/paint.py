@@ -5,9 +5,6 @@ from customtkinter import filedialog
 from tkinter import StringVar
 from PIL import Image, ImageDraw
 
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("dark-blue")
-
 class Paint(WindowPackManager):
     def __init__(self, master):
         super().__init__(master, "Paint", (960, 480), "textures/paint.png")

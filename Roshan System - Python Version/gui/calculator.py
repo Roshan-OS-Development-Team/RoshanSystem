@@ -2,9 +2,6 @@ from gui.window import WindowPackManager
 import customtkinter as ctk
 from tkinter import StringVar
 
-ctk.set_appearance_mode("dark") 
-ctk.set_default_color_theme("dark-blue")
-
 class Calculator(WindowPackManager):
     def __init__(self, master):
         super().__init__(master, "Calculator", (250, 337), "textures/calculator.png")

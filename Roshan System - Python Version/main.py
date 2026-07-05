@@ -1,4 +1,6 @@
 from PIL import Image
+from numpy.ma.extras import column_stack
+
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
@@ -12,6 +14,7 @@ from gui.window import WindowPackManager
 from gui.paint import  Paint
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
+
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
@@ -23,8 +26,8 @@ class App(ctk.CTk):
         self.attributes("-fullscreen", True)
         self.update_idletasks()
         self.protocol("WM_DELETE_WINDOW", self.shutdown)
-        self.backgroundimg = Image.open("textures/background7.png").resize((self.winfo_width(), self.winfo_height()))
-        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=self.backgroundimg.size)
+        self.backgroundimg = Image.open("textures/background7.png")
+        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(self.winfo_width(), self.winfo_height()))
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
         self.bind("<Configure>", self.resize_background)
@@ -34,7 +37,6 @@ class App(ctk.CTk):
             self.background,
             width=self.winfo_width(),
             corner_radius=50,
-            fg_color="gray7",
         )
 
         # Start Menu Stuff
@@ -146,6 +148,25 @@ class App(ctk.CTk):
             side="left"
         )
 
+        self.ctrl_panel = self.create_ctrl_panel()
+        ctrl_panel_img = Image.open("textures/ctrlpanel.png")
+        ctrl_panel_img_ctk = ctk.CTkImage(ctrl_panel_img, size=(70, 70))
+        self.ctrl_panel_btn = ctk.CTkButton(
+            self.taskbar,
+            border_width=0,
+            width=70,
+            height=70,
+            hover_color="#343435",
+            text="",
+            bg_color="transparent",
+            fg_color="transparent",
+            image=ctrl_panel_img_ctk,
+            command=lambda: self.open_app(self.ctrl_panel)
+        )
+        self.ctrl_panel_btn.pack(
+            side="left"
+        )
+
         shutdownimg = Image.open("textures/closeicon.png")
         shutdownimgctk = ctk.CTkImage(shutdownimg, size=(70, 70))
         self.shutdownbtn = ctk.CTkButton(
@@ -188,19 +209,132 @@ class App(ctk.CTk):
             self.startmenuio.place_forget()
             self.startmenuopened = False
 
-    def shutdown(self):
-        def _shutdown():
-            self.destroy()
+    def _shutdown(self):
+        self.destroy()
 
+    def shutdown(self):
         ShutdownMsgBox = MessageBoxYesNo(
             self,
             "Shutdown",
             "Are you sure you want to shutdown",
-            _shutdown,
+            self._shutdown,
             image="textures/information.png"
         )
         ShutdownMsgBox.place(x=60, y=60)
+        
+    def change_background(self, filepath: str):
+        self.backgroundimg = Image.open(filepath)
+        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(self.winfo_width(), self.winfo_height()))
+        self.background.configure(image=self.backgroundctk)
 
+    def create_ctrl_panel(self) -> WindowPackManager:
+        ctrl_panel = WindowPackManager(self, "Control Panel", (960, 480), "textures/ctrlpanel.png")
+
+        tabs = ctk.CTkTabview(ctrl_panel)
+
+        tabs_list: list[str] = ["Personalization", "Preferences"]
+
+        for tab in tabs_list:
+            tabs.add(tab)
+
+        personalization_tab = ctk.CTkScrollableFrame(tabs.tab("Personalization"))
+        personalization_tab.pack(fill="both", expand=True)
+
+        background_choices = None
+
+        def _change_appearance_mode(appearance_mode: str):
+            if appearance_mode == "Light":
+                for btn in self.taskbar.winfo_children():
+                    if type(btn) == ctk.CTkButton:
+                        btn.configure(hover_color="#b8b8b8")
+
+                if background_choices:
+                    for btn in background_choices.winfo_children():
+                        if type(btn) == ctk.CTkButton:
+                            btn.configure(hover_color="#b8b8b8")
+
+                ctk.set_appearance_mode(appearance_mode)
+
+                ctk.set_appearance_mode(appearance_mode)
+            elif appearance_mode == "Dark":
+                for btn in self.taskbar.winfo_children():
+                    if type(btn) == ctk.CTkButton:
+                        btn.configure(hover_color="#343435")
+
+                if background_choices:
+                    for btn in background_choices.winfo_children():
+                        if type(btn) == ctk.CTkButton:
+                            btn.configure(hover_color="#343435")
+
+                ctk.set_appearance_mode(appearance_mode)
+
+        ctk.CTkOptionMenu(
+            master=personalization_tab,
+            values=["Dark", "Light"],
+            command=_change_appearance_mode
+        ).pack(
+            side="top",
+            pady=5,
+            padx=5
+        )
+
+        background_choices = ctk.CTkFrame(personalization_tab)
+        background_choices.pack(side="top")
+
+        row_num: int = 0
+        column_num: int = 0
+        background_num: int = 0
+
+        for file in os.listdir("textures"):
+            if "background" in file:
+                file_path = f"textures/background{background_num}.png"
+                img = Image.open(file_path)
+                img.thumbnail(size=(100, 100))
+                imgctk = ctk.CTkImage(img, size=img.size)
+                ctk.CTkButton(
+                    background_choices,
+                    text="",
+                    fg_color="transparent",
+                    hover_color="#343435",
+                    image=imgctk,
+                    width=100,
+                    height=100,
+                    command=lambda background = file_path: self.change_background(background)
+                ).grid(
+                    row=row_num,
+                    column=column_num
+                )
+                column_num += 1
+                background_num += 1
+            if column_num == 5:
+                row_num += 1
+                column_num = 0
+
+        preferences_frame = ctk.CTkScrollableFrame(tabs.tab("Preferences"))
+        preferences_frame.pack(fill="both", expand=True)
+
+        shutdown_var = ctk.BooleanVar(value=False)
+
+        def _messagebox_shutdown():
+            if shutdown_var.get() == True:
+                self.shutdownbtn.configure(command=self.shutdown)
+                self.protocol("WM_DELETE_WINDOW", self.shutdown)
+            elif shutdown_var.get() == False:
+                self.shutdownbtn.configure(command=self._shutdown)
+                self.protocol("WM_DELETE_WINDOW", self._shutdown)
+
+        messagebox_shutdown_switch = ctk.CTkSwitch(
+            preferences_frame,
+            text="Toggle Messagebox Shutdown",
+            variable=shutdown_var,
+            command=_messagebox_shutdown
+        )
+        messagebox_shutdown_switch.select()
+        messagebox_shutdown_switch.pack(side="top")
+
+        tabs.pack(fill="both", expand=True)
+
+        return ctrl_panel
 
 if __name__ == "__main__":
     root = App()

@@ -1,9 +1,6 @@
 import customtkinter as ctk
 from PIL import Image
 
-ctk.set_default_color_theme("dark-blue")
-ctk.set_appearance_mode("dark")
-
 class WindowPackManager(ctk.CTkFrame):
     """A window that uses the pack manager,
     You need to input the title,
@@ -52,7 +49,11 @@ class WindowPackManager(ctk.CTkFrame):
             command=self.place_forget,
             fg_color="red",
             hover_color="#A00000",
-        ).pack(side="right")
+        ).pack(
+            side="right",
+            pady=2,
+            padx=2
+        )
         self.title_bar_frame.bind("<Button-1>", self.start_drag)
         self.title_bar_frame.bind("<B1-Motion>", self.do_drag)
 
