@@ -1,6 +1,6 @@
 # RoshanSystem
 
-> A fully-featured experimental operating system simulation with a professional desktop environment, complete application suite, and modern GUI.
+> A fully-featured experimental operating system simulation with a professional desktop environment, complete application suite, system settings, and modern GUI.
 
 [![Python](https://img.shields.io/badge/Python-86.2%25-3776ab?logo=python&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/Roshan%20System%20-%20Python%20Version)
 [![C++](https://img.shields.io/badge/C%2B%2B-10.8%25-00599c?logo=cplusplus&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/RoshanOS-Cpp-version)
@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-experimental-orange)]()
 
-RoshanSystem is an experimental project that creates a complete OS-like desktop environment in Python. The **Python implementation** (86.2% of codebase) is a fully-functional desktop system with a professional taskbar, window management system, file explorer, and 6 built-in applications. The **C++ version** provides a Qt-based alternative.
+RoshanSystem is an experimental project that creates a complete OS-like desktop environment in Python. The **Python implementation** (86.2% of codebase) is a fully-functional desktop system with a professional taskbar, window management, settings management, and 7 built-in applications. The **C++ version** provides a Qt-based alternative.
 
 ---
 
@@ -16,7 +16,7 @@ RoshanSystem is an experimental project that creates a complete OS-like desktop 
 
 ### 🌟 Overview
 
-A complete, production-ready desktop environment featuring a **modern dark-themed GUI** built with CustomTkinter and Pillow. The system includes window dragging, resizing, position persistence, a taskbar with application icons, and a comprehensive suite of integrated applications—all designed to feel like a real operating system.
+A complete, production-ready desktop environment featuring a **modern dark-themed GUI** built with CustomTkinter and Pillow. The system includes window management, personalization settings, appearance modes, background customization, and a comprehensive suite of integrated applications—all designed to feel like a real operating system.
 
 ### ✨ Core Features
 
@@ -29,22 +29,40 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 - **Window layering** - bring any window to the front with a single click
 - **Unified styling** across all applications using CustomTkinter dark-blue theme
 
+#### ⚙️ Control Panel - System Settings & Personalization
+- **Tabbed settings interface** with organized categories
+- **Personalization tab** for appearance and visual customization:
+  - **Appearance mode toggle** - seamlessly switch between Dark and Light themes
+  - **Dynamic theme application** - instantly applies to all taskbar buttons and UI elements
+  - **Background customization** - browse and select from multiple background images (5+ presets)
+  - **Background thumbnail previews** - 100x100 pixel preview grid for easy selection
+  - **Real-time background switching** - changes apply immediately without restart
+  - **Responsive grid layout** - backgrounds displayed in 5-column grid automatically wrapping
+- **Preferences tab** for system behavior:
+  - **Messagebox Shutdown toggle** - choose between confirmation dialog or direct shutdown
+  - **Dynamic command switching** - toggle between safe shutdown (with confirmation) and instant exit
+  - **Protocol management** - control Alt+F4 behavior through settings
+  - **Boolean variable persistence** - settings state management
+- **Scrollable settings panels** - handle large number of options gracefully
+- **Icon-based interface** - Control Panel has dedicated taskbar icon
+
 #### 🎯 Advanced Window Management
 - **Drag-and-drop window positioning** - click and drag the title bar to move windows anywhere
-- **Manual window resizing** - resize any application window to your preferred dimensions
+- **Fixed window dimensions** - each application has a preset window size (e.g., Calculator: 250x337, Notepad: 640x360, Paint: 960x480)
 - **Window title bars** with application icons and close buttons
 - **Position memory** - the system saves where each window was last placed
 - **Z-order management** - windows automatically come to the front when opened
 - **Graceful close handling** - Alt+F4 protection prevents accidental exits
-- **Shutdown confirmation** - safe system exit with Yes/No confirmation dialog
+- **Shutdown confirmation** - safe system exit with Yes/No confirmation dialog (toggleable)
 
 #### 📋 Integrated Taskbar & Application Launcher
 - **Professional taskbar** positioned at the bottom of the screen
-- **Application icons** for quick visual identification and launching
+- **Application icons** for quick visual identification and launching:
+  - Start Menu, Notepad, Calculator, File Explorer, Image Viewer, Paint, Control Panel, Shutdown
 - **Start menu button** with system options
 - **Persistent taskbar** that stays accessible at all times
 - **Smooth button hover effects** with color transitions
-- **Six application launchers** for fast access to all system tools
+- **Seven application launchers** for fast access to all system tools
 
 #### 📁 File Explorer - Complete File Management
 - **Full directory navigation** with back/forward controls
@@ -117,6 +135,7 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 - **Consistent styling** - all message boxes match the application theme
 - **Professional appearance** with icons displayed inline with text
 - **Used throughout the system** for important confirmations and alerts
+- **Toggleable via Control Panel** - choose whether shutdown shows confirmation
 
 #### 🏗️ Extensible Application Architecture
 - **Base window class** (`WindowPackManager`) providing standard window functionality
@@ -125,6 +144,8 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 - **Modular plugin system** - each application is a self-contained module
 - **Standard initialization pattern** - all apps inherit from WindowPackManager
 - **Cross-platform compatibility** - Windows, macOS, and Linux support
+- **Tab-based UI support** - Control Panel demonstrates CTkTabview for multi-section interfaces
+- **Fixed sizing with `pack_propagate(False)`** - precise window dimension control
 
 ### 📦 Technical Stack
 
@@ -181,13 +202,15 @@ Roshan System - Python Version/
 │   └── MessageboxOkCancel.py           # OK/Cancel confirmation dialogs
 │
 ├── textures/                            # UI assets and icons
-│   ├── background7.png                 # Desktop background
+│   ├── background7.png                 # Primary desktop background
+│   ├── background*.png                 # Additional background options (5+ variants)
 │   ├── startmenu.png                   # Start button icon
 │   ├── notepad.png                     # Notepad app icon
 │   ├── calculator.png                  # Calculator app icon
 │   ├── filexplorer.png                 # File Explorer app icon
 │   ├── imageviewer.png                 # Image Viewer app icon
 │   ├── Paint.png                       # Paint app icon
+│   ├── ctrlpanel.png                   # Control Panel app icon
 │   ├── closeicon.png                   # Shutdown/close icon
 │   ├── information.png                 # Information dialog icon
 │   ├── warning.png                     # Warning dialog icon
@@ -198,19 +221,33 @@ Roshan System - Python Version/
     └── (saved files from applications)
 ```
 
+### 🔧 Application Window Sizes
+
+Each application has a fixed, optimized window size set at initialization:
+
+| Application | Dimensions | Purpose |
+|---|---|---|
+| Calculator | 250x337 | Compact calculator layout with 4x4 button grid |
+| Notepad | 640x360 | Comfortable text editing with Save/Load buttons |
+| File Explorer | 600x400 | Directory browsing with scrollable file list |
+| Image Viewer | 600x400 | Image display with toolbar |
+| Paint | 960x480 | Large canvas for drawing with color palette |
+| Control Panel | Dynamic | Tabbed settings interface (scrollable) |
+
 ### 🔧 File Reference
 
 | Component | File | Responsibility |
 |---|---|---|
-| **Desktop** | `main.py` | Initializes fullscreen app, creates taskbar, registers all application launchers, handles shutdown |
-| **Window System** | `gui/window.py` | `WindowPackManager` class - provides dragging, resizing, close buttons, icon support, position memory |
+| **Desktop** | `main.py` | Initializes fullscreen app, creates taskbar, registers all application launchers, manages Control Panel, handles shutdown with toggle |
+| **Window System** | `gui/window.py` | `WindowPackManager` class - provides dragging, fixed sizing (pack_propagate), close buttons, icon support, position memory |
 | **Taskbar** | `gui/taskbar.py` | Taskbar UI container at screen bottom (height: 70px) |
 | **Start Menu** | `gui/startmenu.py` | Toggleable start menu launcher frame |
-| **Calculator** | `gui/calculator.py` | Full calculator with 16 buttons, real-time display, arithmetic evaluation |
-| **Notepad** | `gui/notepad.py` | Text editor with Save/Load, integrates SaveAsFilename & OpenAsFilename dialogs |
-| **File Explorer** | `gui/fileexplorer.py` | Main browser + SaveAsFilename (file save dialog) + OpenAsFilename (file open dialog) |
-| **Image Viewer** | `gui/imageviewer.py` | Image display with OpenAsFilename for selecting images, supports 6 formats |
-| **Paint** | `gui/paint.py` | Drawing canvas with 10 colors, dual-layer rendering (visual + persistent) |
+| **Control Panel** | `main.py` | Settings management with two tabs: Personalization (themes, backgrounds) and Preferences (shutdown behavior) |
+| **Calculator** | `gui/calculator.py` | Full calculator with 16 buttons, real-time display, arithmetic evaluation, 250x337 fixed size |
+| **Notepad** | `gui/notepad.py` | Text editor with Save/Load, integrates SaveAsFilename & OpenAsFilename dialogs, 640x360 fixed size |
+| **File Explorer** | `gui/fileexplorer.py` | Main browser + SaveAsFilename (file save dialog) + OpenAsFilename (file open dialog), 600x400 fixed size |
+| **Image Viewer** | `gui/imageviewer.py` | Image display with OpenAsFilename for selecting images, supports 6 formats, 600x400 fixed size |
+| **Paint** | `gui/paint.py` | Drawing canvas with 10 colors, dual-layer rendering (visual + persistent), 960x480 fixed size |
 | **Dialogs** | `messagebox/` | MessageBoxYesNo, MessageBoxOkCancel with icon support |
 
 ### 🎮 How to Use
@@ -219,6 +256,17 @@ Roshan System - Python Version/
 - Click taskbar buttons to open applications
 - Applications appear in their last saved position
 - Click the Start button for additional options
+- Click the Control Panel icon to access system settings
+
+#### Access Settings
+- Open **Control Panel** from the taskbar
+- **Personalization Tab**:
+  - Switch between Dark and Light themes
+  - Select different desktop backgrounds from the grid
+  - See real-time preview thumbnails (100x100 pixels)
+- **Preferences Tab**:
+  - Toggle messagebox shutdown behavior
+  - Choose between safe shutdown (with confirmation) or direct exit
 
 #### File Operations
 - Use **File Explorer** to browse directories
@@ -234,7 +282,7 @@ Roshan System - Python Version/
 #### Window Management
 - Drag any window by its title bar to reposition
 - Click the **X** button to close applications
-- Click the **Shutdown** button to exit the system (with confirmation)
+- Click the **Shutdown** button to exit the system (with confirmation, unless disabled)
 
 ### 🐛 Troubleshooting
 
@@ -242,14 +290,18 @@ Roshan System - Python Version/
 |---|---|
 | Import errors for customtkinter | Install requirements: `pip install -r requirements.txt` |
 | UI rendering problems | Verify CustomTkinter 5.2.2 is installed (exact version in requirements.txt) |
-| Images not loading | Check all image files exist in `textures/` folder |
+| Images not loading | Check all image files exist in `textures/` folder, including background variants |
 | File operations fail | Ensure `user_dir/` has write permissions; the system auto-creates it |
 | Application not launching | Run with `python -u` for unbuffered output to see error messages |
 | Colors appear different | Verify dark-blue theme is applied; clear any conflicting system themes |
 | Paint not responding | Ensure Paint.png exists in textures folder |
 | Notepad won't save | Check that user_dir directory exists and is writable |
-| Alt+F4 doesn't close app | This is intentional - use the Shutdown button instead for safe exit |
+| Alt+F4 doesn't close app | This is intentional - use the Shutdown button or Control Panel preferences |
+| Control Panel won't open | Ensure ctrlpanel.png exists in textures folder |
+| Background change doesn't work | Verify multiple background*.png files exist in textures folder (background0.png, background1.png, etc.) |
+| Theme switching not working | Check CTkOptionMenu is properly configured in Control Panel |
 | Windows not remembering position | Position is saved when window closes; ensure proper shutdown |
+| Window size can't be changed | Window sizes are fixed by design using `pack_propagate(False)` - modify application code to change dimensions |
 
 ### 🖥️ Platform Support
 
@@ -261,14 +313,23 @@ Roshan System - Python Version/
 
 ### 📊 Statistics
 
-- **Total Python Code**: ~7,000+ lines across all components
-- **Applications Included**: 6 (Calculator, Notepad, File Explorer, Image Viewer, Paint, Start Menu)
+- **Total Python Code**: ~7,500+ lines across all components
+- **Applications Included**: 7 (Calculator, Notepad, File Explorer, Image Viewer, Paint, Control Panel, Start Menu)
+- **Settings Categories**: 2 (Personalization, Preferences)
 - **Message Box Types**: 2 (Yes/No, OK/Cancel)
 - **Supported Image Formats**: 6 (PNG, JPG, JPEG, ICO, GIF, BMP)
 - **Built-in Colors**: 10 (Red, Orange, Yellow, Green, Blue, Purple, Violet, Black, White, Gray)
 - **Dialog Types**: 3 (Information, Warning, Error)
+- **Background Presets**: 5+
+- **UI Themes**: 2 (Dark, Light)
 
 ### 🎯 Recent Improvements
+- ✅ Control Panel with tabbed interface
+- ✅ Appearance mode toggle (Dark/Light themes)
+- ✅ Background customization with preview grid
+- ✅ Real-time theme application to all UI elements
+- ✅ Shutdown behavior toggle (confirmation on/off)
+- ✅ Dynamic command switching for graceful/direct exit
 - ✅ Window icon support in title bars
 - ✅ Window position persistence across sessions
 - ✅ Paint application with real-time drawing
@@ -322,11 +383,13 @@ cmake --build .
 
 ### Key Achievements
 - ✅ Fully functional desktop environment in pure Python
-- ✅ 6 integrated applications
+- ✅ 7 integrated applications with system settings
 - ✅ Professional window management system
 - ✅ Cross-platform compatibility
 - ✅ Custom dialog and message box system
 - ✅ Persistent application state
+- ✅ Theme customization (Dark/Light modes)
+- ✅ Desktop background customization
 - ✅ Ready for ISO distribution
 
 ---
@@ -360,9 +423,9 @@ Found an issue or have a feature suggestion? Please open an issue using the [`IS
 
 **Status**: Experimental & Production-Ready
 
-RoshanSystem is a complete, functional OS simulation showcasing professional GUI development in Python. The Python version is feature-complete with a full application suite, robust window management, and cross-platform support. The system is suitable for educational purposes, desktop simulation projects, or as a foundation for custom GUI applications.
+RoshanSystem is a complete, functional OS simulation showcasing professional GUI development in Python. The Python version is feature-complete with a full application suite, robust window management, system settings, and cross-platform support. The system is suitable for educational purposes, desktop simulation projects, or as a foundation for custom GUI applications.
 
-Future roadmap includes ISO distribution, additional applications, and system utilities.
+Future roadmap includes ISO distribution, additional applications, advanced system utilities, and more customization options.
 
 ---
 
