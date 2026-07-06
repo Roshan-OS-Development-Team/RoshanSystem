@@ -30,7 +30,8 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 - **Unified styling** across all applications using CustomTkinter dark-blue theme
 
 #### ⚙️ Control Panel - System Settings & Personalization
-- **Tabbed settings interface** with organized categories
+- **Tabbed settings interface** (960x480 fixed size) with organized categories
+- **Scrollable content panels** for each tab to handle multiple options gracefully
 - **Personalization tab** for appearance and visual customization:
   - **Appearance mode toggle** - seamlessly switch between Dark and Light themes
   - **Dynamic theme application** - instantly applies to all taskbar buttons and UI elements
@@ -43,12 +44,17 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
   - **Dynamic command switching** - toggle between safe shutdown (with confirmation) and instant exit
   - **Protocol management** - control Alt+F4 behavior through settings
   - **Boolean variable persistence** - settings state management
-- **Scrollable settings panels** - handle large number of options gracefully
 - **Icon-based interface** - Control Panel has dedicated taskbar icon
 
 #### 🎯 Advanced Window Management
 - **Drag-and-drop window positioning** - click and drag the title bar to move windows anywhere
-- **Fixed window dimensions** - each application has a preset window size (e.g., Calculator: 250x337, Notepad: 640x360, Paint: 960x480)
+- **Fixed window dimensions** - each application has a preset window size:
+  - Calculator: 250x337
+  - Notepad: 640x360
+  - File Explorer: 600x400
+  - Image Viewer: 600x400
+  - Paint: 960x480
+  - Control Panel: 960x480
 - **Window title bars** with application icons and close buttons
 - **Position memory** - the system saves where each window was last placed
 - **Z-order management** - windows automatically come to the front when opened
@@ -146,6 +152,7 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 - **Cross-platform compatibility** - Windows, macOS, and Linux support
 - **Tab-based UI support** - Control Panel demonstrates CTkTabview for multi-section interfaces
 - **Fixed sizing with `pack_propagate(False)`** - precise window dimension control
+- **Scrollable frames** - handle content larger than fixed window with CTkScrollableFrame
 
 ### 📦 Technical Stack
 
@@ -225,14 +232,14 @@ Roshan System - Python Version/
 
 Each application has a fixed, optimized window size set at initialization:
 
-| Application | Dimensions | Purpose |
+| Application | Dimensions | Notes |
 |---|---|---|
 | Calculator | 250x337 | Compact calculator layout with 4x4 button grid |
 | Notepad | 640x360 | Comfortable text editing with Save/Load buttons |
 | File Explorer | 600x400 | Directory browsing with scrollable file list |
 | Image Viewer | 600x400 | Image display with toolbar |
 | Paint | 960x480 | Large canvas for drawing with color palette |
-| Control Panel | Dynamic | Tabbed settings interface (scrollable) |
+| Control Panel | 960x480 | Tabbed settings with scrollable content panels |
 
 ### 🔧 File Reference
 
@@ -242,7 +249,7 @@ Each application has a fixed, optimized window size set at initialization:
 | **Window System** | `gui/window.py` | `WindowPackManager` class - provides dragging, fixed sizing (pack_propagate), close buttons, icon support, position memory |
 | **Taskbar** | `gui/taskbar.py` | Taskbar UI container at screen bottom (height: 70px) |
 | **Start Menu** | `gui/startmenu.py` | Toggleable start menu launcher frame |
-| **Control Panel** | `main.py` | Settings management with two tabs: Personalization (themes, backgrounds) and Preferences (shutdown behavior) |
+| **Control Panel** | `main.py` | Settings management with two tabbed sections using CTkScrollableFrame for content overflow |
 | **Calculator** | `gui/calculator.py` | Full calculator with 16 buttons, real-time display, arithmetic evaluation, 250x337 fixed size |
 | **Notepad** | `gui/notepad.py` | Text editor with Save/Load, integrates SaveAsFilename & OpenAsFilename dialogs, 640x360 fixed size |
 | **File Explorer** | `gui/fileexplorer.py` | Main browser + SaveAsFilename (file save dialog) + OpenAsFilename (file open dialog), 600x400 fixed size |
@@ -259,11 +266,12 @@ Each application has a fixed, optimized window size set at initialization:
 - Click the Control Panel icon to access system settings
 
 #### Access Settings
-- Open **Control Panel** from the taskbar
+- Open **Control Panel** from the taskbar (960x480 window)
 - **Personalization Tab**:
   - Switch between Dark and Light themes
   - Select different desktop backgrounds from the grid
   - See real-time preview thumbnails (100x100 pixels)
+  - Scroll within the tab if needed
 - **Preferences Tab**:
   - Toggle messagebox shutdown behavior
   - Choose between safe shutdown (with confirmation) or direct exit
@@ -302,6 +310,7 @@ Each application has a fixed, optimized window size set at initialization:
 | Theme switching not working | Check CTkOptionMenu is properly configured in Control Panel |
 | Windows not remembering position | Position is saved when window closes; ensure proper shutdown |
 | Window size can't be changed | Window sizes are fixed by design using `pack_propagate(False)` - modify application code to change dimensions |
+| Control Panel content overflows | Use the scrollbar in each tab's scrollable frame to view hidden content |
 
 ### 🖥️ Platform Support
 
@@ -324,7 +333,7 @@ Each application has a fixed, optimized window size set at initialization:
 - **UI Themes**: 2 (Dark, Light)
 
 ### 🎯 Recent Improvements
-- ✅ Control Panel with tabbed interface
+- ✅ Control Panel with tabbed interface and scrollable content
 - ✅ Appearance mode toggle (Dark/Light themes)
 - ✅ Background customization with preview grid
 - ✅ Real-time theme application to all UI elements
@@ -390,6 +399,7 @@ cmake --build .
 - ✅ Persistent application state
 - ✅ Theme customization (Dark/Light modes)
 - ✅ Desktop background customization
+- ✅ Scrollable UI panels for content overflow
 - ✅ Ready for ISO distribution
 
 ---
