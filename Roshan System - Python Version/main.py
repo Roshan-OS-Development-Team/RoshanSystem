@@ -1,9 +1,8 @@
-from PIL import Image
-from numpy.ma.extras import column_stack
-
+from PIL import Image, ImageTk
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
+from tkinter import PhotoImage
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
 from gui.startmenu import StartMenu
@@ -24,6 +23,7 @@ class App(ctk.CTk):
         super().__init__()
         self.title("Roshan System")
         self.attributes("-fullscreen", True)
+        self.geometry("1200x800")
         self.update_idletasks()
         self.protocol("WM_DELETE_WINDOW", self.shutdown)
         self.backgroundimg = Image.open("textures/background7.png")
@@ -331,6 +331,28 @@ class App(ctk.CTk):
         )
         messagebox_shutdown_switch.select()
         messagebox_shutdown_switch.pack(side="top")
+
+        fullscreen_var = ctk.BooleanVar(value=False)
+
+        def _fullscreen():
+            if not fullscreen_var.get():
+                self.attributes("-fullscreen", False)
+                self.winico = PhotoImage(file="textures/startmenu.png")
+                self.iconphoto(False, self.winico)
+            elif fullscreen_var.get():
+                self.attributes("-fullscreen", True)
+                self.winico = PhotoImage(file="textures/startmenu.png")
+                self.iconphoto(False, self.winico)
+
+        fullscreen_switch = ctk.CTkSwitch(
+            preferences_frame,
+            text="Toggle Fullscreen",
+            variable=fullscreen_var,
+            command=_fullscreen
+        )
+
+        fullscreen_switch.select()
+        fullscreen_switch.pack(side="top")
 
         tabs.pack(fill="both", expand=True)
 
