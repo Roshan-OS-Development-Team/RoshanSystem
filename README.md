@@ -2,11 +2,11 @@
 
 > A fully-featured experimental operating system simulation with a professional desktop environment, complete application suite, system settings, and modern GUI.
 
-[![Python](https://img.shields.io/badge/Python-86.2%25-3776ab?logo=python&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/Roshan%20System%20-%20Python%20Version)
+[![Python](https://img.shields.io/badge/Python-100%25-3776ab?logo=python&logoColor=white)](https://github.com/RoshanGamer7791/RoshanSystem/tree/main/Roshan%20System%20-%20Python%20Version)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-experimental-orange)]()
 
-RoshanSystem is an experimental project that creates a complete OS-like desktop environment in Python. The **Python implementation** (86.2% of codebase) is a fully-functional desktop system with a professional taskbar, window management, settings management, and 7 built-in applications. The **C++ version** provides a Qt-based alternative.
+RoshanSystem is an experimental project that creates a complete OS-like desktop environment in pure Python. The **Python implementation** is a fully-functional desktop system with a professional taskbar, window management, persistent settings, and 7 built-in applications.
 
 ---
 
@@ -14,12 +14,13 @@ RoshanSystem is an experimental project that creates a complete OS-like desktop 
 
 ### 🌟 Overview
 
-A complete, production-ready desktop environment featuring a **modern dark-themed GUI** built with CustomTkinter and Pillow. The system includes window management, personalization settings, appearance modes, background customization, and a comprehensive suite of integrated applications—all designed to feel like a real operating system.
+A complete, production-ready desktop environment featuring a **modern dark-themed GUI** built with CustomTkinter and Pillow. The system includes window management, personalization settings, appearance modes, background customization, persistent settings storage, and a comprehensive suite of integrated applications—all designed to feel like a real operating system.
 
 ### ✨ Core Features
 
 #### 🖥️ Professional Desktop System
 - **Full-screen immersive environment** with high-quality background imagery
+- **Fullscreen toggle** - switch between fullscreen and windowed mode for flexibility
 - **Modern dark theme** with smooth animations and professional styling
 - **Responsive window scaling** that adapts to any screen resolution
 - **Persistent application state** - windows remember their positions between sessions
@@ -30,6 +31,8 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 #### ⚙️ Control Panel - System Settings & Personalization
 - **Tabbed settings interface** (960x480 fixed size) with organized categories
 - **Scrollable content panels** for each tab to handle multiple options gracefully
+- **Persistent settings storage** - all preferences saved to `settings.json` and restored on startup
+- **Protected configuration** - settings file protected from unintended overwrites during testing
 - **Personalization tab** for appearance and visual customization:
   - **Appearance mode toggle** - seamlessly switch between Dark and Light themes
   - **Dynamic theme application** - instantly applies to all taskbar buttons and UI elements
@@ -39,9 +42,10 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
   - **Responsive grid layout** - backgrounds displayed in 5-column grid automatically wrapping
 - **Preferences tab** for system behavior:
   - **Messagebox Shutdown toggle** - choose between confirmation dialog or direct shutdown
+  - **Fullscreen mode toggle** - switch between fullscreen and windowed mode on demand
   - **Dynamic command switching** - toggle between safe shutdown (with confirmation) and instant exit
   - **Protocol management** - control Alt+F4 behavior through settings
-  - **Boolean variable persistence** - settings state management
+  - **Boolean variable persistence** - settings state management with file-based storage
 - **Icon-based interface** - Control Panel has dedicated taskbar icon
 
 #### 🎯 Advanced Window Management
@@ -54,7 +58,7 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
   - Paint: 960x480
   - Control Panel: 960x480
 - **Window title bars** with application icons and close buttons
-- **Position memory** - the system saves where each window was last placed
+- **Position memory** - the system saves where each window was last placed via `settings.json`
 - **Z-order management** - windows automatically come to the front when opened
 - **Graceful close handling** - Alt+F4 protection prevents accidental exits
 - **Shutdown confirmation** - safe system exit with Yes/No confirmation dialog (toggleable)
@@ -158,12 +162,13 @@ A complete, production-ready desktop environment featuring a **modern dark-theme
 - **Image Processing**: Pillow 12.2.0 (image loading, manipulation, and display)
 - **Language**: Python 3.8+ (3.10+ recommended)
 - **Theme**: Dark blue with professional styling
+- **Configuration**: JSON-based settings persistence
 
 ### 📚 Dependencies
 
 ```
-customtkinter
-Pillow
+customtkinter==5.2.2
+Pillow==12.2.0
 ```
 
 ### 🚀 Quick Start
@@ -190,6 +195,7 @@ python main.py
 Roshan System - Python Version/
 ├── main.py                              # Desktop initialization & application launcher
 ├── requirements.txt                     # Python dependencies (5.2.2, 12.2.0)
+├── settings.json                        # Persistent user settings (auto-created)
 │
 ├── gui/                                 # Application components
 │   ├── window.py                       # WindowPackManager - base window class
@@ -243,17 +249,18 @@ Each application has a fixed, optimized window size set at initialization:
 
 | Component | File | Responsibility |
 |---|---|---|
-| **Desktop** | `main.py` | Initializes fullscreen app, creates taskbar, registers all application launchers, manages Control Panel, handles shutdown with toggle |
+| **Desktop** | `main.py` | Initializes fullscreen app, creates taskbar, registers all application launchers, manages Control Panel, loads/saves settings, handles shutdown with toggle |
 | **Window System** | `gui/window.py` | `WindowPackManager` class - provides dragging, fixed sizing (pack_propagate), close buttons, icon support, position memory |
 | **Taskbar** | `gui/taskbar.py` | Taskbar UI container at screen bottom (height: 70px) |
 | **Start Menu** | `gui/startmenu.py` | Toggleable start menu launcher frame |
-| **Control Panel** | `main.py` | Settings management with two tabbed sections using CTkScrollableFrame for content overflow |
+| **Control Panel** | `main.py` | Settings management with two tabbed sections using CTkScrollableFrame for content overflow, persists to settings.json |
 | **Calculator** | `gui/calculator.py` | Full calculator with 16 buttons, real-time display, arithmetic evaluation, 250x337 fixed size |
 | **Notepad** | `gui/notepad.py` | Text editor with Save/Load, integrates SaveAsFilename & OpenAsFilename dialogs, 640x360 fixed size |
 | **File Explorer** | `gui/fileexplorer.py` | Main browser + SaveAsFilename (file save dialog) + OpenAsFilename (file open dialog), 600x400 fixed size |
 | **Image Viewer** | `gui/imageviewer.py` | Image display with OpenAsFilename for selecting images, supports 6 formats, 600x400 fixed size |
 | **Paint** | `gui/paint.py` | Drawing canvas with 10 colors, dual-layer rendering (visual + persistent), 960x480 fixed size |
 | **Dialogs** | `messagebox/` | MessageBoxYesNo, MessageBoxOkCancel with icon support |
+| **Settings** | `settings.json` | JSON file storing appearance mode, background selection, shutdown behavior, fullscreen toggle, and window positions |
 
 ### 🎮 How to Use
 
@@ -272,7 +279,9 @@ Each application has a fixed, optimized window size set at initialization:
   - Scroll within the tab if needed
 - **Preferences Tab**:
   - Toggle messagebox shutdown behavior
+  - Toggle fullscreen mode on/off
   - Choose between safe shutdown (with confirmation) or direct exit
+  - All settings persist when you restart the application
 
 #### File Operations
 - Use **File Explorer** to browse directories
@@ -289,6 +298,7 @@ Each application has a fixed, optimized window size set at initialization:
 - Drag any window by its title bar to reposition
 - Click the **X** button to close applications
 - Click the **Shutdown** button to exit the system (with confirmation, unless disabled)
+- Toggle fullscreen mode from Control Panel > Preferences to adapt to your workspace
 
 ### 🐛 Troubleshooting
 
@@ -306,9 +316,11 @@ Each application has a fixed, optimized window size set at initialization:
 | Control Panel won't open | Ensure ctrlpanel.png exists in textures folder |
 | Background change doesn't work | Verify multiple background*.png files exist in textures folder (background0.png, background1.png, etc.) |
 | Theme switching not working | Check CTkOptionMenu is properly configured in Control Panel |
-| Windows not remembering position | Position is saved when window closes; ensure proper shutdown |
+| Windows not remembering position | Position is saved when window closes; ensure proper shutdown. Check settings.json exists and is writable. |
 | Window size can't be changed | Window sizes are fixed by design using `pack_propagate(False)` - modify application code to change dimensions |
 | Control Panel content overflows | Use the scrollbar in each tab's scrollable frame to view hidden content |
+| Settings not persisting | Ensure settings.json can be written to; check file permissions in the application directory |
+| Fullscreen toggle not working | Verify fullscreen preference is properly saved in settings.json |
 
 ### 🖥️ Platform Support
 
@@ -323,6 +335,7 @@ Each application has a fixed, optimized window size set at initialization:
 - **Total Python Code**: ~7,500+ lines across all components
 - **Applications Included**: 7 (Calculator, Notepad, File Explorer, Image Viewer, Paint, Control Panel, Start Menu)
 - **Settings Categories**: 2 (Personalization, Preferences)
+- **Persisted Settings**: 4 (appearance mode, background selection, shutdown behavior, fullscreen toggle)
 - **Message Box Types**: 2 (Yes/No, OK/Cancel)
 - **Supported Image Formats**: 6 (PNG, JPG, JPEG, ICO, GIF, BMP)
 - **Built-in Colors**: 10 (Red, Orange, Yellow, Green, Blue, Purple, Violet, Black, White, Gray)
@@ -331,6 +344,10 @@ Each application has a fixed, optimized window size set at initialization:
 - **UI Themes**: 2 (Dark, Light)
 
 ### 🎯 Recent Improvements
+- ✅ **Python-only focus** - pure Python codebase
+- ✅ **Fullscreen toggle** - switch between fullscreen and windowed modes
+- ✅ **Settings persistence** - all preferences saved to settings.json
+- ✅ **Protected settings** - configuration file protected during testing
 - ✅ Control Panel with tabbed interface and scrollable content
 - ✅ Appearance mode toggle (Dark/Light themes)
 - ✅ Background customization with preview grid
@@ -352,38 +369,9 @@ For detailed guides on extending the Python version and adding new applications,
 
 ---
 
-## ⚙️ C++ Version (Qt Implementation)
-
-A cross-platform alternative using **Qt** framework and **CMake** build system.
-
-### Features
-- **Native cross-platform GUI** via Qt framework
-- **Calculator application** with full arithmetic
-- **Modular UI architecture** with separate business logic and UI
-- **Qt resource system** for embedded assets
-- **CMake build system** for portable compilation
-
-### Requirements
-- C++ 11 or higher
-- Qt 5.x or later
-- CMake 3.0+
-- C++ compiler (g++, clang, MSVC)
-
-### Build Instructions
-```bash
-mkdir build && cd build
-cmake ..
-cmake --build .
-./RoshanOS
-```
-
----
-
 ## 📊 Repository Overview
 
-- **Primary Language**: Python (86.2%)
-- **Secondary Language**: C++ (10.8%)
-- **Build System**: CMake (3%)
+- **Primary Language**: Python (100%)
 - **Status**: Experimental & Actively Developed
 - **License**: MIT
 - **Total Size**: ~18 KB
@@ -394,10 +382,12 @@ cmake --build .
 - ✅ Professional window management system
 - ✅ Cross-platform compatibility
 - ✅ Custom dialog and message box system
-- ✅ Persistent application state
+- ✅ Persistent application state with JSON storage
 - ✅ Theme customization (Dark/Light modes)
 - ✅ Desktop background customization
 - ✅ Scrollable UI panels for content overflow
+- ✅ Fullscreen/windowed mode toggle
+- ✅ Settings protection for safe testing
 - ✅ Ready for ISO distribution
 
 ---
@@ -431,7 +421,7 @@ Found an issue or have a feature suggestion? Please open an issue using the [`IS
 
 **Status**: Experimental & Production-Ready
 
-RoshanSystem is a complete, functional OS simulation showcasing professional GUI development in Python. The Python version is feature-complete with a full application suite, robust window management, system settings, and cross-platform support. The system is suitable for educational purposes, desktop simulation projects, or as a foundation for custom GUI applications.
+RoshanSystem is a complete, functional OS simulation showcasing professional GUI development in Python. The Python version is feature-complete with a full application suite, robust window management, persistent settings, system preferences, and cross-platform support. The system is suitable for educational purposes, desktop simulation projects, or as a foundation for custom GUI applications.
 
 Future roadmap includes ISO distribution, additional applications, advanced system utilities, and more customization options.
 
