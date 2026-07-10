@@ -12,6 +12,7 @@ from gui.imageviewer import ImageViewer
 from gui.calculator import Calculator
 from gui.window import WindowPackManager
 from gui.paint import  Paint
+from gui.terminal import Terminal
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
@@ -177,6 +178,25 @@ class App(ctk.CTk):
             command=lambda: self.open_app(self.ctrl_panel)
         )
         self.ctrl_panel_btn.pack(
+            side="left"
+        )
+
+        self.terminal = Terminal(self)
+        terminalimg = Image.open("textures/terminal.png").resize((70, 70))
+        terminalimgctk = ctk.CTkImage(terminalimg, size=terminalimg.size)
+        self.terminalbtn = ctk.CTkButton(
+            self.taskbar,
+            border_width=0,
+            width=70,
+            height=70,
+            hover_color="#343435",
+            text="",
+            bg_color="transparent",
+            fg_color="transparent",
+            image=terminalimgctk,
+            command=lambda: self.open_app(self.terminal)
+        )
+        self.terminalbtn.pack(
             side="left"
         )
 
@@ -351,7 +371,9 @@ class App(ctk.CTk):
             variable=shutdown_var,
             command=_messagebox_shutdown
         )
-        messagebox_shutdown_switch.select()
+        if settings["messagebox_shutdown"]:
+            messagebox_shutdown_switch.select()
+
         messagebox_shutdown_switch.pack(side="top")
 
         fullscreen_var = ctk.BooleanVar(value=False)
@@ -371,7 +393,9 @@ class App(ctk.CTk):
             command=_fullscreen
         )
 
-        fullscreen_switch.select()
+        if settings["fullscreen"]:
+            fullscreen_switch.select()
+
         fullscreen_switch.pack(side="top")
 
         tabs.pack(fill="both", expand=True)
