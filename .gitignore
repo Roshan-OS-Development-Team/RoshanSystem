@@ -359,3 +359,6 @@ Thumbs.db
 
 # === Jetbrains IDE stuff ===
 .idea
+
+# === Roshan OS settings stuff ===
+settings.json
