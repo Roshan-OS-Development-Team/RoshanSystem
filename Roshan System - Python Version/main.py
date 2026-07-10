@@ -1,4 +1,4 @@
-from PIL import Image, ImageTk
+from PIL import Image
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
