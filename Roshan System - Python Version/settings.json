@@ -1,0 +1,6 @@
+{
+    "appearance_mode": "dark",
+    "background": "textures/background7.png",
+    "messagebox_shutdown": true,
+    "fullscreen": true
+}

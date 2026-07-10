@@ -2,6 +2,7 @@ from PIL import Image
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
+import json
 from tkinter import PhotoImage
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
@@ -14,7 +15,10 @@ from gui.paint import  Paint
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
-ctk.set_appearance_mode("dark")
+with open("settings.json", "r") as f:
+    settings: dict = json.load(f)
+
+ctk.set_appearance_mode(settings["appearance_mode"])
 ctk.set_default_color_theme("dark-blue")
 
 
@@ -22,11 +26,20 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Roshan System")
-        self.attributes("-fullscreen", True)
+
+        if settings["fullscreen"]:
+            self.attributes("-fullscreen", True)
+        else:
+            pass
         self.geometry("1200x800")
         self.update_idletasks()
-        self.protocol("WM_DELETE_WINDOW", self.shutdown)
-        self.backgroundimg = Image.open("textures/background7.png")
+
+        if settings["messagebox_shutdown"]:
+            self.protocol("WM_DELETE_WINDOW", self.shutdown)
+        else:
+            self.protocol("WM_DELETE_WINDOW", self._shutdown)
+
+        self.backgroundimg = Image.open(settings["background"])
         self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(self.winfo_width(), self.winfo_height()))
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
@@ -186,6 +199,8 @@ class App(ctk.CTk):
         self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
         self.startmenuio.pack_propagate(False)
 
+        self.after(200, self.change_win_ico)
+
     @staticmethod
     def open_app(app: WindowPackManager):
         app.place(x=app.position["x"], y=app.position["y"])
@@ -210,6 +225,8 @@ class App(ctk.CTk):
             self.startmenuopened = False
 
     def _shutdown(self):
+        with open("settings.json", "w") as f:
+            json.dump(settings, f, indent=4)
         self.destroy()
 
     def shutdown(self):
@@ -225,6 +242,7 @@ class App(ctk.CTk):
     def change_background(self, filepath: str):
         self.backgroundimg = Image.open(filepath)
         self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(self.winfo_width(), self.winfo_height()))
+        settings["background"] = filepath
         self.background.configure(image=self.backgroundctk)
 
     def create_ctrl_panel(self) -> WindowPackManager:
@@ -253,6 +271,7 @@ class App(ctk.CTk):
                         if type(btn) == ctk.CTkButton:
                             btn.configure(hover_color="#b8b8b8")
 
+                settings["appearance_mode"] = "Light"
                 ctk.set_appearance_mode(appearance_mode)
 
                 ctk.set_appearance_mode(appearance_mode)
@@ -266,6 +285,7 @@ class App(ctk.CTk):
                         if type(btn) == ctk.CTkButton:
                             btn.configure(hover_color="#343435")
 
+                settings["appearance_mode"] = "Dark"
                 ctk.set_appearance_mode(appearance_mode)
 
         ctk.CTkOptionMenu(
@@ -316,12 +336,14 @@ class App(ctk.CTk):
         shutdown_var = ctk.BooleanVar(value=False)
 
         def _messagebox_shutdown():
-            if shutdown_var.get() == True:
+            if shutdown_var.get():
                 self.shutdownbtn.configure(command=self.shutdown)
                 self.protocol("WM_DELETE_WINDOW", self.shutdown)
-            elif shutdown_var.get() == False:
+                settings["messagebox_shutdown"] = True
+            elif not shutdown_var.get():
                 self.shutdownbtn.configure(command=self._shutdown)
                 self.protocol("WM_DELETE_WINDOW", self._shutdown)
+                settings["messagebox_shutdown"] = False
 
         messagebox_shutdown_switch = ctk.CTkSwitch(
             preferences_frame,
@@ -337,12 +359,10 @@ class App(ctk.CTk):
         def _fullscreen():
             if not fullscreen_var.get():
                 self.attributes("-fullscreen", False)
-                self.winico = PhotoImage(file="textures/startmenu.png")
-                self.iconphoto(False, self.winico)
+                settings["fullscreen"] = False
             elif fullscreen_var.get():
                 self.attributes("-fullscreen", True)
-                self.winico = PhotoImage(file="textures/startmenu.png")
-                self.iconphoto(False, self.winico)
+                settings["fullscreen"] = True
 
         fullscreen_switch = ctk.CTkSwitch(
             preferences_frame,
@@ -357,6 +377,10 @@ class App(ctk.CTk):
         tabs.pack(fill="both", expand=True)
 
         return ctrl_panel
+
+    def change_win_ico(self):
+        self.winico = PhotoImage(file="textures/startmenu.png")
+        self.iconphoto(False, self.winico)
 
 if __name__ == "__main__":
     root = App()
