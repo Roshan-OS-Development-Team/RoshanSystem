@@ -332,7 +332,7 @@ Each application has a fixed, optimized window size set at initialization:
 
 ### 📊 Statistics
 
-- **Total Python Code**: ~7,500+ lines across all components
+- **Total Python Code**: ~900+ lines across all components
 - **Applications Included**: 7 (Calculator, Notepad, File Explorer, Image Viewer, Paint, Control Panel, Start Menu)
 - **Settings Categories**: 2 (Personalization, Preferences)
 - **Persisted Settings**: 4 (appearance mode, background selection, shutdown behavior, fullscreen toggle)
