@@ -1,7 +1,9 @@
+__lazy_modules: tuple[str, ...] = (
+    "gui.window",
+)
+
 from gui.window import WindowPackManager
-from gui.fileexplorer import SaveAsFilename
 import customtkinter as ctk
-from customtkinter import filedialog
 from tkinter import StringVar
 from PIL import Image, ImageDraw
 

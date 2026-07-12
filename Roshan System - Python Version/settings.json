@@ -1,6 +1,7 @@
 {
     "appearance_mode": "dark",
     "background": "textures/background7.png",
+    "color_theme": "dark-blue",
     "messagebox_shutdown": true,
     "fullscreen": true
 }

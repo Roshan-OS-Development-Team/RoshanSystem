@@ -1,3 +1,7 @@
+__lazy_modules__ = (
+    "gui.window",
+)
+
 from tkinter import PhotoImage
 import customtkinter as ctk
 import subprocess

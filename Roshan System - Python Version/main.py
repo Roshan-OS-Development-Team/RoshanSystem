@@ -1,8 +1,22 @@
+__lazy_modules__: tuple[str, ...] = (
+    "gui.taskbar",
+    "gui.notepad",
+    "gui.startmenu",
+    "gui.fileexplorer",
+    "gui.imageviewer",
+    "gui.calculator",
+    "gui.paint",
+    "gui.terminal",
+    "messagebox"
+)
+
 from PIL import Image
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
+import subprocess
 import json
+import sys
 from tkinter import PhotoImage
 from gui.taskbar import Taskbar
 from gui.notepad import Notepad
@@ -20,8 +34,7 @@ with open("settings.json", "r") as f:
     settings: dict = json.load(f)
 
 ctk.set_appearance_mode(settings["appearance_mode"])
-ctk.set_default_color_theme("dark-blue")
-
+ctk.set_default_color_theme(settings["color_theme"])
 
 class App(ctk.CTk):
     def __init__(self):
@@ -308,15 +321,45 @@ class App(ctk.CTk):
                 settings["appearance_mode"] = "Dark"
                 ctk.set_appearance_mode(appearance_mode)
 
-        ctk.CTkOptionMenu(
+        def _restart_os():
+            subprocess.Popen((sys.executable, "main.py"))
+            self._shutdown()
+
+        def _change_color_theme(color_theme: str):
+            if color_theme == "dark-blue":
+                settings["color_theme"] = "dark-blue"
+                _restart_os()
+            elif color_theme == "blue":
+                settings["color_theme"] = "blue"
+                _restart_os()
+            elif color_theme == "green":
+                settings["color_theme"] = "green"
+                _restart_os()
+
+        appearance_mode_switch = ctk.CTkOptionMenu(
             master=personalization_tab,
             values=["Dark", "Light"],
             command=_change_appearance_mode
-        ).pack(
+        )
+        appearance_mode_switch.pack(
             side="top",
             pady=5,
             padx=5
         )
+        appearance_mode_switch.set(settings["appearance_mode"])
+
+        color_mode_switch = ctk.CTkOptionMenu(
+            personalization_tab,
+            values=["dark-blue", "blue", "green"],
+            command=_change_color_theme
+        )
+        color_mode_switch.pack(
+            side="top",
+            pady=5,
+            padx=5
+        )
+
+        color_mode_switch.set(settings["color_theme"])
 
         background_choices = ctk.CTkFrame(personalization_tab)
         background_choices.pack(side="top")

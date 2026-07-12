@@ -1,12 +1,13 @@
+__lazy_modules: tuple[str, ...] = ("gui.window", )
+
 from gui.window import WindowPackManager
 import customtkinter as ctk
-from tkinter import StringVar
 
 class Calculator(WindowPackManager):
     def __init__(self, master):
         super().__init__(master, "Calculator", (250, 337), "textures/calculator.png")
         self.flipped: bool = False
-        self.nums_var = StringVar()
+        self.nums_var = ctk.StringVar()
         ctk.CTkLabel(self, textvariable=self.nums_var, height=50).pack(side="top", fill="x")
         self.btnsframe = ctk.CTkFrame(self)
         self.btnsframe.pack(side="top", fill="both", expand=True)

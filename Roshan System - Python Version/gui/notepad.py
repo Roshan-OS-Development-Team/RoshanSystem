@@ -1,3 +1,8 @@
+__lazy_modules__: tuple[str, ...] = (
+    "gui.window",
+    "gui.fileexplorer"
+)
+
 from gui.window import WindowPackManager
 from gui.fileexplorer import SaveAsFilename, OpenAsFilename
 import customtkinter as ctk

@@ -1,3 +1,8 @@
+__lazy_modules__: tuple[str, ...] = (
+    "gui.fileexplorer",
+    "gui.window"
+)
+
 from PIL import Image
 import customtkinter as ctk
 from gui.fileexplorer import OpenAsFilename

@@ -1,6 +1,7 @@
+__lazy_modules__: tuple[str, ...] = ("gui.window", )
+
 from gui.window import WindowPackManager
 import customtkinter as ctk
-from tkinter import StringVar
 from typing import Callable
 import os
 
@@ -14,8 +15,8 @@ class FileExplorer(WindowPackManager):
         initial_path = "user_dir"
         if not os.path.exists(initial_path):
             os.makedirs(initial_path)
-        self.folder = StringVar(value=initial_path)
-        self.last_folder = StringVar()
+        self.folder = ctk.StringVar(value=initial_path)
+        self.last_folder = ctk.StringVar()
         self.image_exts = (".png", ".jpg", ".jpeg", ".ico", ".gif", ".bmp")
         self.open_folder(initial_path, "")
         self.backbtn = ctk.CTkButton(
@@ -90,11 +91,11 @@ class SaveAsFilename(WindowPackManager):
         self.toolbar.pack(side="top", fill="x")
         self.contentsframe = ctk.CTkScrollableFrame(self)
         self.contentsframe.pack(side="top", fill="both")
-        self.folder = StringVar(value="user_dir")
-        self.last_folder = StringVar()
+        self.folder = ctk.StringVar(value="user_dir")
+        self.last_folder = ctk.StringVar()
         self.bottomframe = ctk.CTkFrame(self)
         self.bottomframe.pack(side="bottom", fill="x")
-        self.filename = StringVar()
+        self.filename = ctk.StringVar()
         self.open_folder("user_dir", "")
         self.backbtn = ctk.CTkButton(
             self.toolbar,
@@ -155,11 +156,11 @@ class OpenAsFilename(WindowPackManager):
         self.toolbar.pack(side="top", fill="x")
         self.contentsframe = ctk.CTkScrollableFrame(self)
         self.contentsframe.pack(side="top", fill="both")
-        self.folder = StringVar(value="user_dir")
-        self.last_folder = StringVar()
+        self.folder = ctk.StringVar(value="user_dir")
+        self.last_folder = ctk.StringVar()
         self.bottomframe = ctk.CTkFrame(self)
         self.bottomframe.pack(side="bottom", fill="x")
-        self.filename = StringVar()
+        self.filename = ctk.StringVar()
         self.open_folder("user_dir", "")
         self.backbtn = ctk.CTkButton(
             self.toolbar,
