@@ -134,8 +134,11 @@ class App(ctk.CTk):
             bg_color="transparent",
             fg_color="transparent",
             image=shutdownimgctk,
-            command=self.shutdown,
         )
+        if settings["messagebox_shutdown"]:
+            self.shutdownbtn.configure(command=self.shutdown)
+        if not settings["messagebox_shutdown"]:
+            self.shutdownbtn.configure(command=self._shutdown)
         self.shutdownbtn.pack(side="left")
 
         self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
