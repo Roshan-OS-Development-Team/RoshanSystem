@@ -1,5 +1,5 @@
 {
-    "appearance_mode": "dark",
+    "appearance_mode": "Dark",
     "background": "textures/background7.png",
     "color_theme": "dark-blue",
     "messagebox_shutdown": true,
