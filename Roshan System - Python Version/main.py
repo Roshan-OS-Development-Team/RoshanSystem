@@ -6,8 +6,6 @@ import subprocess
 import json
 import sys
 from tkinter import PhotoImage
-from gui.taskbar import Taskbar
-from gui.startmenu import StartMenu
 from gui.window import WindowPackManager
 import importlib
 
@@ -49,8 +47,8 @@ class App(ctk.CTk):
         self.bind("<Configure>", self.resize_background)
         if not os.path.exists("user_dir"):
             os.makedirs("user_dir")
-        self.taskbar = Taskbar(
-            self.background,
+        self.taskbar = ctk.CTkFrame(
+            self,
             width=self.winfo_width(),
             corner_radius=50,
         )
@@ -70,7 +68,10 @@ class App(ctk.CTk):
             command=self.toggle_start_menu,
         )
         self.startbtn.pack(side="left")
-        self.startmenu = StartMenu(self.background)
+
+        self.startmenu = ctk.CTkScrollableFrame(self, width=300, height=400)
+        self.startmenu.pack_propagate(False)
+
         self.startmenuopened = False
 
         for app in apps["apps"]:
