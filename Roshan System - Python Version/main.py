@@ -1,15 +1,3 @@
-__lazy_modules__: tuple[str, ...] = (
-    "gui.taskbar",
-    "gui.notepad",
-    "gui.startmenu",
-    "gui.fileexplorer",
-    "gui.imageviewer",
-    "gui.calculator",
-    "gui.paint",
-    "gui.terminal",
-    "messagebox"
-)
-
 from PIL import Image
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
@@ -19,22 +7,21 @@ import json
 import sys
 from tkinter import PhotoImage
 from gui.taskbar import Taskbar
-from gui.notepad import Notepad
 from gui.startmenu import StartMenu
-from gui.fileexplorer import FileExplorer
-from gui.imageviewer import ImageViewer
-from gui.calculator import Calculator
 from gui.window import WindowPackManager
-from gui.paint import  Paint
-from gui.terminal import Terminal
+import importlib
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
 with open("settings.json", "r") as f:
     settings: dict = json.load(f)
 
+with open("apps.json", "r") as f:
+    apps: dict[str, list[dict[str, str]]] = json.load(f)
+
 ctk.set_appearance_mode(settings["appearance_mode"])
 ctk.set_default_color_theme(settings["color_theme"])
+
 
 class App(ctk.CTk):
     def __init__(self):
@@ -54,7 +41,9 @@ class App(ctk.CTk):
             self.protocol("WM_DELETE_WINDOW", self._shutdown)
 
         self.backgroundimg = Image.open(settings["background"])
-        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(self.winfo_width(), self.winfo_height()))
+        self.backgroundctk = ctk.CTkImage(
+            self.backgroundimg, size=(self.winfo_width(), self.winfo_height())
+        )
         self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
         self.background.pack(fill="both", side="top")
         self.bind("<Configure>", self.resize_background)
@@ -84,134 +73,53 @@ class App(ctk.CTk):
         self.startmenu = StartMenu(self.background)
         self.startmenuopened = False
 
-        # Notepad Stuff
-        notepadimg = Image.open("textures/notepad.png")
-        notepadimgctk = ctk.CTkImage(notepadimg, size=(40, 51))
-        self.notepadbtn = ctk.CTkButton(
+        for app in apps["apps"]:
+            app_module = importlib.import_module(app["module"])
+            app_class = getattr(app_module, app["class"])
+            app_instance = app_class(self)
+            app_ico = Image.open(app["icon"])
+            app_ico.thumbnail((50, 50))
+            app_ico_ctk = ctk.CTkImage(app_ico, size=app_ico.size)
+            if app.get("taskbar_button"):
+                ctk.CTkButton(
+                    self.taskbar,
+                    image=app_ico_ctk,
+                    text="",
+                    bg_color="transparent",
+                    fg_color="transparent",
+                    width=70,
+                    height=70,
+                    hover_color="#343435",
+                    command=lambda app=app_instance: self.open_app(app),
+                ).pack(side="left")
+            if app.get("startmenu_button"):
+                ctk.CTkButton(
+                    self.startmenu,
+                    text=app["name"],
+                    image=app_ico_ctk,
+                    compound="left",
+                    border_spacing=5,
+                    bg_color="transparent",
+                    fg_color="transparent",
+                    hover_color="#343435",
+                    command=lambda app=app_instance: self.open_app(app),
+                ).pack(side="top", fill="x")
+
+        ctrl_panel = self.create_ctrl_panel()
+        ctrl_panel_ico = Image.open("textures/ctrlpanel.png")
+        ctrl_panel_ico.thumbnail((50, 50))
+        ctrl_panel_ico_ctk = ctk.CTkImage(ctrl_panel_ico, size=ctrl_panel_ico.size)
+        ctk.CTkButton(
             self.taskbar,
+            text="",
+            image=ctrl_panel_ico_ctk,
             border_width=0,
-            image=notepadimgctk,
-            width=70,
-            height=70,
-            hover_color="#353434",
-            text="",
             fg_color="transparent",
-            bg_color="transparent",
-            command=lambda: self.open_app(self.notepad),
-        )
-        self.notepadbtn.pack(side="left")
-        self.notepad = Notepad(self)
-
-        # Calculator Stuff
-        calculatorimage = Image.open("textures/calculator.png")
-        calculatorimagectk = ctk.CTkImage(calculatorimage, size=(36, 52))
-        self.calculator = Calculator(self)
-        self.calculatorbtn = ctk.CTkButton(
-            self.taskbar,
-            text="",
-            fg_color="transparent",
-            bg_color="transparent",
             hover_color="#343435",
-            image=calculatorimagectk,
             width=70,
             height=70,
-            command=lambda: self.open_app(self.calculator),
-        )
-        self.calculatorbtn.pack(side="left")
-
-        # File Explorer Stuff
-        fileexplorerimg = Image.open("textures/filexplorer.png")
-        fileexplorerimgctk = ctk.CTkImage(fileexplorerimg, size=(60, 60))
-        self.fileexplorerbtn = ctk.CTkButton(
-            self.taskbar,
-            border_width=0,
-            image=fileexplorerimgctk,
-            width=70,
-            height=70,
-            hover_color="#343435",
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            command=lambda: self.open_app(self.fileexplorer),
-        )
-        self.fileexplorerbtn.pack(side="left")
-        self.fileexplorer = FileExplorer(self)
-
-        # Image Viewer Stuff
-        imageviewerimg = Image.open("textures/imageviewer.png")
-        imageviewerimgctk = ctk.CTkImage(imageviewerimg, imageviewerimg, size=(70, 70))
-        self.imageviewer = ImageViewer(self)
-        self.imageviewerbtn = ctk.CTkButton(
-            self.taskbar,
-            border_width=0,
-            width=70,
-            height=70,
-            hover_color="#343435",
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            image=imageviewerimgctk,
-            command=lambda: self.open_app(self.imageviewer),
-        )
-        self.imageviewerbtn.pack(side="left")
-
-        paintimg = Image.open("textures/Paint.png")
-        paintimgctk = ctk.CTkImage(paintimg, size=(70, 70))
-        self.paint = Paint(self)
-
-        self.paintbtn = ctk.CTkButton(
-            self.taskbar,
-            border_width=0,
-            width=70,
-            height=70,
-            hover_color="#343435",
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            image=paintimgctk,
-            command=lambda: self.open_app(self.paint)
-        )
-        self.paintbtn.pack(
-            side="left"
-        )
-
-        self.ctrl_panel = self.create_ctrl_panel()
-        ctrl_panel_img = Image.open("textures/ctrlpanel.png")
-        ctrl_panel_img_ctk = ctk.CTkImage(ctrl_panel_img, size=(70, 70))
-        self.ctrl_panel_btn = ctk.CTkButton(
-            self.taskbar,
-            border_width=0,
-            width=70,
-            height=70,
-            hover_color="#343435",
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            image=ctrl_panel_img_ctk,
-            command=lambda: self.open_app(self.ctrl_panel)
-        )
-        self.ctrl_panel_btn.pack(
-            side="left"
-        )
-
-        self.terminal = Terminal(self)
-        terminalimg = Image.open("textures/terminal.png").resize((70, 70))
-        terminalimgctk = ctk.CTkImage(terminalimg, size=terminalimg.size)
-        self.terminalbtn = ctk.CTkButton(
-            self.taskbar,
-            border_width=0,
-            width=70,
-            height=70,
-            hover_color="#343435",
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            image=terminalimgctk,
-            command=lambda: self.open_app(self.terminal)
-        )
-        self.terminalbtn.pack(
-            side="left"
-        )
+            command=lambda: self.open_app(ctrl_panel),
+        ).pack(side="left")
 
         shutdownimg = Image.open("textures/closeicon.png")
         shutdownimgctk = ctk.CTkImage(shutdownimg, size=(70, 70))
@@ -268,18 +176,22 @@ class App(ctk.CTk):
             "Shutdown",
             "Are you sure you want to shutdown",
             self._shutdown,
-            image="textures/information.png"
+            image="textures/information.png",
         )
         ShutdownMsgBox.place(x=60, y=60)
-        
+
     def change_background(self, filepath: str):
         self.backgroundimg = Image.open(filepath)
-        self.backgroundctk = ctk.CTkImage(self.backgroundimg, size=(self.winfo_width(), self.winfo_height()))
+        self.backgroundctk = ctk.CTkImage(
+            self.backgroundimg, size=(self.winfo_width(), self.winfo_height())
+        )
         settings["background"] = filepath
         self.background.configure(image=self.backgroundctk)
 
     def create_ctrl_panel(self) -> WindowPackManager:
-        ctrl_panel = WindowPackManager(self, "Control Panel", (960, 480), "textures/ctrlpanel.png")
+        ctrl_panel = WindowPackManager(
+            self, "Control Panel", (960, 480), "textures/ctrlpanel.png"
+        )
 
         tabs = ctk.CTkTabview(ctrl_panel)
 
@@ -339,25 +251,17 @@ class App(ctk.CTk):
         appearance_mode_switch = ctk.CTkOptionMenu(
             master=personalization_tab,
             values=["Dark", "Light"],
-            command=_change_appearance_mode
+            command=_change_appearance_mode,
         )
-        appearance_mode_switch.pack(
-            side="top",
-            pady=5,
-            padx=5
-        )
+        appearance_mode_switch.pack(side="top", pady=5, padx=5)
         appearance_mode_switch.set(settings["appearance_mode"])
 
         color_mode_switch = ctk.CTkOptionMenu(
             personalization_tab,
             values=["dark-blue", "blue", "green"],
-            command=_change_color_theme
+            command=_change_color_theme,
         )
-        color_mode_switch.pack(
-            side="top",
-            pady=5,
-            padx=5
-        )
+        color_mode_switch.pack(side="top", pady=5, padx=5)
 
         color_mode_switch.set(settings["color_theme"])
 
@@ -382,11 +286,10 @@ class App(ctk.CTk):
                     image=imgctk,
                     width=100,
                     height=100,
-                    command=lambda background = file_path: self.change_background(background)
-                ).grid(
-                    row=row_num,
-                    column=column_num
-                )
+                    command=lambda background=file_path: self.change_background(
+                        background
+                    ),
+                ).grid(row=row_num, column=column_num)
                 column_num += 1
                 background_num += 1
             if column_num == 5:
@@ -412,7 +315,7 @@ class App(ctk.CTk):
             preferences_frame,
             text="Toggle Messagebox Shutdown",
             variable=shutdown_var,
-            command=_messagebox_shutdown
+            command=_messagebox_shutdown,
         )
         if settings["messagebox_shutdown"]:
             messagebox_shutdown_switch.select()
@@ -433,7 +336,7 @@ class App(ctk.CTk):
             preferences_frame,
             text="Toggle Fullscreen",
             variable=fullscreen_var,
-            command=_fullscreen
+            command=_fullscreen,
         )
 
         if settings["fullscreen"]:
@@ -448,6 +351,7 @@ class App(ctk.CTk):
     def change_win_ico(self):
         self.winico = PhotoImage(file="textures/startmenu.png")
         self.iconphoto(False, self.winico)
+
 
 if __name__ == "__main__":
     root = App()
