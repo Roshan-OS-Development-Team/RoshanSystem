@@ -1,13 +1,16 @@
-__lazy_modules__: tuple[str, ...] = ("gui.window", )
+__lazy_modules__: tuple[str, ...] = ("gui.window",)
 
 from gui.window import WindowPackManager
 import customtkinter as ctk
 from typing import Callable
 import os
 
+
 class FileExplorer(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, "File Explorer", (600, 400), "textures/filexplorer.png")
+        super().__init__(
+            master, "File Explorer", (600, 400), "textures/filexplorer.png"
+        )
         self.toolbar = ctk.CTkFrame(self)
         self.toolbar.pack(side="top", fill="x")
         self.main = ctk.CTkScrollableFrame(self)
@@ -41,25 +44,24 @@ class FileExplorer(WindowPackManager):
         self.last_folder.set(last_filepath)
         self.folder.set(filepath)
 
-        for file in os.listdir(filepath):
-            full_path = os.path.join(filepath, file)
-            if os.path.isdir(full_path):
+        for file in os.scandir(filepath):
+            if file.is_dir():
                 ctk.CTkButton(
                     self.main,
                     text=f"📁 {file}",
-                    command=lambda f=full_path: self.open_folder(f, filepath),
+                    command=lambda f=file.path: self.open_folder(f, filepath),
                 ).pack(side="top", fill="x", pady=2)
-            elif file.lower().endswith(".txt"):
+            elif file.name.lower().endswith(".txt"):
                 ctk.CTkButton(
                     self.main,
                     text=f"📄 {file}",
-                    command=lambda f=full_path: self.open_file(f),
+                    command=lambda f=file.path: self.open_file(f),
                 ).pack(side="top", fill="x", pady=2)
-            elif file.lower().endswith(self.image_exts):
+            elif file.name.lower().endswith(self.image_exts):
                 ctk.CTkButton(
                     self.main,
                     text=f"🖼️ {file}",
-                    command=lambda f=full_path: self.open_file(f),
+                    command=lambda f=file.path: self.open_file(f),
                 ).pack(side="top", fill="x", pady=2)
 
     def open_file(self, filepath):
@@ -127,19 +129,19 @@ class SaveAsFilename(WindowPackManager):
             widget.destroy()
         self.folder.set(filepath)
         self.last_folder.set(last_filepath)
-        for file in os.listdir(filepath):
-            if os.path.isdir(os.path.join("user_dir", file)):
-                full_path = os.path.join("user_dir", file)
+        for file in os.scandir(filepath):
+            if file.is_dir():
+                full_path = file.path
                 ctk.CTkButton(
                     self.contentsframe,
                     text=f"Folder: {file}",
                     command=lambda f=full_path: self.open_folder(f, filepath),
                 ).pack(side="top", fill="x", pady=2)
-            if file.endswith(self.filetype):
+            if file.name.endswith(self.filetype):
                 ctk.CTkButton(
                     self.contentsframe,
                     text=f"{self.filetype}: {file}",
-                    command=lambda f=file: self.filename.set(f),
+                    command=lambda f=file.name: self.filename.set(f),
                 ).pack(side="top", fill="x", pady=2)
 
     def prefrom_save(self):
@@ -192,19 +194,19 @@ class OpenAsFilename(WindowPackManager):
             widget.destroy()
         self.folder.set(filepath)
         self.last_folder.set(last_filepath)
-        for file in os.listdir(filepath):
-            if os.path.isdir(os.path.join("user_dir", file)):
-                full_path = os.path.join("user_dir", file)
+        for file in os.scandir(filepath):
+            if file.is_dir():
+                full_path = file.path
                 ctk.CTkButton(
                     self.contentsframe,
                     text=f"Folder: {file}",
                     command=lambda f=full_path: self.open_folder(f, filepath),
                 ).pack(side="top", fill="x", pady=2)
-            if file.endswith(self.filetype):
+            if file.name.endswith(self.filetype):
                 ctk.CTkButton(
                     self.contentsframe,
                     text=f"{self.filetype}: {file}",
-                    command=lambda f=file: self.filename.set(f),
+                    command=lambda f=file.name: self.filename.set(f),
                 ).pack(side="top", fill="x", pady=2)
 
     def prefrom_save(self):
