@@ -70,7 +70,6 @@ class App(ctk.CTk):
         self.startbtn.pack(side="left")
 
         self.startmenu = ctk.CTkScrollableFrame(self, width=300, height=400)
-        self.startmenu.pack_propagate(False)
 
         self.startmenuopened = False
 
@@ -79,7 +78,7 @@ class App(ctk.CTk):
             app_class = getattr(app_module, app["class"])
             app_instance = app_class(self)
             app_ico = Image.open(app["icon"])
-            app_ico.thumbnail((50, 50))
+            app_ico.thumbnail((60, 60))
             app_ico_ctk = ctk.CTkImage(app_ico, size=app_ico.size)
             if app.get("taskbar_button"):
                 ctk.CTkButton(
@@ -135,14 +134,32 @@ class App(ctk.CTk):
             fg_color="transparent",
             image=shutdownimgctk,
         )
-        if settings["messagebox_shutdown"]:
-            self.shutdownbtn.configure(command=self.shutdown)
-        if not settings["messagebox_shutdown"]:
-            self.shutdownbtn.configure(command=self._shutdown)
-        self.shutdownbtn.pack(side="left")
 
         self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
         self.startmenuio.pack_propagate(False)
+
+        start_shutdownimgctk = ctk.CTkImage(shutdownimg, size=(40, 40))
+
+        self.start_shutdownbtn = ctk.CTkButton(
+            self.startmenuio,
+            border_width=0,
+            width=50,
+            height=50,
+            hover_color="#343435",
+            text="",
+            bg_color="transparent",
+            fg_color="transparent",
+            image=start_shutdownimgctk,
+        )
+        self.start_shutdownbtn.pack(side="bottom")
+
+        if settings["messagebox_shutdown"]:
+            self.shutdownbtn.configure(command=self.shutdown)
+            self.start_shutdownbtn.configure(command=self.shutdown)
+        if not settings["messagebox_shutdown"]:
+            self.shutdownbtn.configure(command=self._shutdown)
+            self.start_shutdownbtn.configure(command=self._shutdown)
+        self.shutdownbtn.pack(side="left")
 
         self.after(200, self.change_win_ico)
 
@@ -215,6 +232,12 @@ class App(ctk.CTk):
                     if type(btn) == ctk.CTkButton:
                         btn.configure(hover_color="#b8b8b8")
 
+                for btn in self.startmenu.winfo_children():
+                    if type(btn) == ctk.CTkButton:
+                        btn.configure(hover_color="#b8b8b8", text_color="black")
+
+                self.start_shutdownbtn.configure(hover_color="#b8b8b8")
+
                 if background_choices:
                     for btn in background_choices.winfo_children():
                         if type(btn) == ctk.CTkButton:
@@ -223,11 +246,16 @@ class App(ctk.CTk):
                 settings["appearance_mode"] = "Light"
                 ctk.set_appearance_mode(appearance_mode)
 
-                ctk.set_appearance_mode(appearance_mode)
             elif appearance_mode == "Dark":
                 for btn in self.taskbar.winfo_children():
                     if type(btn) == ctk.CTkButton:
                         btn.configure(hover_color="#343435")
+
+                for btn in self.startmenu.winfo_children():
+                    if type(btn) == ctk.CTkButton:
+                        btn.configure(hover_color="#343435", text_color="white")
+
+                self.start_shutdownbtn.configure(hover_color="#343435")
 
                 if background_choices:
                     for btn in background_choices.winfo_children():
