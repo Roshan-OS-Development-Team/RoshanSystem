@@ -14,7 +14,7 @@ class Rosver(WindowPackManager):
             image=os_logo_ctk,
             compound="left",
             font=("Arial", 30, "bold"),
-            text_color="white",
+            text_color=("black", "white"),
         ).pack(side="top", pady=10)
 
         ctk.CTkLabel(
