@@ -121,6 +121,18 @@ class App(ctk.CTk):
             command=lambda: self.open_app(ctrl_panel),
         ).pack(side="left")
 
+        ctk.CTkButton(
+            self.startmenu,
+            text="Control Panel",
+            image=ctrl_panel_ico_ctk,
+            fg_color="transparent",
+            border_width=0,
+            hover_color="#343435",
+            compound="left",
+            border_spacing=20,
+            command=lambda: self.open_app(ctrl_panel),
+        ).pack(side="top", fill="x")
+
         shutdownimg = Image.open("textures/closeicon.png")
         shutdownimgctk = ctk.CTkImage(shutdownimg, size=(70, 70))
         self.shutdownbtn = ctk.CTkButton(
@@ -160,6 +172,15 @@ class App(ctk.CTk):
             self.shutdownbtn.configure(command=self._shutdown)
             self.start_shutdownbtn.configure(command=self._shutdown)
         self.shutdownbtn.pack(side="left")
+
+        if settings["appearance_mode"] == "Light":
+            for btn in self.taskbar.winfo_children():
+                if type(btn) == ctk.CTkButton:
+                    btn.configure(hover_color="#b8b8b8")
+
+            for btn in self.startmenu.winfo_children():
+                if type(btn) == ctk.CTkButton:
+                    btn.configure(hover_color="#b8b8b8")
 
         self.after(200, self.change_win_ico)
 
