@@ -1,17 +1,18 @@
 import customtkinter as ctk
 from PIL import Image
 
+
 class WindowPackManager(ctk.CTkFrame):
     """A window that uses the pack manager,
     You need to input the title,
     Inputting size is optional"""
 
     def __init__(
-            self,
-            master,
-            title: str,
-            size: tuple[int, int] | None = None,
-            icon_path: str | None = None
+        self,
+        master,
+        title: str,
+        size: tuple[int, int] | None = None,
+        icon_path: str = "textures/generic_app.png",
     ):
         super().__init__(master)
         if size is not None:
@@ -31,11 +32,8 @@ class WindowPackManager(ctk.CTkFrame):
                 fg_color="transparent",
                 image=icon_img_ctk,
                 width=20,
-                height=20
-            ).pack(
-                side="left",
-                padx=2
-            )
+                height=20,
+            ).pack(side="left", padx=2)
 
         self.title_bar = ctk.CTkLabel(self.title_bar_frame, text=title).pack(
             side="left", fill="x"
@@ -49,11 +47,7 @@ class WindowPackManager(ctk.CTkFrame):
             command=self.place_forget,
             fg_color="red",
             hover_color="#A00000",
-        ).pack(
-            side="right",
-            pady=2,
-            padx=2
-        )
+        ).pack(side="right", pady=2, padx=2)
         self.title_bar_frame.bind("<Button-1>", self.start_drag)
         self.title_bar_frame.bind("<B1-Motion>", self.do_drag)
 

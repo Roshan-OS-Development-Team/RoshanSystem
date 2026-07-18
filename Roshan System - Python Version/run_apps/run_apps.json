@@ -1,0 +1,30 @@
+{
+    "Rosver": {
+        "module": "rosver",
+        "class": "Rosver"
+    },
+    "Terminal": {
+        "module": "gui.terminal",
+        "class": "Terminal"
+    },
+    "Notepad": {
+        "module": "gui.notepad",
+        "class": "Notepad"
+    },
+    "Calculator": {
+        "module": "gui.calculator",
+        "class": "Calculator"
+    },
+    "File Explorer": {
+        "module": "gui.fileexplorer",
+        "class": "FileExplorer"
+    },
+    "Image Viewer": {
+        "module": "gui.imageviewer",
+        "class": "ImageViewer"
+    },
+    "Paint": {
+        "module": "gui.paint",
+        "class": "Paint"
+    }
+}

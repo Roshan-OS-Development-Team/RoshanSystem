@@ -47,6 +47,14 @@
             "taskbar_button": true,
             "startmenu_button": true,
             "icon": "textures/terminal.png"
+        },
+        {
+            "name": "Run",
+            "module": "gui.run",
+            "class": "Run",
+            "taskbar_button": true,
+            "startmenu_button": true,
+            "icon": "textures/run.png"
         }
     ]
 }
