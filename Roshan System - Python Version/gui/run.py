@@ -6,7 +6,7 @@ import importlib
 
 class Run(WindowPackManager):
     def __init__(self, master):
-        super().__init__(master, "Run", (640, 260), "textures/run.png")
+        super().__init__(master, "Run", (640, 260), "textures/runnew.png")
         with open("run_apps/run_apps.json", "r") as f:
             apps: dict[str, dict[str, str]] = javascript_object_notation.load(f)
 

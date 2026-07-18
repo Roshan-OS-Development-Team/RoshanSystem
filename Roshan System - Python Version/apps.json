@@ -38,7 +38,7 @@
             "class": "Paint",
             "taskbar_button": true,
             "startmenu_button": true,
-            "icon": "textures/paint.png"
+            "icon": "textures/paintnew.png"
         },
         {
             "name": "Terminal",
@@ -54,7 +54,7 @@
             "class": "Run",
             "taskbar_button": true,
             "startmenu_button": true,
-            "icon": "textures/run.png"
+            "icon": "textures/runnew.png"
         }
     ]
 }
