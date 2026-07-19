@@ -24,6 +24,7 @@ class Run(WindowPackManager):
             self.apps[app.lower()] = class_instance
 
         self.app_name = ctk.CTkEntry(self)
+        self.app_name.bind("<Return>", self._handle_app_opening)
         self.app_name.pack(fill="x", padx=20, pady=20)
 
         self.btns_frame = ctk.CTkFrame(self)
@@ -37,7 +38,7 @@ class Run(WindowPackManager):
             self.btns_frame, text="Ok", command=self._handle_app_opening
         ).pack(side="left", padx=20, pady=20)
 
-    def _handle_app_opening(self):
+    def _handle_app_opening(self, event=None):
         if self.app_name.get().lower() in self.apps:
             self.apps[self.app_name.get().lower()].place(
                 x=self.apps[self.app_name.get().lower()].position["x"],

@@ -73,6 +73,15 @@ class App(ctk.CTk):
 
         self.startmenuopened = False
 
+        self.searchmenu = ctk.CTkScrollableFrame(self, width=300, height=400)
+
+        self.apps: dict[str, dict[str, str | WindowPackManager]] = {}
+
+        self.app_search_bar = ctk.CTkEntry(
+            self.taskbar, height=70, placeholder_text="Enter App Name", width=210
+        )
+        self.app_search_bar.pack(side="left")
+
         for app in apps["apps"]:
             app_module = importlib.import_module(app["module"])
             app_class = getattr(app_module, app["class"])
@@ -105,7 +114,18 @@ class App(ctk.CTk):
                     command=lambda app=app_instance: self.open_app(app),
                 ).pack(side="top", fill="x")
 
+            self.apps[app["name"].lower()] = {
+                "instance": app_instance,
+                "icon": app["icon"],
+            }
+
         ctrl_panel = self.create_ctrl_panel()
+
+        self.apps["control panel"] = {
+            "instance": ctrl_panel,
+            "icon": "textures/ctrlpanel.png",
+        }
+
         ctrl_panel_ico = Image.open("textures/ctrlpanel.png")
         ctrl_panel_ico.thumbnail((50, 50))
         ctrl_panel_ico_ctk = ctk.CTkImage(ctrl_panel_ico, size=ctrl_panel_ico.size)
@@ -182,7 +202,35 @@ class App(ctk.CTk):
                 if type(btn) == ctk.CTkButton:
                     btn.configure(hover_color="#b8b8b8")
 
+            for btn in self.searchmenu.winfo_children():
+                if type(btn) == ctk.CTkButton:
+                    btn.configure(hover_color="#b8b8b8")
+
+        self.app_search_bar.bind("<KeyRelease>", self.handle_search)
         self.after(200, self.change_win_ico)
+
+    def handle_search(self, event=None):
+        for widget in self.searchmenu.winfo_children():
+            widget.destroy()
+
+        for app in self.apps:
+            if self.app_search_bar.get().lower() in app:
+                app_img = Image.open(self.apps[app]["icon"])  # type: ignore
+                app_img.thumbnail((50, 50))
+                app_img_ctk = ctk.CTkImage(app_img, size=app_img.size)
+                ctk.CTkButton(
+                    self.searchmenu,
+                    image=app_img_ctk,
+                    text=app.capitalize(),
+                    hover_color="#343435",
+                    border_width=0,
+                    fg_color="transparent",
+                    compound="left",
+                    border_spacing=20,
+                    command=lambda app=self.apps[app]["instance"]: self.open_app(app),  # type: ignore
+                ).pack(pady=5, fill="x")
+
+        self.searchmenu.place(x=70, y=self.winfo_height() - 480)
 
     @staticmethod
     def open_app(app: WindowPackManager):
@@ -201,6 +249,9 @@ class App(ctk.CTk):
         if not self.startmenuopened:
             self.startmenu.place(x=50, y=self.winfo_height() - 480)
             self.startmenuio.place(x=0, y=self.winfo_height() - 480)
+            self.searchmenu.place_forget()
+            self.app_search_bar.set("")
+            self.app_search_bar.configure(placeholder_text="Enter app name")
             self.startmenuopened = True
         else:
             self.startmenu.place_forget()
@@ -257,6 +308,10 @@ class App(ctk.CTk):
                     if type(btn) == ctk.CTkButton:
                         btn.configure(hover_color="#b8b8b8", text_color="black")
 
+                for btn in self.searchmenu.winfo_children():
+                    if type(btn) == ctk.CTkButton:
+                        btn.configure(hover_color="#b8b8b8")
+
                 self.start_shutdownbtn.configure(hover_color="#b8b8b8")
 
                 if background_choices:
@@ -275,6 +330,10 @@ class App(ctk.CTk):
                 for btn in self.startmenu.winfo_children():
                     if type(btn) == ctk.CTkButton:
                         btn.configure(hover_color="#343435", text_color="white")
+
+                for btn in self.searchmenu.winfo_children():
+                    if type(btn) == ctk.CTkButton:
+                        btn.configure(hover_color="#343435")
 
                 self.start_shutdownbtn.configure(hover_color="#343435")
 

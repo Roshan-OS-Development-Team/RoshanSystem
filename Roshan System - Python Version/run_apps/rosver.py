@@ -19,7 +19,7 @@ class Rosver(WindowPackManager):
 
         ctk.CTkLabel(
             self,
-            text="\n" * 2 + "Roshan OS\n" "Version 16 | Build Number 16.180726",
+            text="\n" * 2 + "Roshan OS\nVersion 17 | Build Number 17.190726",
         ).pack(side="top")
 
         ctk.CTkLabel(
@@ -29,9 +29,11 @@ class Rosver(WindowPackManager):
             "Roshan OS is licensed under the MIT license",
         ).pack(side="top", pady=10)
 
-        ctk.CTkLabel(self, text="\n" * 2 + "Roshan | Roshan OS Development Team").pack(
-            side="top"
-        )
+        ctk.CTkLabel(
+            self,
+            text="\n" * 2
+            + "Roshan OS Development Team\nRoshan | Lead Dev\nA cool black hole | Artist\nMacanautics | Artist",
+        ).pack(side="top")
 
         ctk.CTkButton(self, text="Exit", command=self.place_forget).pack(
             side="top", pady=20
