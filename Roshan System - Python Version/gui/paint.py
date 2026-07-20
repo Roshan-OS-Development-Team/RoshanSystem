@@ -3,7 +3,7 @@ __lazy_modules: tuple[str, ...] = ("gui.window",)
 from gui.window import WindowPackManager
 import customtkinter as ctk
 from tkinter import StringVar
-from PIL import Image, ImageDraw
+from PIL import Image
 
 
 class Paint(WindowPackManager):
@@ -31,12 +31,6 @@ class Paint(WindowPackManager):
         self.canvas.pack(side="top", fill="both", expand=True)
         self.canvas.update_idletasks()
 
-        self.image = Image.new(
-            "RGB", (self.canvas.winfo_width(), self.canvas.winfo_height())
-        )
-
-        self.draw = ImageDraw.Draw(self.image)
-
         for i in range(len(self.colors)):
             ctk.CTkButton(
                 self.colors_frame,
@@ -63,16 +57,6 @@ class Paint(WindowPackManager):
             event.y - 3,
             event.x + 3,
             event.y + 3,
-            fill=self.color.get(),
-            outline=self.color.get(),
-        )
-        self.draw.ellipse(
-            [
-                event.x - 3,
-                event.y - 3,
-                event.x + 3,
-                event.y + 3,
-            ],
             fill=self.color.get(),
             outline=self.color.get(),
         )

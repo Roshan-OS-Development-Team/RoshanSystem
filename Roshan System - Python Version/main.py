@@ -1,11 +1,14 @@
-from PIL import Image
+from time import perf_counter
+
+start_time = perf_counter()
+
+from PIL import Image, ImageTk
 from messagebox import MessageBoxYesNo
 import customtkinter as ctk
 import os
 import subprocess
 import json
 import sys
-from tkinter import PhotoImage
 from gui.window import WindowPackManager
 from login_page import LoginPage
 import importlib
@@ -65,7 +68,7 @@ class App(ctk.CTk):
             fg_color="transparent",
             width=70,
             height=70,
-            hover_color="#353434",
+            hover_color=("#b8b8b8", "#343435"),
             command=self.toggle_start_menu,
         )
         self.startbtn.pack(side="left")
@@ -99,7 +102,7 @@ class App(ctk.CTk):
                     fg_color="transparent",
                     width=70,
                     height=70,
-                    hover_color="#343435",
+                    hover_color=("#b8b8b8", "#343435"),
                     command=lambda app=app_instance: self.open_app(app),
                 ).pack(side="left")
             if app.get("startmenu_button"):
@@ -111,7 +114,7 @@ class App(ctk.CTk):
                     border_spacing=5,
                     bg_color="transparent",
                     fg_color="transparent",
-                    hover_color="#343435",
+                    hover_color=("#b8b8b8", "#343435"),
                     command=lambda app=app_instance: self.open_app(app),
                 ).pack(side="top", fill="x")
 
@@ -136,7 +139,7 @@ class App(ctk.CTk):
             image=ctrl_panel_ico_ctk,
             border_width=0,
             fg_color="transparent",
-            hover_color="#343435",
+            hover_color=("#b8b8b8", "#343435"),
             width=70,
             height=70,
             command=lambda: self.open_app(ctrl_panel),
@@ -148,7 +151,7 @@ class App(ctk.CTk):
             image=ctrl_panel_ico_ctk,
             fg_color="transparent",
             border_width=0,
-            hover_color="#343435",
+            hover_color=("#b8b8b8", "#343435"),
             compound="left",
             border_spacing=20,
             command=lambda: self.open_app(ctrl_panel),
@@ -161,7 +164,7 @@ class App(ctk.CTk):
             border_width=0,
             width=70,
             height=70,
-            hover_color="#343435",
+            hover_color=("#b8b8b8", "#343435"),
             text="",
             bg_color="transparent",
             fg_color="transparent",
@@ -178,7 +181,7 @@ class App(ctk.CTk):
             border_width=0,
             width=50,
             height=50,
-            hover_color="#343435",
+            hover_color=("#b8b8b8", "#343435"),
             text="",
             bg_color="transparent",
             fg_color="transparent",
@@ -230,7 +233,7 @@ class App(ctk.CTk):
                     self.searchmenu,
                     image=app_img_ctk,
                     text=app.capitalize(),
-                    hover_color="#343435",
+                    hover_color=("#b8b8b8", "#343435"),
                     border_width=0,
                     fg_color="transparent",
                     compound="left",
@@ -308,47 +311,11 @@ class App(ctk.CTk):
 
         def _change_appearance_mode(appearance_mode: str):
             if appearance_mode == "Light":
-                for btn in self.taskbar.winfo_children():
-                    if type(btn) == ctk.CTkButton:
-                        btn.configure(hover_color="#b8b8b8")
-
-                for btn in self.startmenu.winfo_children():
-                    if type(btn) == ctk.CTkButton:
-                        btn.configure(hover_color="#b8b8b8", text_color="black")
-
-                for btn in self.searchmenu.winfo_children():
-                    if type(btn) == ctk.CTkButton:
-                        btn.configure(hover_color="#b8b8b8")
-
-                self.start_shutdownbtn.configure(hover_color="#b8b8b8")
-
-                if background_choices:
-                    for btn in background_choices.winfo_children():
-                        if type(btn) == ctk.CTkButton:
-                            btn.configure(hover_color="#b8b8b8")
 
                 settings["appearance_mode"] = "Light"
                 ctk.set_appearance_mode(appearance_mode)
 
             elif appearance_mode == "Dark":
-                for btn in self.taskbar.winfo_children():
-                    if type(btn) == ctk.CTkButton:
-                        btn.configure(hover_color="#343435")
-
-                for btn in self.startmenu.winfo_children():
-                    if type(btn) == ctk.CTkButton:
-                        btn.configure(hover_color="#343435", text_color="white")
-
-                for btn in self.searchmenu.winfo_children():
-                    if type(btn) == ctk.CTkButton:
-                        btn.configure(hover_color="#343435")
-
-                self.start_shutdownbtn.configure(hover_color="#343435")
-
-                if background_choices:
-                    for btn in background_choices.winfo_children():
-                        if type(btn) == ctk.CTkButton:
-                            btn.configure(hover_color="#343435")
 
                 settings["appearance_mode"] = "Dark"
                 ctk.set_appearance_mode(appearance_mode)
@@ -402,7 +369,7 @@ class App(ctk.CTk):
                     background_choices,
                     text="",
                     fg_color="transparent",
-                    hover_color="#343435",
+                    hover_color=("#b8b8b8", "#343435"),
                     image=imgctk,
                     width=100,
                     height=100,
@@ -469,10 +436,13 @@ class App(ctk.CTk):
         return ctrl_panel
 
     def change_win_ico(self):
-        self.winico = PhotoImage(file="textures/startmenu.png")
-        self.iconphoto(False, self.winico)
+        winico = Image.open("textures/startmenu.png")
+        winicotitle = ImageTk.PhotoImage(winico.resize((16, 16)))
+        self.iconphoto(False, winicotitle)  # type: ignore
 
 
 if __name__ == "__main__":
     root = App()
+    end_time = perf_counter()
+    print(f"Startup time: {end_time - start_time:.2f}s")
     root.mainloop()

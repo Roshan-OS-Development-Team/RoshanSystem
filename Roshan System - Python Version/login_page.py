@@ -58,9 +58,9 @@ class LoginPage(ctk.CTkFrame):
 
     def handle_login_or_sign_up(self):
         if self.has_acc:
-            if self.check_sha256(
-                self.username_entry.get(), self.login_details["username"]
-            ) and self.check_sha256(
+            if self.username_entry == self.login_details[
+                "username"
+            ] and self.check_sha3_512(
                 self.password_entry.get(), self.login_details["password"]
             ):
                 self.destroy()
@@ -68,10 +68,8 @@ class LoginPage(ctk.CTkFrame):
                 self.error_message.configure(text="Username or Password wrong")
         else:
             self.login_details: dict[str, str] = {
-                "username": hashlib.sha256(
-                    self.username_entry.get().encode("utf-8")
-                ).hexdigest(),
-                "password": hashlib.sha256(
+                "username": self.username_entry.get(),
+                "password": hashlib.sha3_512(
                     self.password_entry.get().encode("utf-8")
                 ).hexdigest(),
             }
@@ -81,9 +79,9 @@ class LoginPage(ctk.CTkFrame):
 
             self.destroy()
 
-    def check_sha256(self, text: str, sha256: str) -> bool:
-        guess = hashlib.sha256(text.encode("utf-8")).hexdigest()
-        if guess == sha256:
+    def check_sha3_512(self, text: str, sha3_512: str) -> bool:
+        guess = hashlib.sha3_512(text.encode("utf-8")).hexdigest()
+        if guess == sha3_512:
             return True
         else:
             return False

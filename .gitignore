@@ -351,7 +351,7 @@ x86/
 
 # === OS & Misc ===
 .DS_Store
-Thumbs.db
+Thumbs.dbcd dis
 *.swp
 *~
 *.log
@@ -363,3 +363,7 @@ Thumbs.db
 # === Roshan OS stuff ==
 Roshan\ System\ -\ Python\ Version/settings.json
 Roshan\ System\ -\ Python\ Version/login_details.json
+
+# === Pyinstaller stuff ===
+build/
+dist/
