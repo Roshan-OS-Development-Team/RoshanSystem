@@ -360,5 +360,6 @@ Thumbs.db
 # === Jetbrains IDE stuff ===
 .idea
 
-# === Roshan OS settings stuff ===
+# === Roshan OS stuff ===
 Roshan System - Python Version/settings.json
+Roshan System - Python Version/login_details.json
