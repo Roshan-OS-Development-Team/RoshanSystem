@@ -19,7 +19,7 @@ class Rosver(WindowPackManager):
 
         ctk.CTkLabel(
             self,
-            text="\n" * 2 + "Roshan OS\nVersion 17 | Build Number 17.190726",
+            text="\n" * 2 + "Roshan OS\nVersion 18 | Build Number 18.200726",
         ).pack(side="top")
 
         ctk.CTkLabel(
