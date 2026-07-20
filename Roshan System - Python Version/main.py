@@ -7,6 +7,7 @@ import json
 import sys
 from tkinter import PhotoImage
 from gui.window import WindowPackManager
+from login_page import LoginPage
 import importlib
 
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
@@ -205,6 +206,13 @@ class App(ctk.CTk):
             for btn in self.searchmenu.winfo_children():
                 if type(btn) == ctk.CTkButton:
                     btn.configure(hover_color="#b8b8b8")
+
+        self.update()
+        self.update_idletasks()
+
+        self.login_page = LoginPage(self, self.winfo_width(), self.winfo_height())
+        self.login_page.lift()
+        self.login_page.place(x=0, y=0)
 
         self.app_search_bar.bind("<KeyRelease>", self.handle_search)
         self.after(200, self.change_win_ico)
