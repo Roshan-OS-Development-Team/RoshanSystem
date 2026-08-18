@@ -1,60 +1,57 @@
 {
-    "apps": [
-        {
-            "name": "Notepad",
-            "module": "gui.notepad",
-            "class": "Notepad",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/notepad.png"
-        },
-        {
-            "name": "Calculator",
-            "module": "gui.calculator",
-            "class": "Calculator",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/calculator.png"
-        },
-        {
-            "name": "File Explorer",
-            "module": "gui.fileexplorer",
-            "class": "FileExplorer",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/filexplorer.png"
-        },
-        {
-            "name": "Image Viewer",
-            "module": "gui.imageviewer",
-            "class": "ImageViewer",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/imageviewer.png"
-        },
-        {
-            "name": "Paint",
-            "module": "gui.paint",
-            "class": "Paint",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/paintnew.png"
-        },
-        {
-            "name": "Terminal",
-            "module": "gui.terminal",
-            "class": "Terminal",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/terminal.png"
-        },
-        {
-            "name": "Run",
-            "module": "gui.run",
-            "class": "Run",
-            "taskbar_button": true,
-            "startmenu_button": true,
-            "icon": "textures/runnew.png"
-        }
-    ]
+    "Notepad": {
+        "module": "apps",
+        "class_or_func": "Notepad",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/notepad.png"
+    },
+
+    "Calculator": {
+        "module": "apps",
+        "class_or_func": "Calculator",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/calculator.png"
+    },
+
+    "File Explorer": {
+        "module": "apps",
+        "class_or_func": "FileExplorer",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/explorer.png"
+    },
+
+    "Image Viewer": {
+        "module": "apps",
+        "class_or_func": "ImageViewer",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/imageviewer.png"
+    },
+
+    "Run": {
+        "module": "apps",
+        "class_or_func": "Run",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/run.png"
+    },
+
+    "Terminal": {
+        "module": "apps",
+        "class_or_func": "Terminal",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/terminal.png"
+    },
+
+    "Paint": {
+        "module": "apps",
+        "class_or_func": "Paint",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/paint.png"
+    }
 }

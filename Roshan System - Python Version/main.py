@@ -1,484 +1,327 @@
-from time import perf_counter
+import json  # Helps load and save settings.json
+import os  # Imports OS to check if a path exists and to check if settings.json is valid
+import subprocess  # Handles dependency handling
+import sys  # Handles command-line arguments arguments for the interal QApplication
 
-start_time = perf_counter()
+# === Start of PySide6 imports ===
+try:
+    from PySide6.QtCore import Qt
+    from PySide6.QtGui import QCloseEvent, QIcon, QPixmap, QResizeEvent
+    from PySide6.QtWidgets import (
+        QApplication,
+        QGridLayout,
+        QHBoxLayout,
+        QLabel,
+        QMainWindow,
+        QPushButton,
+        QScrollArea,
+        QTabWidget,
+        QVBoxLayout,
+        QWidget,
+    )
+except ModuleNotFoundError:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False)
+    from PySide6.QtCore import Qt
+    from PySide6.QtGui import QCloseEvent, QIcon, QPixmap, QResizeEvent
+    from PySide6.QtWidgets import (
+        QApplication,
+        QGridLayout,
+        QHBoxLayout,
+        QLabel,
+        QMainWindow,
+        QPushButton,
+        QScrollArea,
+        QTabWidget,
+        QVBoxLayout,
+        QWidget,
+    )
 
-from PIL import Image, ImageTk
-from messagebox import MessageBoxYesNo
-import customtkinter as ctk
-import os
-import subprocess
-import json
-import sys
-from gui.window import WindowPackManager
-from login_page import LoginPage
-import importlib
+# === End of PySide6 imports ===
+import core  # Imports the window class for type annotation and for settings and dynamic styling
 
-os.chdir(os.path.abspath(os.path.dirname(__file__)))
+os.chdir(
+    os.path.dirname(os.path.abspath(__file__))
+)  # Makes the working directory to this folder
 
-if os.path.exists("settings.json"):
+# Checks if the settings file exists and if it isnt empty
+if os.path.exists("settings.json") and os.path.getsize("settings.json") > 0:
     with open("settings.json", "r") as f:
-        settings: dict = json.load(f)
+        settings = json.load(f)
+# This is an else case of the settings.json file not existing
 else:
     settings = {
-        "appearance_mode": "Dark",
         "background": "textures/background7.png",
-        "color_theme": "dark-blue",
-        "messagebox_shutdown": True,
         "fullscreen": True,
-        "taskar_position": "bottom",
+        "maximized": True,
+        "taskbar_alignment": "center",
+        "messagebox_shutdown": True
     }
 
-with open("apps.json", "r") as f:
-    apps: dict[str, list[dict[str, str]]] = json.load(f)
-
-ctk.set_appearance_mode(settings["appearance_mode"])
-ctk.set_default_color_theme(settings["color_theme"])
+# Gets all the styling for the window
+style = core.get_qss_styles("styling/main")
 
 
-class App(ctk.CTk):
-    def __init__(self):
-        super().__init__()
-        self.title("Roshan System")
 
-        if settings["fullscreen"]:
-            self.attributes("-fullscreen", True)
-        else:
-            pass
-        self.geometry("1200x800")
-        self.update_idletasks()
-
-        if settings["messagebox_shutdown"]:
-            self.protocol("WM_DELETE_WINDOW", self.shutdown)
-        else:
-            self.protocol("WM_DELETE_WINDOW", self._shutdown)
-
-        self.backgroundimg = Image.open(settings["background"])
-        self.backgroundctk = ctk.CTkImage(
-            self.backgroundimg, size=(self.winfo_width(), self.winfo_height())
+# The main application class
+class App(QMainWindow):
+    def __init__(self) -> None:
+        self.ready: bool = (
+            False  # Lets the interpreter know it isnt ready to be messed with
         )
-        self.background = ctk.CTkLabel(self, text="", image=self.backgroundctk)
-        self.background.pack(fill="both", side="top")
-        self.bind("<Configure>", self.resize_background)
-        if not os.path.exists("user_dir"):
-            os.makedirs("user_dir")
+        super().__init__()  # Calles the init method of the parent class
+        self.setWindowTitle("Roshan OS")  # Sets the Window title to Roshan OS
 
-        self.taskbar = ctk.CTkFrame(
-            self,
-            width=(
-                self.winfo_width()
-                if settings["taskbar_position"] == "top"
-                or settings["taskbar_position"] == "bottom"
-                else 70
-            ),
-            height=(
-                70
-                if settings["taskbar_position"] == "top"
-                or settings["taskbar_position"] == "bottom"
-                else self.winfo_height()
-            ),
-            corner_radius=50,
+        app_ico = QIcon("textures/Logo.png")  # It gets the icon for the window
+
+        self.setWindowIcon(app_ico)  # It sets the icon of the window
+
+        self.container = QWidget()  # This contains all the apps, start menu and taskbar
+
+        # This gets the background based on the setttings background
+        self.background = QPixmap(settings["background"]).scaled(
+            self.width(),
+            self.height(),
+            Qt.AspectRatioMode.IgnoreAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
         )
 
-        # Start Menu Stuff
-        startbtnimg = Image.open("textures/startmenu.png")
-        startbtnimgctk = ctk.CTkImage(startbtnimg, size=(70, 70))
-        self.startbtn = ctk.CTkButton(
-            self.taskbar,
-            image=startbtnimgctk,
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            width=70,
-            height=70,
-            hover_color=("#b8b8b8", "#343435"),
-            command=self.toggle_start_menu,
+        # This makes a label to show the background
+        self.backgroundlabel = QLabel(self.container)
+        self.backgroundlabel.setPixmap(self.background)
+        self.backgroundlabel.setGeometry(0, 0, self.width(), self.height())
+        self.backgroundlabel.lower()
+
+        # This sets the central widget of the window to the container
+        self.setCentralWidget(self.container)
+
+        self.taskbar = QWidget(self.container)  # This initalizes the taskbar
+
+        self.taskbar.setStyleSheet(style["taskbar"])  # This sets the taskbar's style
+
+        self.taskbar.setGeometry(
+            0, self.height() - 70, self.width(), 70
+        )  # This sets the position and size
+
+        self.taskbar_layout = QHBoxLayout(self.taskbar)  # This is the start menu layout
+
+        self.startmenu_opened: bool = (
+            False  # It stores if the start menu is open or not
         )
-        self.startbtn.pack(side="left")
+        self.startmenu = QWidget(self.container)
+        if settings["taskbar_alignment"] == "center":
+            self.taskbar_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+            self.startmenu.setGeometry(
+                self.width() // 2 - 200, self.height() - 480, 400, 400
+            )
+        elif settings["taskbar_alignment"] == "left":
+            self.taskbar_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            self.startmenu.setGeometry(10, self.height() - 480, 400, 400)
 
-        self.startmenu = ctk.CTkScrollableFrame(self, width=300, height=400)
+        startmenu_size_policy = self.startmenu.sizePolicy()
+        startmenu_size_policy.setRetainSizeWhenHidden(True)
 
-        self.startmenuopened = False
+        self.startmenu.setSizePolicy(startmenu_size_policy)
+        self.startmenu.setVisible(False)
+        self.startmenu.setStyleSheet(style["startmenu"])
 
-        self.searchmenu = ctk.CTkScrollableFrame(self, width=300, height=400)
+        self.startmenu_scroll = QScrollArea(self.startmenu)
+        self.startmenu_scroll.setGeometry(50, 0, 350, 400)
+        self.startmenu_container = QWidget()
+        self.startmenu_container.setStyleSheet(style["startmenu_container"])
+        self.startmenu_scroll.setWidget(self.startmenu_container)
+        self.startmenu_scroll.setStyleSheet(style["scrollbar"])
+        self.startmenu_layout = QVBoxLayout(self.startmenu_container)
+        self.startmenu_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.startmenu_scroll.setWidgetResizable(True)
 
-        self.apps: dict[str, dict[str, str | WindowPackManager]] = {}
-
-        self.app_search_bar = ctk.CTkEntry(
-            self.taskbar, height=70, placeholder_text="Enter App Name", width=210
+        self.startmenu_btn = QPushButton(self.taskbar)
+        self.startmenu_ico = QPixmap("textures/Start.png").scaled(
+            50,
+            50,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
         )
-        self.app_search_bar.pack(side="left")
+        self.startmenu_btn.setIcon(self.startmenu_ico)
+        self.startmenu_btn.setFixedSize(60, 60)
+        self.startmenu_btn.setIconSize(self.startmenu_ico.size())
+        self.startmenu_btn.clicked.connect(self.toggle_startmenu)
+        self.startmenu_btn.setStyleSheet(style["button"])
 
-        for app in apps["apps"]:
-            app_module = importlib.import_module(app["module"])
-            app_class = getattr(app_module, app["class"])
-            app_instance = app_class(self)
-            app_ico = Image.open(app["icon"])
-            app_ico.thumbnail((60, 60))
-            app_ico_ctk = ctk.CTkImage(app_ico, size=app_ico.size)
-            if app.get("taskbar_button"):
-                ctk.CTkButton(
-                    self.taskbar,
-                    image=app_ico_ctk,
-                    text="",
-                    bg_color="transparent",
-                    fg_color="transparent",
-                    width=70,
-                    height=70,
-                    hover_color=("#b8b8b8", "#343435"),
-                    command=lambda app=app_instance: self.open_app(app),
-                ).pack(
-                    side=(
-                        "left"
-                        if settings["taskbar_position"] == "bottom"
-                        or settings["taskbar_position"] == "top"
-                        else "top"
-                    )
-                )
-            if app.get("startmenu_button"):
-                ctk.CTkButton(
-                    self.startmenu,
-                    text=app["name"],
-                    image=app_ico_ctk,
-                    compound="left",
-                    border_spacing=5,
-                    bg_color="transparent",
-                    fg_color="transparent",
-                    hover_color=("#b8b8b8", "#343435"),
-                    command=lambda app=app_instance: self.open_app(app),
-                ).pack(side="top", fill="x")
+        self.taskbar_layout.addWidget(self.startmenu_btn)
 
-            self.apps[app["name"].lower()] = {
-                "instance": app_instance,
-                "icon": app["icon"],
-            }
-
-        ctrl_panel = self.create_ctrl_panel()
-
-        self.apps["control panel"] = {
-            "instance": ctrl_panel,
-            "icon": "textures/ctrlpanel.png",
-        }
-
-        ctrl_panel_ico = Image.open("textures/ctrlpanel.png")
-        ctrl_panel_ico.thumbnail((50, 50))
-        ctrl_panel_ico_ctk = ctk.CTkImage(ctrl_panel_ico, size=ctrl_panel_ico.size)
-        ctk.CTkButton(
-            self.taskbar,
-            text="",
-            image=ctrl_panel_ico_ctk,
-            border_width=0,
-            fg_color="transparent",
-            hover_color=("#b8b8b8", "#343435"),
-            width=70,
-            height=70,
-            command=lambda: self.open_app(ctrl_panel),
-        ).pack(side="left")
-
-        ctk.CTkButton(
-            self.startmenu,
-            text="Control Panel",
-            image=ctrl_panel_ico_ctk,
-            fg_color="transparent",
-            border_width=0,
-            hover_color=("#b8b8b8", "#343435"),
-            compound="left",
-            border_spacing=20,
-            command=lambda: self.open_app(ctrl_panel),
-        ).pack(side="top", fill="x")
-
-        shutdownimg = Image.open("textures/closeicon.png")
-        shutdownimgctk = ctk.CTkImage(shutdownimg, size=(70, 70))
-        self.shutdownbtn = ctk.CTkButton(
-            self.taskbar,
-            border_width=0,
-            width=70,
-            height=70,
-            hover_color=("#b8b8b8", "#343435"),
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            image=shutdownimgctk,
-        )
-
-        self.startmenuio = ctk.CTkFrame(self, width=50, height=410)
-        self.startmenuio.pack_propagate(False)
-
-        start_shutdownimgctk = ctk.CTkImage(shutdownimg, size=(40, 40))
-
-        self.start_shutdownbtn = ctk.CTkButton(
-            self.startmenuio,
-            border_width=0,
-            width=50,
-            height=50,
-            hover_color=("#b8b8b8", "#343435"),
-            text="",
-            bg_color="transparent",
-            fg_color="transparent",
-            image=start_shutdownimgctk,
-        )
-        self.start_shutdownbtn.pack(side="bottom")
-
-        if settings["messagebox_shutdown"]:
-            self.shutdownbtn.configure(command=self.shutdown)
-            self.start_shutdownbtn.configure(command=self.shutdown)
-        if not settings["messagebox_shutdown"]:
-            self.shutdownbtn.configure(command=self._shutdown)
-            self.start_shutdownbtn.configure(command=self._shutdown)
-        self.shutdownbtn.pack(side="left")
-
-        if settings["appearance_mode"] == "Light":
-            for btn in self.taskbar.winfo_children():
-                if type(btn) == ctk.CTkButton:
-                    btn.configure(hover_color="#b8b8b8")
-
-            for btn in self.startmenu.winfo_children():
-                if type(btn) == ctk.CTkButton:
-                    btn.configure(hover_color="#b8b8b8")
-
-            for btn in self.searchmenu.winfo_children():
-                if type(btn) == ctk.CTkButton:
-                    btn.configure(hover_color="#b8b8b8")
-
-        self.update()
-        self.update_idletasks()
-
-        self.login_page = LoginPage(self, self.winfo_width(), self.winfo_height())
-        self.login_page.lift()
-        self.login_page.place(x=0, y=0)
-
-        self.app_search_bar.bind("<KeyRelease>", self.handle_search)
-        self.after(200, self.change_win_ico)
-
-    def handle_search(self, event=None):
-        for widget in self.searchmenu.winfo_children():
-            widget.destroy()
+        with open("apps.json", "r") as f:
+            self.apps = json.load(f)
 
         for app in self.apps:
-            if self.app_search_bar.get().lower() in app:
-                app_img = Image.open(self.apps[app]["icon"])  # type: ignore
-                app_img.thumbnail((50, 50))
-                app_img_ctk = ctk.CTkImage(app_img, size=app_img.size)
-                ctk.CTkButton(
-                    self.searchmenu,
-                    image=app_img_ctk,
-                    text=app.capitalize(),
-                    hover_color=("#b8b8b8", "#343435"),
-                    border_width=0,
-                    fg_color="transparent",
-                    compound="left",
-                    border_spacing=20,
-                    command=lambda app=self.apps[app]["instance"]: self.open_app(app),  # type: ignore
-                ).pack(pady=5, fill="x")
+            starter = self.apps[app]
+            app_module = __import__(starter["module"])
+            app_class = getattr(app_module, starter["class_or_func"])
+            app_instance = app_class(self)
+            app_instance.hide()
+            app_img = QPixmap(starter["icon"]).scaled(
+                50,
+                50,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
 
-        self.searchmenu.place(x=70, y=self.winfo_height() - 480)
+            self.apps[app] = {
+                "instance": app_instance,
+                "ico": app_img
+            }
 
-    @staticmethod
-    def open_app(app: WindowPackManager):
-        app.place(x=app.position["x"], y=app.position["y"])
-        app.lift()
+            if starter["taskbar_btn"]:
+                self.app_taskbar_btn = QPushButton()
+                self.app_taskbar_btn.setFixedSize(60, 60)
+                self.app_taskbar_btn.setIcon(app_img)
+                self.app_taskbar_btn.setIconSize(app_img.size())
+                self.app_taskbar_btn.clicked.connect(
+                    lambda checked=False, app=app_instance: self.openApp(app)
+                )
+                self.app_taskbar_btn.setStyleSheet(style["button"])
+                self.taskbar_layout.addWidget(self.app_taskbar_btn)
 
-    def resize_background(self, event):
-        if event.widget == self:
-            self.backgroundctk.configure(size=(self.winfo_width(), self.winfo_height()))
-            self.background.configure(image=self.backgroundctk)
-            self.taskbar.configure(width=self.winfo_width(), height=70)
-            self.taskbar.pack_propagate(False)
-            if settings["taskbar_position"] == "bottom":
-                self.taskbar.place(x=0, y=self.winfo_height() - 70)
-            elif settings["taskbar_position"] == "top":
-                self.taskbar.place(x=0, y=0)
-            elif settings["taskbar_position"] == "left":
-                self.taskbar.place(x=0, y=0)
-            elif settings["taskbar_position"] == "right":
-                self.taskbar.place(x=self.winfo_width() - 70, y=0)
+            if starter["startmenu_btn"]:
+                self.app_startmenu_btn = QPushButton(app)
+                self.app_startmenu_btn.setStyleSheet(style["button"])
+                self.app_startmenu_btn.setIcon(app_img)
+                self.app_startmenu_btn.setIconSize(app_img.size())
+                self.app_startmenu_btn.clicked.connect(
+                    lambda checked=False, app=app_instance: self.openApp(app)
+                )
+                self.startmenu_layout.addWidget(self.app_startmenu_btn)
 
-    def toggle_start_menu(self):
-        if not self.startmenuopened:
-            self.startmenu.place(x=50, y=self.winfo_height() - 480)
-            self.startmenuio.place(x=0, y=self.winfo_height() - 480)
-            self.searchmenu.place_forget()
-            self.app_search_bar.set("")
-            self.app_search_bar.configure(placeholder_text="Enter app name")
-            self.startmenuopened = True
-        else:
-            self.startmenu.place_forget()
-            self.startmenuio.place_forget()
-            self.startmenuopened = False
+        self.ready = True
 
-    def _shutdown(self):
+    def resizeEvent(self, event: QResizeEvent, /) -> None:
+        """The Qt Resizing event but overrided for the ROS project"""
+        super().resizeEvent(event)
+        if self.ready:
+            self.taskbar.setGeometry(0, self.height() - 70, self.width(), 70)
+            self.background = QPixmap(settings["background"]).scaled(
+                self.width(),
+                self.height(),
+                Qt.AspectRatioMode.IgnoreAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+            self.backgroundlabel.setPixmap(self.background)
+            self.backgroundlabel.setGeometry(0, 0, self.width(), self.height())
+            self.backgroundlabel.lower()
+            if settings["taskbar_alignment"] == "left":
+                self.startmenu.setGeometry(10, self.height() - 480, 400, 400)
+            elif settings["taskbar_alignment"] == "center":
+                self.startmenu.setGeometry(
+                    self.width() // 2 - 200, self.height() - 480, 400, 400
+                )
+
+    def closeEvent(self, event: QCloseEvent, /) -> None:
         with open("settings.json", "w") as f:
             json.dump(settings, f, indent=4)
-        self.destroy()
 
-    def shutdown(self):
-        ShutdownMsgBox = MessageBoxYesNo(
-            self,
-            "Shutdown",
-            "Are you sure you want to shutdown",
-            self._shutdown,
-            image="textures/information.png",
+        event.accept()
+
+    def openApp(self, app: core.Window):
+        app.move(app.position["x"], app.position["y"])
+        app.show()
+
+    def toggle_startmenu(self):
+        if self.startmenu_opened:
+            self.startmenu.setVisible(False)
+            self.startmenu_opened = False
+        else:
+            self.startmenu.setVisible(True)
+            self.startmenu_opened = True
+            self.startmenu.raise_()
+
+    def changeBackground(self, filePath: str):
+        self.background = QPixmap(filePath).scaled(
+            self.width(),
+            self.height(),
+            Qt.AspectRatioMode.IgnoreAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
         )
-        ShutdownMsgBox.place(x=60, y=60)
+        self.backgroundlabel.setPixmap(self.background)
+        settings["background"] = filePath
 
-    def change_background(self, filepath: str):
-        self.backgroundimg = Image.open(filepath)
-        self.backgroundctk = ctk.CTkImage(
-            self.backgroundimg, size=(self.winfo_width(), self.winfo_height())
+    def settings(self) -> core.Window:
+        settings_win = core.Window(
+            self, "Settings", (960, 480), "textures/settings.png"
         )
-        settings["background"] = filepath
-        self.background.configure(image=self.backgroundctk)
-
-    def create_ctrl_panel(self) -> WindowPackManager:
-        ctrl_panel = WindowPackManager(
-            self, "Control Panel", (960, 480), "textures/ctrlpanel.png"
+        settings_ico = QPixmap("textures/settings.png").scaled(
+            50,
+            50,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
         )
+        self.apps["settings"] = {
+            "instance": settings_win,
+            "ico": settings_ico
+        }
 
-        tabs = ctk.CTkTabview(ctrl_panel)
+        backgrounds: list[str] = [
+            os.path.join("textures", file)
+            for file in os.listdir("textures")
+            if "background" in file
+        ]
 
-        tabs_list: list[str] = ["Personalization", "Preferences"]
+        ctrlPanelStyles = core.get_qss_styles("styling/settings")
 
-        for tab in tabs_list:
-            tabs.add(tab)
+        contents = QTabWidget(settings_win)
+        contents.setGeometry(0, 50, settings_win.width(), settings_win.height() - 50)
+        contents.setStyleSheet(ctrlPanelStyles["contents"])
 
-        personalization_tab = ctk.CTkScrollableFrame(tabs.tab("Personalization"))
-        personalization_tab.pack(fill="both", expand=True)
+        personalization_tab = QScrollArea()
+        personalization_tab_container = QWidget()
+        personalization_tab.setWidget(personalization_tab_container)
+        personalization_tab_layout = QVBoxLayout(personalization_tab)
+        personalization_tab.viewport().setAutoFillBackground(False)
 
-        background_choices = None
+        background_buttons = QWidget(personalization_tab_container)
+        background_buttons_layout = QGridLayout(background_buttons)
 
-        def _change_appearance_mode(appearance_mode: str):
-            if appearance_mode == "Light":
+        row: int = 0
+        column: int = 0
+        for background in backgrounds:
+            background_ico = QPixmap(background).scaled(
+                100,
+                100,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+            background_btn = QPushButton(background_buttons)
+            background_btn.setIcon(background_ico)
+            background_btn.setIconSize(background_ico.size())
+            background_btn.clicked.connect(
+                lambda checked=1, bg=background: self.changeBackground(bg)
+            )
+            background_btn.setStyleSheet(ctrlPanelStyles["bg_button"])
+            background_buttons_layout.addWidget(background_btn, row, column)
+            if column == 5:
+                row += 1
+                column = 0
+            else:
+                column += 1
 
-                settings["appearance_mode"] = "Light"
-                ctk.set_appearance_mode(appearance_mode)
+        personalization_tab_layout.addWidget(background_buttons)
 
-            elif appearance_mode == "Dark":
+        contents.addTab(personalization_tab, "Personalization")
 
-                settings["appearance_mode"] = "Dark"
-                ctk.set_appearance_mode(appearance_mode)
 
-        def _restart_os():
-            subprocess.Popen((sys.executable, "main.py"))
-            self._shutdown()
-
-        def _change_color_theme(color_theme: str):
-            if color_theme == "dark-blue":
-                settings["color_theme"] = "dark-blue"
-                _restart_os()
-            elif color_theme == "blue":
-                settings["color_theme"] = "blue"
-                _restart_os()
-            elif color_theme == "green":
-                settings["color_theme"] = "green"
-                _restart_os()
-
-        appearance_mode_switch = ctk.CTkOptionMenu(
-            master=personalization_tab,
-            values=["Dark", "Light"],
-            command=_change_appearance_mode,
-        )
-        appearance_mode_switch.pack(side="top", pady=5, padx=5)
-        appearance_mode_switch.set(settings["appearance_mode"])
-
-        color_mode_switch = ctk.CTkOptionMenu(
-            personalization_tab,
-            values=["dark-blue", "blue", "green"],
-            command=_change_color_theme,
-        )
-        color_mode_switch.pack(side="top", pady=5, padx=5)
-
-        color_mode_switch.set(settings["color_theme"])
-
-        background_choices = ctk.CTkFrame(personalization_tab)
-        background_choices.pack(side="top")
-
-        row_num: int = 0
-        column_num: int = 0
-        background_num: int = 0
-
-        for file in os.listdir("textures"):
-            if "background" in file:
-                file_path = f"textures/background{background_num}.png"
-                img = Image.open(file_path)
-                img.thumbnail(size=(100, 100))
-                imgctk = ctk.CTkImage(img, size=img.size)
-                ctk.CTkButton(
-                    background_choices,
-                    text="",
-                    fg_color="transparent",
-                    hover_color=("#b8b8b8", "#343435"),
-                    image=imgctk,
-                    width=100,
-                    height=100,
-                    command=lambda background=file_path: self.change_background(
-                        background
-                    ),
-                ).grid(row=row_num, column=column_num)
-                column_num += 1
-                background_num += 1
-            if column_num == 5:
-                row_num += 1
-                column_num = 0
-
-        preferences_frame = ctk.CTkScrollableFrame(tabs.tab("Preferences"))
-        preferences_frame.pack(fill="both", expand=True)
-
-        shutdown_var = ctk.BooleanVar(value=False)
-
-        def _messagebox_shutdown():
-            if shutdown_var.get():
-                self.shutdownbtn.configure(command=self.shutdown)
-                self.protocol("WM_DELETE_WINDOW", self.shutdown)
-                settings["messagebox_shutdown"] = True
-            elif not shutdown_var.get():
-                self.shutdownbtn.configure(command=self._shutdown)
-                self.protocol("WM_DELETE_WINDOW", self._shutdown)
-                settings["messagebox_shutdown"] = False
-
-        messagebox_shutdown_switch = ctk.CTkSwitch(
-            preferences_frame,
-            text="Toggle Messagebox Shutdown",
-            variable=shutdown_var,
-            command=_messagebox_shutdown,
-        )
-        if settings["messagebox_shutdown"]:
-            messagebox_shutdown_switch.select()
-
-        messagebox_shutdown_switch.pack(side="top")
-
-        fullscreen_var = ctk.BooleanVar(value=False)
-
-        def _fullscreen():
-            if not fullscreen_var.get():
-                self.attributes("-fullscreen", False)
-                settings["fullscreen"] = False
-            elif fullscreen_var.get():
-                self.attributes("-fullscreen", True)
-                settings["fullscreen"] = True
-
-        fullscreen_switch = ctk.CTkSwitch(
-            preferences_frame,
-            text="Toggle Fullscreen",
-            variable=fullscreen_var,
-            command=_fullscreen,
-        )
-
-        if settings["fullscreen"]:
-            fullscreen_switch.select()
-
-        fullscreen_switch.pack(side="top")
-
-        tabs.pack(fill="both", expand=True)
-
-        return ctrl_panel
-
-    def change_win_ico(self):
-        winico = Image.open("textures/startmenu.png")
-        winicotitle = ImageTk.PhotoImage(winico.resize((16, 16)))
-        self.iconphoto(False, winicotitle)  # type: ignore
+        return settings_win
 
 
 if __name__ == "__main__":
-    root = App()
-    end_time = perf_counter()
-    print(f"Startup time: {end_time - start_time:.2f}s")
-    root.mainloop()
+    if not "--style=fusion" in sys.argv:
+        sys.argv.append("--style=fusion")
+    app = QApplication(sys.argv)
+    win = App()
+
+    if settings["fullscreen"]:
+        win.showFullScreen()
+    elif not settings["fullscreen"] and settings["maximized"]:
+        win.showMaximized()
+    else:
+        win.resize(1200, 800)
+        win.show()
+
+    sys.exit(app.exec())

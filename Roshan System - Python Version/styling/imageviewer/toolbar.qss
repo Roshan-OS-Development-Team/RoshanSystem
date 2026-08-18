@@ -1,0 +1,3 @@
+QWidget {
+    background-color: rgba(62, 62, 62, 225);
+}

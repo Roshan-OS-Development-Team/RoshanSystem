@@ -1,0 +1,35 @@
+QWidget {
+    background-color: rgba(60, 60, 60, 240);
+}
+
+QScrollBar {
+    background-color: rgba(30, 30, 30, 240);
+    width: 14px;
+    margin: 14px 0 14px 0;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background-color: rgba(68, 68, 68, 240);
+    min-height: 20px;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+QScrollBar::handle:vertical:hover QScrollBar::handle:vertical:pressed {
+    background-color: rgba(0, 120, 215, 240);
+}
+
+QScrollBar::sub-line:vertical {
+    background-color: rgba(30, 30, 30, 240);
+    height: 14px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:vertical {
+    background-color: rgba(30, 30, 30, 240);
+    height: 14px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
