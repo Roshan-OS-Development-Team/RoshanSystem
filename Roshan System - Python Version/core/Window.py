@@ -1,7 +1,7 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QMouseEvent, QPixmap
-from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWebEngineCore import QWebEnginePage
+from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (
     QApplication,
     QLabel,
@@ -129,6 +129,10 @@ class WebWindow(QWidget):
 
         self.background.lower()
 
+        self.titlebar = QWidget(self)
+        self.titlebar.setGeometry(0, 0, self.width(), 35)
+        self.titlebar.setStyleSheet(window_style)
+
         self.win_ico = QPixmap(icon).scaled(
             20,
             20,
@@ -147,7 +151,7 @@ class WebWindow(QWidget):
         self.webview = QWebEngineView(self)
         self.page = WebEnginePage()
         self.webview.setPage(self.page)
-        self.webview.setHtml(html_str)
+        self.webview.setHtml(html_str, QUrl("about:blank"))
         self.webview.setGeometry(0, 40, self.width(), self.height() - 40)
 
         self.close_btn = QPushButton(self)
