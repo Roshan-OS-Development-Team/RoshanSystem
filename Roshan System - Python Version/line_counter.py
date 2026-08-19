@@ -1,9 +1,10 @@
 import os
 
 lines: int = 0
+item_count: int = 0
 
 def count_lines(filepath: str):
-    global lines
+    global lines, item_count
     with os.scandir(filepath) as entries:
         for entry in entries:
             if entry.name == ".vscode" or entry.name == ".idea" or entry.name == "__pycache__":
@@ -14,5 +15,8 @@ def count_lines(filepath: str):
                 with open(entry.path, "r") as f:
                     lines += sum(1 for line in f)
 
+            item_count += 1
+
 count_lines(".")
-print(lines)
+print(f"{lines:,}")
+print(f"{item_count:,}")

@@ -38,6 +38,7 @@ except ModuleNotFoundError:
 
 # === End of PySide6 imports ===
 import core  # Imports the window class for type annotation and for settings and dynamic styling
+from login_page import LoginPage  # Imports the Login Page for ROS
 
 os.chdir(
     os.path.dirname(os.path.abspath(__file__))
@@ -191,10 +192,10 @@ class App(QMainWindow):
                 )
                 self.startmenu_layout.addWidget(self.app_startmenu_btn)
 
+        self.loginPage = LoginPage(self)
         self.ready = True
 
     def resizeEvent(self, event: QResizeEvent, /) -> None:
-        """The Qt Resizing event but overrided for the ROS project"""
         super().resizeEvent(event)
         if self.ready:
             self.taskbar.setGeometry(0, self.height() - 70, self.width(), 70)
@@ -213,6 +214,9 @@ class App(QMainWindow):
                 self.startmenu.setGeometry(
                     self.width() // 2 - 200, self.height() - 480, 400, 400
                 )
+
+            self.loginPage.setGeometry(0, 0, self.width(), self.height())
+            self.loginPage.resizeEvent(event)
 
     def closeEvent(self, event: QCloseEvent, /) -> None:
         with open("settings.json", "w") as f:
@@ -315,13 +319,11 @@ if __name__ == "__main__":
         sys.argv.append("--style=fusion")
     app = QApplication(sys.argv)
     win = App()
-
     if settings["fullscreen"]:
         win.showFullScreen()
-    elif not settings["fullscreen"] and settings["maximized"]:
+    elif not settings["fullscreen"] and settings["maxmimized"]:
         win.showMaximized()
     else:
         win.resize(1200, 800)
         win.show()
-
     sys.exit(app.exec())

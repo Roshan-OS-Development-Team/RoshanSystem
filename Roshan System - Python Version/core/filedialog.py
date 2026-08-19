@@ -1,7 +1,7 @@
 try:
     from core.Window import Window
 except ImportError:
-    from Window import Window
+    from .Window import Window
 
 import os
 from collections.abc import Callable, Sequence

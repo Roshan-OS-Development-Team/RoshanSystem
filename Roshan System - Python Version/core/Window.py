@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QMouseEvent, QPixmap
 from PySide6.QtWebEngineCore import QWebEnginePage
@@ -83,6 +85,9 @@ class Window(QWidget):
         super().mouseMoveEvent(event)
 
 class WebEnginePage(QWebEnginePage):
+    def __init__(self, master):
+        super().__init__(master)
+        self.master = master
     def javaScriptConsoleMessage(self, level: QWebEnginePage.JavaScriptConsoleMessageLevel, message: str, lineNumber: int, sourceID: str, /) -> None:
         if level == QWebEnginePage.JavaScriptConsoleMessageLevel.ErrorMessageLevel:
             print(f"ERROR: {message}")
@@ -90,6 +95,20 @@ class WebEnginePage(QWebEnginePage):
             print(f"WARNING: {message}")
         else:
             print(f"LOG: {message}")
+    def chooseFiles(self, mode: QWebEnginePage.FileSelectionMode, oldFiles: Sequence[str], acceptedMimeTypes: Sequence[str], /) -> list[str]:
+        from core.filedialog import OpenFileDialog, SaveFileDialog
+        if mode == QWebEnginePage.FileSelectionMode.FileSelectSave:
+            filepaths = []
+            filedialog = SaveFileDialog(self.master, acceptedMimeTypes, filepaths.append)
+            filedialog.show()
+            return filepaths
+        elif mode == QWebEnginePage.FileSelectionMode.FileSelectOpen:
+            filepaths = []
+            filedialog = OpenFileDialog(self.master, acceptedMimeTypes, filepaths.append)
+            filedialog.show()
+            return filepaths
+        return super().chooseFiles(mode, oldFiles, acceptedMimeTypes)
+
 
 class WebWindow(QWidget):
     def __init__(
@@ -149,7 +168,7 @@ class WebWindow(QWidget):
         self.titlelabel.move(60, 10)
 
         self.webview = QWebEngineView(self)
-        self.page = WebEnginePage()
+        self.page = WebEnginePage(master)
         self.webview.setPage(self.page)
         self.webview.setHtml(html_str, QUrl("about:blank"))
         self.webview.setGeometry(0, 40, self.width(), self.height() - 40)
