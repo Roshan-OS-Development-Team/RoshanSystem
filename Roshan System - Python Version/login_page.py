@@ -60,7 +60,7 @@ class LoginPage(QWidget):
         self.usernameEntry = QLineEdit(self)
         self.usernameEntry.setStyleSheet(
             "QLineEdit {"
-            "   background-color: transparent;"
+            "   background-color: rgba(30, 30, 30, 204);"
             "   font-size: 20px;"
             "}"
         )
@@ -79,7 +79,7 @@ class LoginPage(QWidget):
         self.passwordEntry = QLineEdit(self)
         self.passwordEntry.setStyleSheet(
             "QLineEdit {"
-            "   background-color: transparent;"
+            "   background-color: rgba(30, 30, 30, 204);"
             "   font-size: 20px;"
             "}"
         )
