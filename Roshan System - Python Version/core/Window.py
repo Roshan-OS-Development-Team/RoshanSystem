@@ -90,11 +90,11 @@ class WebEnginePage(QWebEnginePage):
         self.master = master
     def javaScriptConsoleMessage(self, level: QWebEnginePage.JavaScriptConsoleMessageLevel, message: str, lineNumber: int, sourceID: str, /) -> None:
         if level == QWebEnginePage.JavaScriptConsoleMessageLevel.ErrorMessageLevel:
-            print(f"ERROR: {message}")
+            print(f"[ERROR]: {message}")
         elif level == QWebEnginePage.JavaScriptConsoleMessageLevel.WarningMessageLevel:
-            print(f"WARNING: {message}")
+            print(f"[WARNING]: {message}")
         else:
-            print(f"LOG: {message}")
+            print(f"[LOG]: {message}")
     def chooseFiles(self, mode: QWebEnginePage.FileSelectionMode, oldFiles: Sequence[str], acceptedMimeTypes: Sequence[str], /) -> list[str]:
         from core.filedialog import OpenFileDialog, SaveFileDialog
         if mode == QWebEnginePage.FileSelectionMode.FileSelectSave:
