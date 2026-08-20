@@ -193,6 +193,16 @@ class App(QMainWindow):
                 )
                 self.startmenu_layout.addWidget(self.app_startmenu_btn)
 
+        settings_ico = QPixmap("textures/settings.png").scaled(
+            50,
+            50,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
+        self.apps["settings"] = {
+            "instance": self.settings(),
+            "ico": settings_ico
+        }
         self.loginPage = LoginPage(self)
         self.ready = True
 
@@ -252,16 +262,6 @@ class App(QMainWindow):
         settings_win = core.Window(
             self, "Settings", (960, 480), "textures/settings.png"
         )
-        settings_ico = QPixmap("textures/settings.png").scaled(
-            50,
-            50,
-            Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation,
-        )
-        self.apps["settings"] = {
-            "instance": settings_win,
-            "ico": settings_ico
-        }
 
         backgrounds: list[str] = [
             os.path.join("textures", file)

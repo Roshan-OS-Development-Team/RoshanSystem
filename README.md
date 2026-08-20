@@ -1,15 +1,17 @@
-# RoshanSystem — Early v19 snapshot (experimental)
+# RoshanSystem — v19 snapshot
 
 [![Python](https://img.shields.io/badge/Python-PySide6-3776ab?logo=python&logoColor=white)](Roshan%20System%20-%20Python%20Version)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Experimental-orange.svg)]()
 
 <!-- Line-count and language breakdown badges -->
-[![Lines-2,147](https://img.shields.io/badge/Lines-2%2C147-lightgrey)]()
-[![Python 1,604 lines | 74.71%](https://img.shields.io/badge/Python-1%2C604%20lines%20%7C%2074.71%25-3776ab?logo=python&logoColor=white)]()
-[![QSS 373 lines | 17.37%](https://img.shields.io/badge/QSS-373%20lines%20%7C%2017.37%25-7c4dff)]()
-[![JSON 96 lines | 4.47%](https://img.shields.io/badge/JSON-96%20lines%20%7C%204.47%25-f1c40f)]()
-[![HTML 74 lines | 3.45%](https://img.shields.io/badge/HTML-74%20lines%20%7C%203.45%25-e34f26?logo=html5&logoColor=white)]()
+| Language | File Count | File % | Total LOC | LOC % | Avg. Lines / File | Purpose / Role |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Python** | 21 | 36.21% | 1,847 | 75.17% | 87.95 | Apps and the core |
+| **QSS** | 34 | 58.62% | 416 | 16.93% | 12.24 | Stylesheets |
+| **JSON** | 2 | 3.45% | 106 | 4.31% | 53.00 | Apps and Run Apps |
+| **HTML** | 1 | 1.72% | 88 | 3.58% | 88.00 | Paint |
+| **Total** | **58** | **100%** | **2,457** | **100%** | **42.36** | **Roshan System** |
 
 WARNING — Early v19 snapshot
 This repository contains an early, experimental snapshot of RoshanSystem v19. Many v19 features are still being implemented and refactored, on-disk formats and APIs may change, and there are known rough edges. This snapshot is intended for development and experimentation — not production use.
@@ -34,7 +36,20 @@ Prerequisites: Python 3.10+ recommended.
 Install and run:
 ```bash
 cd "Roshan System - Python Version"
-python main.py
+pip install -e .
+python3 main.py
+```
+
+or:
+```bash
+cd "Roshan System - Python Version"
+python3 main.py
+```
+
+or if your on windows:
+```bash
+cd "Roshan System - Python Version"
+py main.py
 ```
 
 On first launch you create a local account (username + password). Subsequent launches show the login form.
