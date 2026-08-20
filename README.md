@@ -33,12 +33,6 @@ Prerequisites: Python 3.10+ recommended.
 
 Install and run:
 ```bash
-python -m pip install -r "Roshan System - Python Version/requirements.txt"
-python "Roshan System - Python Version/main.py"
-```
-
-Or:
-```bash
 cd "Roshan System - Python Version"
 python main.py
 ```
