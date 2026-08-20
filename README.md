@@ -98,7 +98,3 @@ License
 
 Acknowledgements
 - This snapshot was refactored into a modular core and PySide6-based GUI; thank you to all contributors listed in `run_apps/rosver.py`.
-
-If you'd like, I can:
-- commit this README.md to the repository (create a branch + PR), or
-- open issues for the immediate follow-ups (maximized key fix, docs cleanup, Terminal safety).
