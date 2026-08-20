@@ -53,5 +53,13 @@
         "startmenu_btn": true,
         "taskbar_btn": true,
         "icon": "textures/paint.png"
+    },
+
+    "WebOrbit": {
+        "module": "apps",
+        "class_or_func": "WebOrbit",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/weborbit.png"
     }
 }
