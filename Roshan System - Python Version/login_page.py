@@ -87,6 +87,26 @@ class LoginPage(QWidget):
         self.passwordEntry.setEchoMode(QLineEdit.EchoMode.Password)
         self.passwordEntry.move(self.width() // 2 - 10 * len("Password: "), 230)
 
+        self.loginBtn = QPushButton(self)
+        self.loginBtn.setStyleSheet(
+            "QPushButton {"
+            "   background-color: rgba(75, 0, 255, 204);"
+            "   border-radius: 10px;"
+            "   border: none;"
+            "   padding: 8px 16px;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: rgba(60, 0, 255, 204);"
+            "}"
+        )
+
+        if os.path.exists("login_details.json"):
+            self.loginBtn.setText("Login")
+            self.loginBtn.move(self.width() // 2, 270)
+        else:
+            self.loginBtn.setText("Sign up")
+            self.loginBtn.move(self.width() // 2, 270)
+
     def resizeEvent(self, event: QResizeEvent, /) -> None:
         super().resizeEvent(event)
         self.background.setGeometry(0, 0, self.width(), self.height())
@@ -94,6 +114,7 @@ class LoginPage(QWidget):
         self.usernameEntry.move(self.width() // 2 - 10 * len("Username: "), 190)
         self.passwordLabel.move(self.width() // 2 - 20 * len("Password: "), 230)
         self.passwordEntry.move(self.width() // 2 - 10 * len("Password: "), 230)
+        self.loginBtn.move(self.width() // 2, 270)
 
     def handleLoginOrSignup(self):
         if (
@@ -131,9 +152,12 @@ class LoginPage(QWidget):
 
             self.deleteLater()
 
-    def checkSHA3512(self, guess: str, sha3512: str):
+    def checkSHA3512(self, guess: str, sha3512: str) -> int:
         _sha3512 = hashlib.sha3_512(guess.encode()).hexdigest()
-        return sha3512 == _sha3512
+        if sha3512 == _sha3512:
+            return 1
+        else:
+            return 0
 
 if __name__ == "__main__":
     app = QApplication(["--style=fusion"])
