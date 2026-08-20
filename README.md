@@ -1,128 +1,104 @@
-# RoshanSystem
+# RoshanSystem — Early v19 snapshot (experimental)
 
-> An experimental desktop-environment simulation written in Python.
-
-[![Python](https://img.shields.io/badge/Python-CustomTkinter-3776ab?logo=python&logoColor=white)](Roshan%20System%20-%20Python%20Version)
+[![Python](https://img.shields.io/badge/Python-PySide6-3776ab?logo=python&logoColor=white)](Roshan%20System%20-%20Python%20Version)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Experimental-orange.svg)]()
 
-RoshanSystem provides an OS-style desktop built with [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) and Pillow. It includes a login screen, taskbar and Start menu, configurable appearance settings, draggable application windows, a local file workspace, and a suite of built-in tools.
+<!-- Line-count and language breakdown badges -->
+[![Lines-2,147](https://img.shields.io/badge/Lines-2%2C147-lightgrey)]()
+[![Python 1,604 lines | 74.71%](https://img.shields.io/badge/Python-1%2C604%20lines%20%7C%2074.71%25-3776ab?logo=python&logoColor=white)]()
+[![QSS 373 lines | 17.37%](https://img.shields.io/badge/QSS-373%20lines%20%7C%2017.37%25-7c4dff)]()
+[![JSON 96 lines | 4.47%](https://img.shields.io/badge/JSON-96%20lines%20%7C%204.47%25-f1c40f)]()
+[![HTML 74 lines | 3.45%](https://img.shields.io/badge/HTML-74%20lines%20%7C%203.45%25-e34f26?logo=html5&logoColor=white)]()
 
-## Features
+WARNING — Early v19 snapshot
+This repository contains an early, experimental snapshot of RoshanSystem v19. Many v19 features are still being implemented and refactored, on-disk formats and APIs may change, and there are known rough edges. This snapshot is intended for development and experimentation — not production use.
 
-### Desktop experience
+What this is
+RoshanSystem is a Python-based desktop-environment simulation (GUI shell + bundled apps) built with PySide6 (Qt). It provides a desktop shell with a background, a taskbar/Start menu, login screen, and several built-in applications (Notepad, Calculator, File Explorer, Image Viewer, Terminal, Paint, Run, Rosver). The project is educational and experimental.
 
-- Fullscreen or windowed desktop with a resizable background.
-- Login/sign-up screen. Credentials are stored locally with a SHA3-512 password hash.
-- Taskbar with Start menu, application icons, shutdown control, and an app search field.
-- Search results update while typing and can launch matching apps.
-- Draggable, closable application windows with shared title-bar styling and icons.
-- Optional shutdown confirmation dialog.
+Key highlights from the current refactor
+- GUI now uses PySide6 (Qt); main entrypoint: `Roshan System - Python Version/main.py`.
+- A `core/` package centralizes reusable components:
+  - `core/Window.py` — Window and WebWindow base classes.
+  - `core/filedialog.py` — Custom open/save file dialogs.
+  - `core/styling.py` — Loads QSS style files via `core.get_qss_styles()`.
+- Apps are in `Roshan System - Python Version/apps/` and are dynamically loaded from `apps.json`.
+- Run apps are listed in `run_apps/run_apps.json` (e.g., `rosver` shows the v19 version).
+- Styling is driven by QSS files under `styling/`; QSS is loaded per-directory.
+- Settings are persisted in `settings.json`. Login details are stored in `login_details.json` (SHA3-512 hashed).
 
-### Personalization
+Quick start (shortest path)
+Prerequisites: Python 3.10+ recommended.
 
-The Control Panel includes the following settings, which are saved in `settings.json` when the system exits:
-
-- Dark and Light appearance modes.
-- Three CustomTkinter colour themes: `dark-blue`, `blue`, and `green`.
-- Fifteen bundled desktop backgrounds.
-- Fullscreen toggle.
-- Shutdown-confirmation toggle.
-
-Changing the colour theme restarts RoshanSystem so the selected theme can be applied consistently.
-
-### Built-in applications
-
-| Application | What it does |
-| --- | --- |
-| Notepad | Edit text files with Save and Load controls. |
-| Calculator | Perform basic arithmetic with decimal support. |
-| File Explorer | Browse folders, navigate with an address bar, and open text and supported image files. |
-| Image Viewer | Open and scale PNG, JPG, JPEG, ICO, GIF, and BMP images. |
-| Paint | Draw on a canvas using a 10-colour palette. |
-| Terminal | Run shell commands and show their output in an in-app terminal. |
-| Run | Launch registered applications by name. |
-| Rosver | Show Roshan OS version, licensing, and credits. Available through Run. |
-
-Notepad, File Explorer, and the file dialogs use `user_dir/` as the initial workspace. The directory is created automatically when the desktop starts.
-
-## Quick start
-
-Prerequisites: Python 3.10+ is recommended and a desktop environment capable of running Tkinter.
-
+Install and run:
 ```bash
 python -m pip install -r "Roshan System - Python Version/requirements.txt"
 python "Roshan System - Python Version/main.py"
 ```
 
-Alternatively, run it from the application directory:
-
+Or:
 ```bash
 cd "Roshan System - Python Version"
 python main.py
 ```
 
-On the first launch, enter a username and password to create the local account. Later launches show the login form.
+On first launch you create a local account (username + password). Subsequent launches show the login form.
 
-## Using the desktop
-
-- Select an app from the taskbar or Start menu.
-- Use the taskbar search box to find an application by name.
-- Drag a window by its title bar; select its red **X** button to hide it.
-- Open **Control Panel** from the taskbar or Start menu to change the appearance, background, fullscreen setting, or shutdown behaviour.
-- Use **Run** to launch `Rosver`, `Terminal`, `Notepad`, `Calculator`, `File Explorer`, `Image Viewer`, or `Paint` by name.
-- Choose **Shutdown** in the taskbar or Start menu when you are done.
-
-## Project layout
-
-```text
+Project layout (relevant)
+```
 Roshan System - Python Version/
-+-- main.py                 # Desktop shell, taskbar, Start menu, search, Control Panel
-+-- login_page.py           # Local sign-up and login UI
-+-- apps.json               # Taskbar and Start-menu application registry
-+-- settings.json           # Appearance and desktop preferences
-+-- requirements.txt        # Python dependencies
-+-- gui/
-|   +-- window.py           # Reusable draggable window base class
-|   +-- calculator.py       # Calculator
-|   +-- fileexplorer.py     # File browser and file picker windows
-|   +-- imageviewer.py      # Image viewer
-|   +-- notepad.py          # Text editor
-|   +-- paint.py            # Drawing canvas
-|   +-- run.py              # Run dialog
-|   +-- terminal.py         # Command terminal
-+-- run_apps/
-|   +-- run_apps.json       # Applications registered with Run
-|   +-- rosver.py           # Version and credits window
-+-- messagebox/             # Custom confirmation dialogs
-+-- textures/               # Icons, backgrounds, and UI assets
-+-- user_dir/               # Local files created by the user
+  main.py                 # Desktop shell, app loader, taskbar, Start menu
+  login_page.py           # Local sign-up/login (SHA3-512)
+  apps.json               # Taskbar/Start menu registry (dynamic import)
+  requirements.txt        # PySide6
+  line_counter.py         # small utility
+  apps/                   # bundled apps (notepad.py, calculator.py, fileexplorer.py, imageviewer.py, paint.py, terminal.py, run.py ...)
+  run_apps/               # run-app registry and small tools (rosver.py)
+  core/                   # Window, WebWindow, filedialog, styling loader
+  styling/                # QSS files organized by component
+  textures/               # images (icons, backgrounds)
+  user_dir/               # created at runtime for user files
 ```
 
-## Configuration files
+How it fits together
+- `main.py` reads `settings.json` (or writes defaults), loads QSS via `core.get_qss_styles()`, reads `apps.json`, dynamically imports apps and instantiates them, and composes the desktop (background, taskbar, Start menu).
+- Apps are Window-like objects (based on `core.Window`) and are shown/hidden and moved by the desktop.
+- `WebWindow` embeds HTML via Qt WebEngine and delegates file selection to `core.filedialog`.
 
-| File | Purpose |
-| --- | --- |
-| `settings.json` | Stores the background, appearance mode, colour theme, fullscreen option, and shutdown preference. |
-| `apps.json` | Defines the applications shown in the taskbar and Start menu. |
-| `run_apps/run_apps.json` | Defines the applications that can be opened through Run. |
-| `login_details.json` | Created after sign-up; stores the local username and password hash. |
+Security & important warnings
+- The Terminal runs host shell commands. There is no sandboxing — do not run untrusted commands.
+- Login is local-only: credentials are hashed and stored locally; this is not a secure multi-user authentication system.
+- This is experimental code: do not use on machines containing sensitive data.
 
-## Dependencies
+Known issues & refactor observations (concrete)
+- README previously referenced CustomTkinter/Pillow — outdated; code now uses PySide6. README updated to reflect this.
+- Typo: `settings.json` default uses the key `maximized`, but `main.py` checks `settings["maxmimized"]` when deciding to call `showMaximized()` — this typo can break expected behaviour.
+- Dynamic import pattern in `main.py` uses `__import__` + `getattr`; when adding apps ensure module/class names match.
+- Styling relies on `.qss` files in `styling/` subdirectories; ensure those directories contain `.qss` files for the styles to load.
+- `core.WebEnginePage.chooseFiles` uses `core.filedialog` dialogs when web pages request file selection.
 
-```text
-customtkinter
-Pillow
-```
+Roadmap / immediate TODOs before official v19
+- Finish and stabilize v19 feature set.
+- Fix the `maximized`/`maxmimized` typo and validate settings keys at startup.
+- Improve Terminal safety (sandbox, confirmations, permission model).
+- Add packaging/installer instructions and CI/testing for UI and core logic.
+- Update and finish docs to match the refactor.
 
-## Notes
+Contributing
+- Contributions are welcome. See CONTRIBUTING.md and CODE_OF_CONDUCT.md.
+- Good first PRs:
+  - Fix the `maximized` typo and add a runtime validation or unit to prevent regressions.
+  - Update any remaining CustomTkinter references.
+  - Add safer Terminal behavior or confirmation prompts.
+  - Improve `core.get_qss_styles()` error handling for missing or empty QSS dirs.
 
-RoshanSystem is an educational, experimental desktop simulation, not an operating system or a security boundary. In particular, the Terminal executes commands through the host shell, so use it only with commands you trust.
+License
+- MIT (see LICENSE)
 
-## Contributing
+Acknowledgements
+- This snapshot was refactored into a modular core and PySide6-based GUI; thank you to all contributors listed in `run_apps/rosver.py`.
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and follow the project [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## License
-
-RoshanSystem is available under the [MIT License](LICENSE).
+If you'd like, I can:
+- commit this README.md to the repository (create a branch + PR), or
+- open issues for the immediate follow-ups (maximized key fix, docs cleanup, Terminal safety).
