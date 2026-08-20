@@ -20,6 +20,7 @@ class QtSwitch(QWidget):
     def __init__(self, master, offLabel: str, onLabel: str, QLayout, onChangeCallback: Callable[[bool], Any]) -> None:
         super().__init__(master)
         self._layout: QVBoxLayout | QHBoxLayout = QLayout(self)
+        self._layout.setSpacing(0)
         self.onChangeCallback = onChangeCallback
         self.switchedOn: bool = False
 
@@ -49,19 +50,9 @@ class QtSwitch(QWidget):
         self.selected = not self.selected
 
 class VerticalSwitch(QtSwitch):
-    def __init__(self, master = None, offLabel: str = "Off", onLabel: str = "On", onChangeCallback: Callable[[bool], Any] = print) -> None:
+    def __init__(self, master, offLabel: str = "Off", onLabel: str = "On", onChangeCallback: Callable[[bool], Any] = print) -> None:
         super().__init__(master, offLabel, onLabel, QVBoxLayout, onChangeCallback)
 
 class HorizontalSwitch(QtSwitch):
-    def __init__(self, master = None, offLabel: str = "Off", onLabel: str = "On", onChangeCallback: Callable[[bool], Any] = print) -> None:
+    def __init__(self, master, offLabel: str = "Off", onLabel: str = "On", onChangeCallback: Callable[[bool], Any] = print) -> None:
         super().__init__(master, offLabel, onLabel, QHBoxLayout, onChangeCallback)
-
-if __name__ == "__main__":
-    app = QApplication(["--style=fusion"])
-    test1 = VerticalSwitch()
-    test1.resize(100, 50)
-    test2 = HorizontalSwitch()
-    test2.resize(100, 50)
-    test1.show()
-    test2.show()
-    app.exec()
