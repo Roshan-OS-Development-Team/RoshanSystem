@@ -58,10 +58,11 @@ else:
         "messagebox_shutdown": True
     }
 
+if not os.path.exists("packages"):
+    os.mkdir("packages")
+
 # Gets all the styling for the window
 style = core.get_qss_styles("styling/main")
-
-
 
 # The main application class
 class App(QMainWindow):

@@ -182,9 +182,9 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#  and can be added to the global gitignore or merged into this file. However, if you prefer,
 #  you could uncomment the following to ignore the entire vscode folder
 # .vscode/
 
@@ -346,7 +346,7 @@ x86/
 
 # === Visual Studio Code (VS Code) ===
 .vscode/
-# Note: Keep .vscode/launch.json if you want to share debug configs, 
+# Note: Keep .vscode/launch.json if you want to share debug configs,
 # but usually it's best to ignore the whole folder in C++ projects.
 
 # === OS & Misc ===
@@ -363,6 +363,7 @@ Thumbs.dbcd dis
 # === Roshan OS stuff ==
 Roshan\ System\ -\ Python\ Version/settings.json
 Roshan\ System\ -\ Python\ Version/login_details.json
+Roshan\ System\ -\ Python\ Version/packages
 
 # === Pyinstaller stuff ===
 build/
