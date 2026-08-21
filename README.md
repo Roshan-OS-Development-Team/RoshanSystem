@@ -3,15 +3,10 @@
 [![Python](https://img.shields.io/badge/Python-PySide6-3776ab?logo=python&logoColor=white)](Roshan%20System%20-%20Python%20Version)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Experimental-orange.svg)]()
+[![Web Apps](https://img.shields.io/badge/HTML-Web%20Apps-orange?logo=html5&logoColor=white)](Roshan%20System%20-%20Python%20Version)
+[![Web Apps](https://img.shields.io/badge/CSS-Web%20Apps-blue?logo=css&logoColor=white)](Roshan%20System%20-%20Python%20Version)
+[![Web Apps](https://img.shields.io/badge/Javascript-Web%20Apps-yellow?logo=javascript&logoColor=white)](Roshan%20System%20-%20Python%20Version)
 
-<!-- Line-count and language breakdown badges -->
-| Language | File Count | File % | Total LOC | LOC % | Avg. Lines / File | Purpose / Role |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Python** | 21 | 36.21% | 1,847 | 75.17% | 87.95 | Apps and the core |
-| **QSS** | 34 | 58.62% | 416 | 16.93% | 12.24 | Stylesheets |
-| **JSON** | 2 | 3.45% | 106 | 4.31% | 53.00 | Apps and Run Apps |
-| **HTML** | 1 | 1.72% | 88 | 3.58% | 88.00 | Paint |
-| **Total** | **58** | **100%** | **2,457** | **100%** | **42.36** | **Roshan System** |
 
 WARNING — Early v19 snapshot
 This repository contains an early, experimental snapshot of RoshanSystem v19. Many v19 features are still being implemented and refactored, on-disk formats and APIs may change, and there are known rough edges. This snapshot is intended for development and experimentation — not production use.
