@@ -36,7 +36,10 @@
 
 <body>
     <div id="app-container">
-        <input id="color-input" placeholder="Enter a hex code for the color you want"/>
+        <div id="toolbar">
+            <input id="color-input" placeholder="Enter a hex code for the color you want"/>
+            <input type="range" id="thickness-slider" min="1" max="100" value="0" step="1" name="thickness"/>
+        </div>
         <div id="color-panel">
             <button style="background-color: red; width: 50px; height: 50px; border-radius: 10px; border: none" onclick="changeColor('red')"></button>
             <button style="background-color: orange; width: 50px; height: 50px; border-radius: 10px; border: none" onclick="changeColor('orange')"></button>
@@ -55,13 +58,14 @@
     const canvas = document.getElementById("PaintCanvas");
     const ctx = canvas.getContext("2d");
     const colorInput = document.getElementById("color-input");
+    const slider = document.getElementById("thickness-slider");
+    let radius = 10;
 
     let isDrawing = false;
     let color = "black";
 
     function draw(x, y) {
       ctx.beginPath();
-      const radius = 10;
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fillStyle = color;
       ctx.fill();
@@ -84,5 +88,8 @@
       if (isDrawing) draw(event.offsetX, event.offsetY);
     });
     window.addEventListener("mouseup", () => isDrawing = false);
+    slider.addEventListener("input", function() {
+      radius = Number(this.value)
+    });
     </script>
 </body>
