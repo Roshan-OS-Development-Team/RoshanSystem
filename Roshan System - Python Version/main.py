@@ -45,7 +45,11 @@ os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = (
     "--disable-features=FFmpegAllowLists"
 )
 os.chdir(
-    os.path.dirname(os.path.abspath(__file__))
+    os.path.dirname(
+        os.path.abspath(
+            __file__
+        )
+    )
 )  # Makes the working directory to this folder
 
 # Checks if the settings file exists and if it isnt empty
