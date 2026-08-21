@@ -1,5 +1,3 @@
-from collections.abc import Sequence
-
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QMouseEvent, QPixmap
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings

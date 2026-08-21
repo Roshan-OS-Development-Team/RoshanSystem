@@ -27,7 +27,7 @@ class Rosver(core.Window):
         self.os_name_lbl.move(100, 50)
 
         self.version_label = QLabel(self)
-        self.version_label.setText("Version 19 | 19.290726")
+        self.version_label.setText("Version 19 | 19.210826")
         self.version_label.setStyleSheet(style["text_lbl"])
         self.version_label.move(20, 120)
 
