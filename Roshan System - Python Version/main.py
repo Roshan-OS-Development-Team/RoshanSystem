@@ -40,6 +40,10 @@ except ModuleNotFoundError:
 import core  # Imports the window class for type annotation and for settings and dynamic styling
 from login_page import LoginPage  # Imports the Login Page for ROS
 
+os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = (
+    "--autoplay-policy=no-user-gesture-required "
+    "--disable-features=FFmpegAllowLists"
+)
 os.chdir(
     os.path.dirname(os.path.abspath(__file__))
 )  # Makes the working directory to this folder

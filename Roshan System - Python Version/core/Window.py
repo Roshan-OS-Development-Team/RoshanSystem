@@ -2,7 +2,7 @@ from collections.abc import Sequence
 
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QMouseEvent, QPixmap
-from PySide6.QtWebEngineCore import QWebEnginePage
+from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (
     QApplication,
@@ -95,20 +95,6 @@ class WebEnginePage(QWebEnginePage):
             print(f"[WARNING]: {message}")
         else:
             print(f"[LOG]: {message}")
-    def chooseFiles(self, mode: QWebEnginePage.FileSelectionMode, oldFiles: Sequence[str], acceptedMimeTypes: Sequence[str], /) -> list[str]:
-        from core.filedialog import OpenFileDialog, SaveFileDialog
-        if mode == QWebEnginePage.FileSelectionMode.FileSelectSave:
-            filepaths = []
-            filedialog = SaveFileDialog(self.master, acceptedMimeTypes, filepaths.append)
-            filedialog.show()
-            return filepaths
-        elif mode == QWebEnginePage.FileSelectionMode.FileSelectOpen:
-            filepaths = []
-            filedialog = OpenFileDialog(self.master, acceptedMimeTypes, filepaths.append)
-            filedialog.show()
-            return filepaths
-        return super().chooseFiles(mode, oldFiles, acceptedMimeTypes)
-
 
 class WebWindow(QWidget):
     def __init__(
@@ -168,6 +154,9 @@ class WebWindow(QWidget):
         self.titlelabel.move(60, 10)
 
         self.webview = QWebEngineView(self)
+        self.webview.settings().setAttribute(
+            QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, False
+        )
         self.page = WebEnginePage(master)
         self.webview.setPage(self.page)
         self.webview.setHtml(html_str, QUrl("about:blank"))
