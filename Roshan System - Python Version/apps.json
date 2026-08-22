@@ -1,10 +1,10 @@
 {
-    "Notepad": {
+    "Browser": {
         "module": "apps",
-        "class_or_func": "Notepad",
+        "class_or_func": "Browser",
         "startmenu_btn": true,
         "taskbar_btn": true,
-        "icon": "textures/notepad.png"
+        "icon": "textures/browser.png"
     },
 
     "Calculator": {
@@ -31,6 +31,22 @@
         "icon": "textures/imageviewer.png"
     },
 
+    "Notepad": {
+        "module": "apps",
+        "class_or_func": "Notepad",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/notepad.png"
+    },
+
+    "Paint": {
+        "module": "apps",
+        "class_or_func": "Paint",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/paint.png"
+    },
+
     "Run": {
         "module": "apps",
         "class_or_func": "Run",
@@ -45,14 +61,6 @@
         "startmenu_btn": true,
         "taskbar_btn": true,
         "icon": "textures/terminal.png"
-    },
-
-    "Paint": {
-        "module": "apps",
-        "class_or_func": "Paint",
-        "startmenu_btn": true,
-        "taskbar_btn": true,
-        "icon": "textures/paint.png"
     },
 
     "WebOrbit": {

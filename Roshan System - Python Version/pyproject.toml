@@ -4,7 +4,8 @@ version = "19.200826"
 dependences = [
     "pyside6",
     "pyside6_addons",
-    "pyside6_essentials"
+    "pyside6_essentials",
+    "requests"
 ]
 
 [tool.basedpyright]

@@ -1,3 +1,4 @@
+from .browser import Browser
 from .calculator import Calculator
 from .fileexplorer import FileExplorer
 from .imageviewer import ImageViewer
@@ -8,6 +9,7 @@ from .terminal import Terminal
 from .weborbit import WebOrbit
 
 __all__ = (
+    "Browser",
     "Calculator",
     "FileExplorer",
     "ImageViewer",
