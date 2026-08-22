@@ -20,7 +20,9 @@ try:
         QWidget,
     )
 except ModuleNotFoundError:
-    subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False)
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False
+    )
     from PySide6.QtCore import Qt
     from PySide6.QtGui import QCloseEvent, QIcon, QPixmap, QResizeEvent
     from PySide6.QtWidgets import (
@@ -37,20 +39,16 @@ except ModuleNotFoundError:
     )
 
 # === End of PySide6 imports ===
+
+os.chdir(
+    os.path.dirname(os.path.abspath(__file__))
+)  # Makes the working directory to this folder
 import core  # Imports the window class for type annotation and for settings and dynamic styling
 from login_page import LoginPage  # Imports the Login Page for ROS
 
 os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = (
-    "--autoplay-policy=no-user-gesture-required "
-    "--disable-features=FFmpegAllowLists"
+    "--autoplay-policy=no-user-gesture-required --disable-features=FFmpegAllowLists"
 )
-os.chdir(
-    os.path.dirname(
-        os.path.abspath(
-            __file__
-        )
-    )
-)  # Makes the working directory to this folder
 
 # Checks if the settings file exists and if it isnt empty
 if os.path.exists("settings.json") and os.path.getsize("settings.json") > 0:
@@ -63,7 +61,7 @@ else:
         "fullscreen": True,
         "maximized": True,
         "taskbar_alignment": "center",
-        "messagebox_shutdown": True
+        "messagebox_shutdown": True,
     }
 
 if not os.path.exists("packages"):
@@ -71,6 +69,7 @@ if not os.path.exists("packages"):
 
 # Gets all the styling for the window
 style = core.get_qss_styles("styling/main")
+
 
 # The main application class
 class App(QMainWindow):
@@ -175,10 +174,7 @@ class App(QMainWindow):
                 Qt.TransformationMode.SmoothTransformation,
             )
 
-            self.apps[app] = {
-                "instance": app_instance,
-                "ico": app_img
-            }
+            self.apps[app] = {"instance": app_instance, "ico": app_img}
 
             if starter["taskbar_btn"]:
                 self.app_taskbar_btn = QPushButton()
@@ -207,10 +203,7 @@ class App(QMainWindow):
             Qt.AspectRatioMode.KeepAspectRatio,
             Qt.TransformationMode.SmoothTransformation,
         )
-        self.apps["settings"] = {
-            "instance": self.settings(),
-            "ico": settings_ico
-        }
+        self.apps["settings"] = {"instance": self.settings(), "ico": settings_ico}
         self.loginPage = LoginPage(self)
         self.ready = True
 
@@ -261,7 +254,7 @@ class App(QMainWindow):
             self.width(),
             self.height(),
             Qt.AspectRatioMode.IgnoreAspectRatio,
-            Qt.TransformationMode.SmoothTransformation
+            Qt.TransformationMode.SmoothTransformation,
         )
         self.backgroundlabel.setPixmap(self.background)
         settings["background"] = filePath
@@ -299,7 +292,7 @@ class App(QMainWindow):
                 100,
                 100,
                 Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.SmoothTransformation
+                Qt.TransformationMode.SmoothTransformation,
             )
             background_btn = QPushButton(background_buttons)
             background_btn.setIcon(background_ico)
@@ -318,7 +311,6 @@ class App(QMainWindow):
         personalization_tab_layout.addWidget(background_buttons)
 
         contents.addTab(personalization_tab, "Personalization")
-
 
         return settings_win
 
