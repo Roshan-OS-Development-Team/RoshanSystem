@@ -2,13 +2,11 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 
 import core
 
-with open("apps/paint.html", "r") as f:
-    htmlCode = f.read()
-
 
 class Paint(core.WebWindow):
     def __init__(self, master):
-        super().__init__(master, "Pain(t)", htmlCode, (960, 480), "textures/paint.png")
+        super().__init__(master, "Pain(t)", size=(960, 480), icon="textures/paint.png")
+        self.webview.load("https://roshan-os-development-team.github.io/ROS-Paint-App/")
 
 
 if __name__ == "__main__":
