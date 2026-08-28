@@ -21,7 +21,7 @@ try:
     )
 except ModuleNotFoundError:
     subprocess.run(
-        [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False
+        [sys.executable, "-m", "pip", "install", "-e", "."], check=False
     )
     from PySide6.QtCore import Qt
     from PySide6.QtGui import QCloseEvent, QIcon, QPixmap, QResizeEvent
@@ -45,10 +45,6 @@ os.chdir(
 )  # Makes the working directory to this folder
 import core  # Imports the window class for type annotation and for settings and dynamic styling
 from login_page import LoginPage  # Imports the Login Page for ROS
-
-os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = (
-    "--autoplay-policy=no-user-gesture-required --disable-features=FFmpegAllowLists"
-)
 
 # Checks if the settings file exists and if it isnt empty
 if os.path.exists("settings.json") and os.path.getsize("settings.json") > 0:
