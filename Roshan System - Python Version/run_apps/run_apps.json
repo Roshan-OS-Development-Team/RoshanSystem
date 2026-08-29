@@ -1,30 +1,65 @@
 {
-    "rosver": {
-        "module": "run_apps",
-        "class_or_func": "Rosver"
-    },
-    "notepad": {
+    "browser": {
         "module": "apps",
-        "class_or_func": "Notepad"
+        "class_or_func": "Browser",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/browser.png"
     },
 
     "calculator": {
         "module": "apps",
-        "class_or_func": "Calculator"
+        "class_or_func": "Calculator",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/calculator.png"
     },
 
     "file explorer": {
         "module": "apps",
-        "class_or_func": "FileExplorer"
+        "class_or_func": "FileExplorer",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/explorer.png"
     },
 
     "image viewer": {
         "module": "apps",
-        "class_or_func": "ImageViewer"
+        "class_or_func": "ImageViewer",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/imageviewer.png"
+    },
+
+    "notepad": {
+        "module": "apps",
+        "class_or_func": "Notepad",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/notepad.png"
+    },
+
+    "paint": {
+        "module": "apps",
+        "class_or_func": "Paint",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/paint.png"
     },
 
     "terminal": {
         "module": "apps",
-        "class_or_func": "Terminal"
+        "class_or_func": "Terminal",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/terminal.png"
+    },
+
+    "package manager": {
+        "module": "packageManager",
+        "class_or_func": "PackageManager",
+        "startmenu_btn": true,
+        "taskbar_btn": true,
+        "icon": "textures/packagemanager.png"
     }
 }

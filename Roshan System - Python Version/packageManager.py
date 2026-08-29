@@ -57,9 +57,32 @@ class PackageManager(core.Window):
 
         self.tabView.addTab(self.appsTab, "Apps")
 
+        self.runAppsTab = QScrollArea(self.tabView)
+        self.runAppsTab.setWidgetResizable(True)
+        self.runAppsTabWidget = QWidget(self.appsTab)
+        self.runAppsTabLayout = QVBoxLayout(self.runAppsTabWidget)
+        self.runAppsTabLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.runAppsTab.setWidget(self.runAppsTabWidget)
+        self.runAppsTab.setStyleSheet(style["appbar"])
+
+        self.tabView.addTab(self.runAppsTab, "Run Apps")
+
+        self.drawGUI()
+
+    def drawGUI(self):
+
+        for children in self.appsTabWidget.findChildren(QWidget):
+            children.deleteLater()
+
         for packageName in self.packagesJSON:
             packageJSON = self.packagesJSON[packageName]
-            isPackageInstalled = packageName in self.installedPackages and os.path.splitext(os.path.basename(unquote(packageJSON["download_link"])))[0] in os.listdir("packages")
+            isPackageInstalled = (
+                packageName in self.installedPackages
+                and os.path.splitext(
+                    os.path.basename(unquote(packageJSON["download_link"]))
+                )[0]
+                in os.listdir("packages")
+            )
             appBar = QWidget()
             appBar.setStyleSheet(style["appbar"])
             appBarLayout = QHBoxLayout(appBar)
@@ -97,6 +120,16 @@ class PackageManager(core.Window):
                             lambda checked, app=packageName: self.installApp(app)
                         )
                     self.appsTabLayout.addWidget(appBar)
+                case "run_app":
+                    if isPackageInstalled:
+                        installOrUninstallBtn.clicked.connect(
+                            lambda checked, app=packageName: self.uninstallRunApp(app)
+                        )
+                    else:
+                        installOrUninstallBtn.clicked.connect(
+                            lambda checked, app=packageName: self.installRunApp(app)
+                        )
+                    self.runAppsTabLayout.addWidget(appBar)
 
     def installApp(self, app: str):
         appRequest = requests.get(self.packagesJSON[app]["download_link"])
@@ -118,15 +151,17 @@ class PackageManager(core.Window):
             appsJSON = json.load(f)
 
         appsJSON[app] = {
-            "module": f"packages.{app}.{os.path.splitext(self.packagesJSON[app]["main_app_file"])[0]}",
+            "module": f"packages.{app}.{os.path.splitext(self.packagesJSON[app]['main_app_file'])[0]}",
             "class_or_func": self.packagesJSON[app]["main_app_class"],
             "startmenu_btn": self.packagesJSON[app]["startmenu_btn"],
             "taskbar_btn": self.packagesJSON[app]["taskbar_btn"],
-            "icon": f"packages/{app}/{self.packagesJSON[app]["main_app_icon"]}"
+            "icon": f"packages/{app}/{self.packagesJSON[app]['main_app_icon']}",
         }
 
         with open("apps.json", "w") as f:
             json.dump(appsJSON, f, indent=4)
+
+        self.drawGUI()
 
     def uninstallApp(self, app: str):
         shutil.rmtree(f"packages/{app}")
@@ -140,14 +175,59 @@ class PackageManager(core.Window):
         appsJSON.pop(app)
 
         with open("apps.json", "w") as f:
-            json.dump(appsJSON, f, indent=4)
+            json.dump(dict(sorted(appsJSON)), f, indent=4)
+
+        self.drawGUI()
+
+    def installRunApp(self, app: str):
+        appRequest = requests.get(self.packagesJSON[app]["download_link"])
+        appRequest.raise_for_status()
+
+        with open("temp.zip", "wb") as f:
+            f.write(appRequest.content)
+
+        shutil.unpack_archive("temp.zip", "packages")
+        os.remove("temp.zip")
+
+        self.installedPackages.append(app)
+
+        with open("installed_packages.json", "w") as f:
+            json.dump(self.installedPackages, f, indent=4)
+
+        with open("run_apps/run_apps.json", "r") as f:
+            runAppsJSON = json.load(f)  # I think this loads the run apps ig?
+
+        runAppsJSON[app] = {
+            "module": f"packages.{app}.{os.path.splitext(self.packagesJSON[app]['main_app_file'])[0]}",
+            "class_or_func": self.packagesJSON[app]["main_app_class"],
+        }
+
+        with open("run_apps/run_apps.json", "w") as f:
+            json.dump(runAppsJSON, f, indent=4)
+
+        self.drawGUI()
+
+    def uninstallRunApp(self, app: str):
+        shutil.rmtree(f"packages/{app}")
+        self.installedPackages.remove(app)
+
+        with open("installed_packages.json", "w") as f:
+            json.dump(self.installedPackages, f, indent=4)
+
+        with open("run_apps/run_apps.json", "r") as f:
+            runAppsJSON: dict = json.load(f)
+
+        runAppsJSON.pop(app)
+
+        with open("run_apps/run_apps.json", "w") as f:
+            json.dump(runAppsJSON, f, indent=4)
 
 
 if __name__ == "__main__":
     app = QApplication(["--style=fusion"])
     win = QMainWindow()
     win.resize(960, 480)
-    packageManager = PackageManger(win)
+    packageManager = PackageManager(win)
     packageManager.show()
     win.show()
     app.exec()

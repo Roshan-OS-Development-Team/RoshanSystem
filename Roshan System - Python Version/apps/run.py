@@ -1,3 +1,4 @@
+import importlib
 import json
 
 from PySide6.QtWidgets import QApplication, QLineEdit, QMainWindow, QPushButton
@@ -17,7 +18,7 @@ class Run(core.Window):
         self.apps: dict[str, core.Window] = {}
 
         for app in apps:
-            app_module = __import__(apps[app]["module"])
+            app_module = importlib.import_module(apps[app]["module"])
             app_class = getattr(app_module, apps[app]["class_or_func"])
             app_instance = app_class(master)
             app_instance.hide()
