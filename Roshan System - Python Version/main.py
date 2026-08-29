@@ -1,3 +1,4 @@
+import importlib  # imports importlib for the app-loading via apps.json
 import json  # Helps load and save settings.json
 import os  # Imports OS to check if a path exists and to check if settings.json is valid
 import subprocess  # Handles dependency handling
@@ -159,7 +160,7 @@ class App(QMainWindow):
 
         for app in self.apps:
             starter = self.apps[app]
-            app_module = __import__(starter["module"])
+            app_module = sys.modules[starter["module"]] if sys.modules.get(starter["module"]) else importlib.import_module(starter["module"])
             app_class = getattr(app_module, starter["class_or_func"])
             app_instance = app_class(self)
             app_instance.hide()

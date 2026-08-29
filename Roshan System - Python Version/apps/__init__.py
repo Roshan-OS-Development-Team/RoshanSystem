@@ -6,7 +6,6 @@ from .notepad import Notepad
 from .paint import Paint
 from .run import Run
 from .terminal import Terminal
-from .weborbit import WebOrbit
 
 __all__ = (
     "Browser",
@@ -16,6 +15,5 @@ __all__ = (
     "Notepad",
     "Paint",
     "Run",
-    "Terminal",
-    "WebOrbit"
+    "Terminal"
 )

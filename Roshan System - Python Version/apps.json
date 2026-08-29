@@ -63,11 +63,11 @@
         "icon": "textures/terminal.png"
     },
 
-    "WebOrbit": {
-        "module": "apps",
-        "class_or_func": "WebOrbit",
+    "Package Manager": {
+        "module": "packageManager",
+        "class_or_func": "PackageManager",
         "startmenu_btn": true,
         "taskbar_btn": true,
-        "icon": "textures/weborbit.png"
+        "icon": "textures/packagemanager.png"
     }
 }

@@ -22,7 +22,7 @@ import core
 style = core.get_qss_styles("styling/packageManager")
 
 
-class PackageManger(core.Window):
+class PackageManager(core.Window):
     def __init__(self, master):
         super().__init__(
             master, "Package Manager", (960, 480), "textures/packagemanager.png"
