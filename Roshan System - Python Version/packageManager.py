@@ -106,17 +106,41 @@ class PackageManger(core.Window):
 
         shutil.unpack_archive("temp.zip", "packages")
         os.remove("temp.zip")
+
         if app in self.installedPackages:
             self.installedPackages.remove(app)
         self.installedPackages.append(app)
+
         with open("installed_packages.json", "w") as f:
-            json.dump(self.installedPackages, f)
+            json.dump(self.installedPackages, f, indent=4)
+
+        with open("apps.json", "r") as f:
+            appsJSON = json.load(f)
+
+        appsJSON[app] = {
+            "module": f"packages.{app}.{os.path.splitext(self.packagesJSON[app]["main_app_file"])[0]}",
+            "class_or_func": self.packagesJSON[app]["main_app_class"],
+            "startmenu_btn": self.packagesJSON[app]["startmenu_btn"],
+            "taskbar_btn": self.packagesJSON[app]["taskbar_btn"],
+            "icon": f"packages/{app}/{self.packagesJSON[app]["main_app_icon"]}"
+        }
+
+        with open("apps.json", "w") as f:
+            json.dump(appsJSON, f, indent=4)
 
     def uninstallApp(self, app: str):
         shutil.rmtree(f"packages/{app}")
         self.installedPackages.remove(app)
         with open("installed_packages.json", "w") as f:
-            json.dump(self.installedPackages, f)
+            json.dump(self.installedPackages, f, indent=4)
+
+        with open("apps.json", "r") as f:
+            appsJSON: dict = json.load(f)
+
+        appsJSON.pop(app)
+
+        with open("apps.json", "w") as f:
+            json.dump(appsJSON, f, indent=4)
 
 
 if __name__ == "__main__":
