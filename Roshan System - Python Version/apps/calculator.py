@@ -1,3 +1,5 @@
+from ast import expr
+
 from PySide6.QtWidgets import (
     QApplication,
     QGridLayout,
@@ -79,9 +81,18 @@ class Calculator(core.Window):
         self.expression_lbl.setText(self.expression)
 
     def evaluate_expression(self):
-        self.expression = eval(self.expression)
-        if self.expression % 1 == 0:
-            self.expression = str(int(self.expression))
+        operators = ["+", "-", "*", "/"]
+
+        for operator in operators:
+            if operator in self.expression:
+                expression = [item.strip() for item in self.expression.split(operator)]
+                result: float = float(expression[0]) + float(expression[1])
+                self.changeLabelText(result)
+                return
+
+    def changeLabelText(self, result: float):
+        if result % 1 == 0:
+            self.expression = str(int(result))
         else:
             self.expression = str(self.expression)
         self.expression_lbl.setText(self.expression)
