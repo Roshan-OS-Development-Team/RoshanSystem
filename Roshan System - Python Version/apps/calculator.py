@@ -1,5 +1,3 @@
-from ast import expr
-
 from PySide6.QtWidgets import (
     QApplication,
     QGridLayout,
