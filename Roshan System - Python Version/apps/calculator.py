@@ -81,12 +81,24 @@ class Calculator(core.Window):
         self.expression_lbl.setText(self.expression)
 
     def evaluate_expression(self):
-        operators = ["+", "-", "*", "/"]
 
-        for operator in operators:
+        for operator in self.operators:
             if operator in self.expression:
-                expression = [item.strip() for item in self.expression.split(operator)]
-                result: float = float(expression[0]) + float(expression[1])
+                expression = [float(item.strip()) for item in self.expression.split(operator)]
+                result: float = 0.0
+                for num in expression:
+                    match operator:
+                        case "+":
+                            result += num
+                        case "-":
+                            result -= num
+                        case "*":
+                            result *= num
+                        case "/":
+                            if 0 in expression:
+                                self.expression_lbl.setText("Error: Cannot Divide by 0")
+                                return
+                            result /= num
                 self.changeLabelText(result)
                 return
 
@@ -94,7 +106,7 @@ class Calculator(core.Window):
         if result % 1 == 0:
             self.expression = str(int(result))
         else:
-            self.expression = str(self.expression)
+            self.expression = str(result)
         self.expression_lbl.setText(self.expression)
 
 
