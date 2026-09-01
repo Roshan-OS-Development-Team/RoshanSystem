@@ -104,8 +104,9 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         cd 'Roshan System - C++ Version'
+        wget https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage -O LinuxDeploy.AppImage
         wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage -O LinuxDeployQt.AppImage
-        chmod +x LinuxDeployQt.AppImage
+        chmod +x LinuxDeploy.AppImage LinuxDeployQt.AppImage
 
         mkdir -p appdir/usr/bin
 
@@ -113,7 +114,7 @@ jobs:
         cp -r build/textures appdir/usr/bin
         cp -r build/styling appdir/usr/bin
 
-        ./LinuxDeployQt.AppImage --appdir appdir --plugin qt --output build/RoshanSystemApp
+        ./LinuxDeploy.AppImage --appdir appdir --plugin qt --output build/RoshanSystemApp
      
     - name: Upload Built version
       uses: actions/upload-artifact@v4
