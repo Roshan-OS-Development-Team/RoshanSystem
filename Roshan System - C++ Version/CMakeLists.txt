@@ -24,6 +24,11 @@ qt_add_executable(
         core/window.h
 )
 
+set_target_properties(RoshanSystem PROPERTIES
+    WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE TRUE
+)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui)
 
 add_custom_target(RoshanSystemCopy ALL
