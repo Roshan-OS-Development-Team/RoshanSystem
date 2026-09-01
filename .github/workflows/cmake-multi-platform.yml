@@ -47,6 +47,8 @@ jobs:
             c_compiler: gcc
           - os: macos-latest
             c_compiler: cl
+          - os: ubuntu-latest
+            c_compiler: clang
 
     steps:
     - uses: actions/checkout@v4
@@ -72,7 +74,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.7.3'
+        version: '6.8.3'
         target: 'desktop'
 
     - name: Configure CMake
