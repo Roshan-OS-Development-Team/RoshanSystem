@@ -114,7 +114,9 @@ jobs:
         cp -r build/textures appdir/usr/bin
         cp -r build/styling appdir/usr/bin
 
-        ./LinuxDeploy.AppImage --appdir appdir --plugin qt --output build/RoshanSystemApp
+        ./LinuxDeploy.AppImage --appdir appdir --plugin qt --output appimage
+
+        mv *.AppImage build/
      
     - name: Upload Built version
       uses: actions/upload-artifact@v4
