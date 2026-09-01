@@ -45,7 +45,7 @@ jobs:
             c_compiler: cl
           - os: macos-latest
             c_compiler: gcc
-          - os: macos_latest
+          - os: macos-latest
             c_compiler: cl
 
     steps:
@@ -80,4 +80,6 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build build --config release
+      run: |
+        cd 'Roshan System - C++ Version'
+        cmake --build build --config release
