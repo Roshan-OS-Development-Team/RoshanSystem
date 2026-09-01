@@ -4,9 +4,8 @@ name: Compile Roshan OS
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -23,7 +22,7 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, macos-latest]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         include:
@@ -41,14 +40,10 @@ jobs:
             c_compiler: gcc
           - os: windows-latest
             c_compiler: clang
-          - os: ubuntu-latest
-            c_compiler: cl
           - os: macos-latest
             c_compiler: gcc
           - os: macos-latest
             c_compiler: cl
-          - os: ubuntu-latest
-            c_compiler: clang
 
     steps:
     - uses: actions/checkout@v4
@@ -59,12 +54,6 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-
-    - name: Get Linux Dependencies
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt update
-        sudo apt install -y libgl1-mesa-dev libxkbcommon-x11-0
 
     - name: Update aqtinstall for windows
       if: matrix.os == 'windows-latest'
@@ -100,23 +89,6 @@ jobs:
       run: |
         cd 'Roshan System - C++ Version/build'
         macdeployqt RoshanSystem.app
-    - name: Deploy App for Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        cd 'Roshan System - C++ Version'
-        wget https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage -O LinuxDeploy.AppImage
-        wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage -O linuxdeploy-plugin-qt.AppImage
-        chmod +x LinuxDeploy.AppImage linuxdeploy-plugin-qt.AppImage
-
-        mkdir -p appdir/usr/bin
-
-        cp build/RoshanSystem appdir/usr/bin
-        cp -r build/textures appdir/usr/bin
-        cp -r build/styling appdir/usr/bin
-
-        ./LinuxDeploy.AppImage --appdir appdir --plugin qt --output appimage
-
-        mv *.AppImage build/
      
     - name: Upload Built version
       uses: actions/upload-artifact@v4
