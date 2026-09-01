@@ -95,4 +95,10 @@ jobs:
       with:
         name: RoshanSystem-Package
         path: |
-          build/
+          Roshan System - C++ Version/build/
+          Roshan System - C++ Version/build/Release/
+          !Roshan System - C++ Version/build/**/*.obj
+          !Roshan System - C++ Version/build/**/*.o
+          !Roshan System - C++ Version/build/**/*.tlog
+          !Roshan System - C++ Version/build/**/CMakeFiles/
+          !Roshan System - C++ Version/build/**/CMakeCache.txt
