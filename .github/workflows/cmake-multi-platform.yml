@@ -105,7 +105,7 @@ jobs:
       run: |
         cd 'Roshan System - C++ Version'
         wget https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage -O LinuxDeploy.AppImage
-        wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage -O LinuxDeployQt.AppImage
+        wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage -O linuxdeploy-plugin-qt.AppImage
         chmod +x LinuxDeploy.AppImage LinuxDeployQt.AppImage
 
         mkdir -p appdir/usr/bin
