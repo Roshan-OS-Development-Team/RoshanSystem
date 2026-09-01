@@ -58,12 +58,12 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
-        sudo apt install -y libgl1-mesa-dev libxkbcommon-x11-0 libegl1-mesa
+        sudo apt install -y libgl1-mesa-dev libxkbcommon-x11-0
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: '6.11.0'
+        version: '6.6.0'
         host: ${{ matrix.os == 'windows-latest' && 'windows' || matrix.os == 'macos-latest' && 'mac' || 'linux' }}
         target: 'desktop'
 
