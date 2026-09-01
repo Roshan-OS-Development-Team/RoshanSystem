@@ -96,9 +96,3 @@ jobs:
         name: RoshanSystem-Package
         path: |
           build/
-          build/Release
-          !build/**/*.obj
-          !build/**/*.o
-          !build/**/*.tlog
-          !build/CMakeFiles/
-          !build/CMakeCache.txt
