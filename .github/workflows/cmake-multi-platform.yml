@@ -65,9 +65,9 @@ jobs:
         sudo apt install -y libgl1-mesa-dev libxkbcommon-x11-0
 
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
-        version: '6.9.0'
+        version: '6.11'
         target: 'desktop'
 
     - name: Configure CMake
