@@ -23,7 +23,7 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         include:
@@ -64,7 +64,6 @@ jobs:
       uses: jurplel/install-qt-action@v3
       with:
         version: '6.6.0'
-        host: ${{ matrix.os == 'windows-latest' && 'windows' || matrix.os == 'macos-latest' && 'mac' || 'linux' }}
         target: 'desktop'
 
     - name: Configure CMake
@@ -72,6 +71,7 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: |
         cd 'Roshan System - C++ Version'
+        mkdir build
         cmake -B build -S . DCMAKE_BUILD_TYPE=Release
 
     - name: Build
