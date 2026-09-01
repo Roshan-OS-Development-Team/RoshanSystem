@@ -67,7 +67,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: '6.8.0'
+        version: '6.7.0'
         target: 'desktop'
 
     - name: Configure CMake
@@ -83,3 +83,14 @@ jobs:
       run: |
         cd 'Roshan System - C++ Version'
         cmake --build build --config release
+    - name: Upload Built version
+      uses: actions/upload_artifcat@v4
+      with:
+        name: RoshanSystem-Package
+        path: |
+          ${{ github.workspace }}/build/
+          !${{ github.workspace }}/build/**/*.obj
+          !${{ github.workspace }}/build/**/*.o
+          !${{ github.workspace }}/build/**/*.tlog
+          !${{ github.workspace }}/build/CMakeFiles/
+          !${{ github.workspace }}/build/CMakeCache.txt
