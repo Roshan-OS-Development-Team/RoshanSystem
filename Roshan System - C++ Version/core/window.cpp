@@ -15,7 +15,7 @@ namespace core
     QWidget(parent)
     {
         this->setFixedSize(size.first, size.second);
-        QWidget* background = new QWidget(this);
+        auto background = new QWidget(this);
         background->setGeometry(0, 0, this->width(), this->height());
         background->setStyleSheet(QString::fromStdString(style["window"]));
         QPixmap winIco = QPixmap(QString::fromStdString(icon_path)).scaled(
@@ -24,9 +24,20 @@ namespace core
             Qt::KeepAspectRatio,
             Qt::SmoothTransformation
         );
-        QLabel* winIcoLbl = new QLabel(this);
+        auto winIcoLbl = new QLabel(this);
         winIcoLbl->setPixmap(winIco);
         winIcoLbl->move(10, 10);
+
+        auto titleLbl = new QLabel(this);
+        titleLbl->setText(QString::fromStdString(title));
+        titleLbl->move(40, 10);
+
+        auto closeBtn = new QPushButton(this);
+        closeBtn->setText("X");
+        closeBtn->setFixedSize(30, 30);
+        closeBtn->move(this->width() - 40, 10);
+        closeBtn->setStyleSheet(QString::fromStdString(style["closeBtn"]));
+        connect(closeBtn, &QPushButton::clicked, this, &Window::hide);
     }
 
     void Window::mousePressEvent(QMouseEvent* event)

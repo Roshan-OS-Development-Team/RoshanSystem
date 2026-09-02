@@ -15,7 +15,7 @@ protected:
     QPixmap background;
     QLabel *backgroundLabel;
     QWidget *taskbar;
-    QHBoxLayout *taskbarLayout = new QHBoxLayout(taskbar);
+    QHBoxLayout *taskbarLayout;
     std::map <std::string, std::string> style = core::get_qss_styles("styling/main");
 
     void resizeEvent(QResizeEvent* event) override
@@ -29,6 +29,7 @@ protected:
         this->backgroundLabel->setGeometry(0, 0, this->width(), this->height());
         this->backgroundLabel->setPixmap(this->background);
         this->taskbar->setGeometry(0, this->height() - 70, this->width(), 70);
+        this->taskbarLayout = new QHBoxLayout(this->taskbar);
     }
 public:
     App()
@@ -38,8 +39,14 @@ public:
         this->backgroundLabel = new QLabel(this);
         this->taskbar = new QWidget(this);
         this->taskbar->setStyleSheet(QString::fromStdString(style["taskbar"]));
-        core::Window *test = new core::Window(this, "Test Window", {960, 480}, "textures/start.png");
-        test->move(10, 10);
+    }
+
+    ~App()
+    {
+        for (QWidget *widget: this->findChildren<QWidget *>())
+        {
+            widget->deleteLater();
+        }
     }
 };
 
