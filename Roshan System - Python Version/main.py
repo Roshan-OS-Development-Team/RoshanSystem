@@ -3,6 +3,7 @@ import json  # Helps load and save settings.json
 import os  # Imports OS to check if a path exists and to check if settings.json is valid
 import subprocess  # Handles dependency handling
 import sys  # Handles command-line arguments arguments for the interal QApplication
+from typing import TypedDict  # Imports typed dict for type annotations
 
 # === Start of PySide6 imports ===
 try:
@@ -21,9 +22,7 @@ try:
         QWidget,
     )
 except ModuleNotFoundError:
-    subprocess.run(
-        [sys.executable, "-m", "pip", "install", "-e", "."], check=False
-    )
+    subprocess.run([sys.executable, "-m", "pip", "install", "-e", "."], check=False)
     from PySide6.QtCore import Qt
     from PySide6.QtGui import QCloseEvent, QIcon, QPixmap, QResizeEvent
     from PySide6.QtWidgets import (
@@ -47,13 +46,22 @@ os.chdir(
 import core  # Imports the window class for type annotation and for settings and dynamic styling
 from login_page import LoginPage  # Imports the Login Page for ROS
 
+
+class SettingsDict(TypedDict):
+    background: str
+    fullscreen: bool
+    maximized: bool
+    taskbar_alignment: str
+    messagebox_shutdown: bool
+
+
 # Checks if the settings file exists and if it isnt empty
 if os.path.exists("settings.json") and os.path.getsize("settings.json") > 0:
     with open("settings.json", "r") as f:
-        settings = json.load(f)
+        settings: SettingsDict = json.load(f)
 # This is an else case of the settings.json file not existing
 else:
-    settings = {
+    settings: SettingsDict = {
         "background": "textures/background7.png",
         "fullscreen": True,
         "maximized": True,
@@ -63,6 +71,9 @@ else:
 
 if not os.path.exists("packages"):
     os.mkdir("packages")
+
+if not os.path.exists("user_dir"):
+    os.mkdir("user_dir")
 
 # Gets all the styling for the window
 style = core.get_qss_styles("styling/main")
@@ -77,7 +88,7 @@ class App(QMainWindow):
         super().__init__()  # Calles the init method of the parent class
         self.setWindowTitle("Roshan OS")  # Sets the Window title to Roshan OS
 
-        app_ico = QIcon("textures/Logo.png")  # It gets the icon for the window
+        app_ico = QIcon("textures/Start.png")  # It gets the icon for the window
 
         self.setWindowIcon(app_ico)  # It sets the icon of the window
 
@@ -160,7 +171,11 @@ class App(QMainWindow):
 
         for app in self.apps:
             starter = self.apps[app]
-            app_module = sys.modules[starter["module"]] if sys.modules.get(starter["module"]) else importlib.import_module(starter["module"])
+            app_module = (
+                sys.modules[starter["module"]]
+                if sys.modules.get(starter["module"])
+                else importlib.import_module(starter["module"])
+            )
             app_class = getattr(app_module, starter["class_or_func"])
             app_instance = app_class(self)
             app_instance.hide()
@@ -201,6 +216,7 @@ class App(QMainWindow):
             Qt.TransformationMode.SmoothTransformation,
         )
         self.apps["settings"] = {"instance": self.settings(), "ico": settings_ico}
+        # self.apps["settings"]["instance"].hide()
         self.loginPage = LoginPage(self)
         self.ready = True
 
@@ -224,13 +240,18 @@ class App(QMainWindow):
                     self.width() // 2 - 200, self.height() - 480, 400, 400
                 )
 
-            self.loginPage.setGeometry(0, 0, self.width(), self.height())
-            self.loginPage.resizeEvent(event)
+            try:
+                self.loginPage.setGeometry(0, 0, self.width(), self.height())
+                self.loginPage.resizeEvent(event)
+            except RuntimeError:
+                pass
 
-    def closeEvent(self, event: QCloseEvent, /) -> None:
+    def _shutdown(self):
         with open("settings.json", "w") as f:
             json.dump(settings, f, indent=4)
 
+    def closeEvent(self, event: QCloseEvent, /) -> None:
+        self._shutdown()
         event.accept()
 
     def openApp(self, app: core.Window):
@@ -256,6 +277,11 @@ class App(QMainWindow):
         self.backgroundlabel.setPixmap(self.background)
         settings["background"] = filePath
 
+    def _restart(self):
+        subprocess.Popen([sys.executable, __file__])
+        self._shutdown()
+        sys.exit(0)
+
     def settings(self) -> core.Window:
         settings_win = core.Window(
             self, "Settings", (960, 480), "textures/settings.png"
@@ -274,10 +300,81 @@ class App(QMainWindow):
         contents.setStyleSheet(ctrlPanelStyles["contents"])
 
         personalization_tab = QScrollArea()
+        personalization_tab.setWidgetResizable(True)
         personalization_tab_container = QWidget()
-        personalization_tab.setWidget(personalization_tab_container)
         personalization_tab_layout = QVBoxLayout(personalization_tab)
         personalization_tab.viewport().setAutoFillBackground(False)
+
+        def toggleFullscreen(fullscreenOn: bool):
+            if fullscreenOn:
+                self.showFullScreen()
+            elif settings["maximized"]:
+                self.showMaximized()
+            else:
+                self.resize(1200, 800)
+                self.show()
+
+            settings["fullscreen"] = fullscreenOn
+
+        def toggleMaximized(isMaximized: bool):
+            if isMaximized:
+                if settings["fullscreen"]:
+                    self.showFullScreen()
+                else:
+                    self.showMaximized()
+            else:
+                if settings["fullscreen"]:
+                    self.showFullScreen()
+                else:
+                    self.resize(1200, 800)
+                    self.show()
+
+        def toggleTaskbarAlignment(isCentered: bool):
+            if isCentered:
+                self.taskbar_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                if settings["taskbar_alignment"] == "center":
+                    pass
+                else:
+                    settings["taskbar_alignment"] = "center"
+                    self._restart()
+            else:
+                self.taskbar_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
+                settings["taskbar_alignment"] = "left"
+                self._restart()
+
+        fullscreenSwitch = core.HorizontalSwitch(
+            personalization_tab_container,
+            "Fullscreen Off",
+            "Fullscreen On",
+            toggleFullscreen,
+        )
+        if settings["fullscreen"]:
+            fullscreenSwitch.handleSwitch()
+
+        personalization_tab_layout.addWidget(fullscreenSwitch)
+
+        maximizedSwitch = core.HorizontalSwitch(
+            personalization_tab_container,
+            "Maximized Off",
+            "Maximized On",
+            toggleMaximized
+        )
+        if settings["maximized"]:
+            maximizedSwitch.handleSwitch()
+
+        personalization_tab_layout.addWidget(maximizedSwitch)
+
+        taskbarAlignmentSwitch = core.HorizontalSwitch(
+            personalization_tab_container,
+            "Left",
+            "Center",
+            toggleTaskbarAlignment
+        )
+
+        if settings["taskbar_alignment"] == "center":
+            taskbarAlignmentSwitch.handleSwitch()
+
+        personalization_tab_layout.addWidget(taskbarAlignmentSwitch)
 
         background_buttons = QWidget(personalization_tab_container)
         background_buttons_layout = QGridLayout(background_buttons)
@@ -309,6 +406,8 @@ class App(QMainWindow):
 
         contents.addTab(personalization_tab, "Personalization")
 
+        personalization_tab.setWidget(personalization_tab_container)
+
         return settings_win
 
 
@@ -319,7 +418,7 @@ if __name__ == "__main__":
     win = App()
     if settings["fullscreen"]:
         win.showFullScreen()
-    elif not settings["fullscreen"] and settings["maxmimized"]:
+    elif not settings["fullscreen"] and settings["maximized"]:
         win.showMaximized()
     else:
         win.resize(1200, 800)
