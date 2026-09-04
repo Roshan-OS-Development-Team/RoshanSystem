@@ -30,6 +30,7 @@ namespace core
 
         auto titleLbl = new QLabel(this);
         titleLbl->setText(QString::fromStdString(title));
+        titleLbl->setStyleSheet(QString::fromStdString(style["titleLbl"]));
         titleLbl->move(40, 10);
 
         auto closeBtn = new QPushButton(this);

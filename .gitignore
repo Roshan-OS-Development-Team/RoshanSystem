@@ -367,6 +367,6 @@ Roshan\ System\ -\ Python\ Version/packages
 Roshan\ System\ -\ Python\ Version/installed_packages.json
 Roshan\ System\ -\ C++\ Version/cmake-build-debug/
 
-# === Pyinstaller stuff ===
+# === Pyinstaller and accidently C++ stuff ===
 build/
 dist/

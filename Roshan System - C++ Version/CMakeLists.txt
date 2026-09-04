@@ -5,6 +5,7 @@ project(RoshanSystem CXX)
 set(CMAKE_CXX_STANDARD 26)
 
 find_package(Qt6 COMPONENTS Core Gui Widgets)
+find_package(nlohmann_json)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -22,6 +23,7 @@ qt_add_executable(
         core/style.h
         core/window.cpp
         core/window.h
+        core/core.h
 )
 
 set_target_properties(RoshanSystem PROPERTIES
@@ -29,7 +31,7 @@ set_target_properties(RoshanSystem PROPERTIES
     MACOSX_BUNDLE TRUE
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui nlohmann_json::nlohmann_json)
 
 add_custom_target(RoshanSystemCopy ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory

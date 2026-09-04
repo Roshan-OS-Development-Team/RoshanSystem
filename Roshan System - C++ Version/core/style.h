@@ -6,8 +6,10 @@
 #include <string>
 #include <map>
 #include <filesystem>
+#include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
+using json = nlohmann::json;
 
 #ifndef ROSHANSYSTEM_STYLE_H
 #define ROSHANSYSTEM_STYLE_H
