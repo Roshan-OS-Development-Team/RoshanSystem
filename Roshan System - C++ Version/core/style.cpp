@@ -4,8 +4,6 @@
 
 #include "style.h"
 
-#include <iostream>
-
 namespace core
 {
     std::map<std::string, std::string> get_qss_styles(std::string filepath)
@@ -38,21 +36,30 @@ namespace core
 
         for (const auto& entry: fs::directory_iterator(targetPath))
         {
-            if (!entry.is_directory())
+            if (entry.is_regular_file())
             {
                 std::ifstream styleFile(entry.path());
                 std::string fileContents;
+                std::stringstream fileBuffer;
 
                 if (styleFile.is_open())
                 {
-                    std::getline(styleFile, fileContents, '\0');
+                    fileBuffer << styleFile.rdbuf();
+                    fileContents = fileBuffer.str();
+                    styles[entry.path().filename().stem().string()] = fileContents;
                     styleFile.close();
                 }
-
-                styles[entry.path().filename().stem().string()] = fileContents;
             }
         }
 
         return styles;
     }
+}
+
+ROSHANSYSTEMLIB_API const char* get_qss_styles(const char* filepath)
+{
+    json qss_styles = core::get_qss_styles(std::string(filepath));
+    static thread_local std::string buffer;
+    buffer = qss_styles.dump();
+    return buffer.c_str();
 }

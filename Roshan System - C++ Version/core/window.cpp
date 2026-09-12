@@ -64,3 +64,40 @@ namespace core
         QWidget::mouseMoveEvent(event);
     }
 } // core
+
+ROSHANSYSTEMLIB_API core::Window* createWindow(
+    QWidget* parent,
+    const char* title,
+    int width,
+    int height,
+    const char* icon_path
+    )
+{
+    return new core::Window(
+        parent,
+        std::string(title),
+{width, height},
+std::string(icon_path)
+    );
+}
+
+ROSHANSYSTEMLIB_API void delWindow(core::Window* window)
+{
+    delete window;
+    window = nullptr;
+}
+
+ROSHANSYSTEMLIB_API int getWinX(core::Window* window)
+{
+    return window->posX;
+}
+
+ROSHANSYSTEMLIB_API int getWinY(core::Window* window)
+{
+    return window->posY;
+}
+
+ROSHANSYSTEMLIB_API void moveWin(core::Window* window, int x, int y)
+{
+    window->move(x, y);
+}
