@@ -60,6 +60,7 @@ ROSHANSYSTEMLIB_API void delWindow(core::Window* window);
 ROSHANSYSTEMLIB_API int getWinX(core::Window* window);
 ROSHANSYSTEMLIB_API int getWinY(core::Window* window);
 ROSHANSYSTEMLIB_API void moveWin(core::Window* window, int x, int y);
+ROSHANSYSTEMLIB_API void showWin(core::Window* window);
 }
 
 #endif //ROSHANSYSTEM_WINDOW_H

@@ -101,3 +101,8 @@ ROSHANSYSTEMLIB_API void moveWin(core::Window* window, int x, int y)
 {
     window->move(x, y);
 }
+
+ROSHANSYSTEMLIB_API void showWin(core::Window* window)
+{
+    window->show();
+}
