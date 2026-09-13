@@ -16,6 +16,13 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QMouseEvent>
+#include <QPaintEvent>
+#include <QPainter>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QImage>
+#include <QPainterPath>
 
 #include <string>
 #include <utility>
@@ -36,6 +43,7 @@ namespace core
     protected:
         void mousePressEvent(QMouseEvent* event) override;
         void mouseMoveEvent(QMouseEvent* event) override;
+        void paintEvent(QPaintEvent* event) override;
     public:
         Window(
             QWidget* parent = nullptr,
@@ -61,6 +69,7 @@ ROSHANSYSTEMLIB_API int getWinX(core::Window* window);
 ROSHANSYSTEMLIB_API int getWinY(core::Window* window);
 ROSHANSYSTEMLIB_API void moveWin(core::Window* window, int x, int y);
 ROSHANSYSTEMLIB_API void showWin(core::Window* window);
+ROSHANSYSTEMLIB_API void hideWin(core::Window* window);
 }
 
 #endif //ROSHANSYSTEM_WINDOW_H

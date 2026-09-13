@@ -12,6 +12,8 @@
 #include <filesystem>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <iostream>
+#include "mainWidgets/taskbar.h"
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
@@ -90,6 +92,7 @@ public:
 
         this->ready = true;
         auto *test = createWindow(this, "Test", 960, 480, "textures/logo.png");
+        showWin(test);
     }
 };
 

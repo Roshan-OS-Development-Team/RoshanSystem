@@ -21,14 +21,18 @@ add_library(RoshanSystemCoreLib SHARED
         core/window.cpp
         core/window.h
         core/core.h
+        core/filedialog.cpp
+        core/filedialog.h
 )
 
-target_link_libraries(RoshanSystemCoreLib PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui)
+target_link_libraries(RoshanSystemCoreLib PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui nlohmann_json::nlohmann_json)
 target_include_directories(RoshanSystemCoreLib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/core")
 
 qt_add_executable(
         RoshanSystem
         main.cpp
+        mainWidgets/taskbar.cpp
+        mainWidgets/taskbar.h
 )
 
 set_target_properties(RoshanSystem PROPERTIES

@@ -14,7 +14,10 @@ namespace core
     ):
     QWidget(parent)
     {
+        this->setAttribute(Qt::WA_TranslucentBackground);
         this->setFixedSize(size.first, size.second);
+        this->setWindowTitle(QString::fromStdString(title));
+        this->setWindowFlag(Qt::FramelessWindowHint, true);
         auto background = new QWidget(this);
         background->setGeometry(0, 0, this->width(), this->height());
         background->setStyleSheet(QString::fromStdString(style["window"]));
@@ -63,6 +66,53 @@ namespace core
 
         QWidget::mouseMoveEvent(event);
     }
+
+    void Window::paintEvent(QPaintEvent* event)
+    {
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        QPainterPath clipPath;
+        clipPath.addRoundedRect(this->rect(), 10, 10);
+        painter.setClipPath(clipPath);
+
+        if (this->parentWidget())
+        {
+            bool wasVisible = this->isVisible();
+            this->blockSignals(true);
+            this->setVisible(false);
+
+            QPixmap background = this->parentWidget()->grab(geometry());
+
+            this->blockSignals(false);
+            this->setVisible(wasVisible);
+
+            auto *blur = new QGraphicsBlurEffect(this);
+            blur->setBlurRadius(15);
+            blur->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
+
+            QGraphicsScene scene;
+            QGraphicsPixmapItem item;
+
+            item.setPixmap(background);
+            item.setGraphicsEffect(blur);
+            scene.addItem(&item);
+
+            QImage blurredImage(this->size(), QImage::Format_ARGB32_Premultiplied);
+            blurredImage.fill(Qt::transparent);
+
+            QPainter imagePainter(&blurredImage);
+            scene.render(&imagePainter, QRectF(), QRectF(0, 0, this->width(), this->height()));
+
+            painter.drawImage(0, 0, blurredImage);
+        }
+
+        painter.setBrush(QColor(0, 0, 0, 140));
+        painter.setPen(Qt::NoPen);
+        painter.drawRect(this->rect());
+
+        QWidget::paintEvent(event);
+    }
 } // core
 
 ROSHANSYSTEMLIB_API core::Window* createWindow(
@@ -105,4 +155,9 @@ ROSHANSYSTEMLIB_API void moveWin(core::Window* window, int x, int y)
 ROSHANSYSTEMLIB_API void showWin(core::Window* window)
 {
     window->show();
+}
+
+ROSHANSYSTEMLIB_API void hideWin(core::Window *window)
+{
+    window->hide();
 }
