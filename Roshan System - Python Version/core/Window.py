@@ -1,9 +1,20 @@
-from PySide6.QtCore import Qt, QUrl
-from PySide6.QtGui import QMouseEvent, QPixmap
+from PySide6.QtCore import QRectF, Qt, QUrl
+from PySide6.QtGui import (
+    QColor,
+    QImage,
+    QMouseEvent,
+    QPainter,
+    QPainterPath,
+    QPaintEvent,
+    QPixmap,
+)
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (
     QApplication,
+    QGraphicsBlurEffect,
+    QGraphicsPixmapItem,
+    QGraphicsScene,
     QLabel,
     QPushButton,
     QWidget,
@@ -31,7 +42,12 @@ class Window(QWidget):
 
         self.background = QWidget(self)
         self.background.setGeometry(0, 0, self.width(), self.height())
-        self.background.setStyleSheet(window_style)
+        self.background.setStyleSheet(
+            "QWidget {"
+            "   border: 2px solid white;"
+            "   border-radius: 10px;"
+            "}"
+        )
 
         self.background.lower()
 
@@ -67,6 +83,9 @@ class Window(QWidget):
         self.startX: int = 0
         self.startY: int = 0
 
+        self._blurDirty = True
+        self._blurredBg = None
+
     def mousePressEvent(self, event: QMouseEvent) -> None:
         self.startX = int(event.position().x())
         self.startY = int(event.position().y())
@@ -80,7 +99,54 @@ class Window(QWidget):
             self.position["x"] = x
             self.position["y"] = y
             self.move(x, y)
+            self._blurDirty = True
         super().mouseMoveEvent(event)
+
+    def paintEvent(self, event: QPaintEvent):
+        painter: QPainter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        clipPath: QPainterPath = QPainterPath()
+        clipPath.addRoundedRect(self.rect(), 10, 10)
+        painter.setClipPath(clipPath)
+
+        if self.parentWidget():
+
+            if self._blurDirty or self._blurredBg is None:
+
+                self.hide()
+
+                background: QPixmap = self.parentWidget().grab(self.geometry())
+
+                self.show()
+
+                blur: QGraphicsBlurEffect = QGraphicsBlurEffect(self)
+                blur.setBlurRadius(15)
+                blur.setBlurHints(QGraphicsBlurEffect.BlurHint.PerformanceHint)
+
+                scene: QGraphicsScene = QGraphicsScene()
+                item: QGraphicsPixmapItem = QGraphicsPixmapItem()
+                item.setPixmap(background)
+                item.setGraphicsEffect(blur)
+                scene.addItem(item)
+
+                self._blurredBg: QImage = QImage(self.size(), QImage.Format.Format_ARGB32_Premultiplied)
+                self._blurredBg.fill(Qt.GlobalColor.transparent)
+
+                imagePainter: QPainter = QPainter(self._blurredBg)
+
+                scene.render(imagePainter, QRectF(), QRectF(0, 0, self.width(), self.height()))
+
+                imagePainter.end()
+
+                self._blurDirty = False
+
+            painter.drawImage(0, 0, self._blurredBg)
+
+        painter.setBrush(QColor(0, 0, 0, 140))
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.drawRect(self.rect())
+
+        super().paintEvent(event)
 
 class WebEnginePage(QWebEnginePage):
     def __init__(self, master):
@@ -128,7 +194,12 @@ class WebWindow(QWidget):
 
         self.background = QWidget(self)
         self.background.setGeometry(0, 0, self.width(), self.height())
-        self.background.setStyleSheet(window_style)
+        self.background.setStyleSheet(
+            "QWidget {"
+            "   border: 2px solid white;"
+            "   border-radius: 10px;"
+            "}"
+        )
 
         self.background.lower()
 
@@ -173,6 +244,9 @@ class WebWindow(QWidget):
         self.startX: int = 0
         self.startY: int = 0
 
+        self._blurDirty = True
+        self._blurredBg: QImage | None = None
+
     def mousePressEvent(self, event: QMouseEvent) -> None:
         self.startX = int(event.position().x())
         self.startY = int(event.position().y())
@@ -186,7 +260,54 @@ class WebWindow(QWidget):
             self.position["x"] = x
             self.position["y"] = y
             self.move(x, y)
+            self._blurDirty = True
         super().mouseMoveEvent(event)
+
+    def paintEvent(self, event: QPaintEvent):
+        painter: QPainter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        clipPath: QPainterPath = QPainterPath()
+        clipPath.addRoundedRect(self.rect(), 10, 10)
+        painter.setClipPath(clipPath)
+
+        if self.parentWidget():
+
+            if self._blurDirty or self._blurredBg is None:
+
+                self.hide()
+
+                background: QPixmap = self.parentWidget().grab(self.geometry())
+
+                self.show()
+
+                blur: QGraphicsBlurEffect = QGraphicsBlurEffect(self)
+                blur.setBlurRadius(15)
+                blur.setBlurHints(QGraphicsBlurEffect.BlurHint.PerformanceHint)
+
+                scene: QGraphicsScene = QGraphicsScene()
+                item: QGraphicsPixmapItem = QGraphicsPixmapItem()
+                item.setPixmap(background)
+                item.setGraphicsEffect(blur)
+                scene.addItem(item)
+
+                self._blurredBg = QImage(self.size(), QImage.Format.Format_ARGB32_Premultiplied)
+                self._blurredBg.fill(Qt.GlobalColor.transparent)
+
+                imagePainter: QPainter = QPainter(self._blurredBg)
+
+                scene.render(imagePainter, QRectF(), QRectF(0, 0, self.width(), self.height()))
+
+                imagePainter.end()
+
+                self._blurDirty = False
+
+            painter.drawImage(0, 0, self._blurredBg)
+
+        painter.setBrush(QColor(0, 0, 0, 140))
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.drawRect(self.rect())
+
+        super().paintEvent(event)
 
 
 if __name__ == "__main__":

@@ -70,7 +70,7 @@ Contributors:
         self.ok_btn = QPushButton(self)
         self.ok_btn.setText("Ok")
         self.ok_btn.setStyleSheet(style["btn"])
-        self.ok_btn.clicked.connect(self.deleteLater)
+        self.ok_btn.clicked.connect(self.hide)
 
         self.ok_btn.move((self.width() - self.ok_btn.width()) // 2, 660)
 

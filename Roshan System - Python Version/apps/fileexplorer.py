@@ -43,7 +43,7 @@ class FileExplorer(core.Window):
         self.file_viewport = QScrollArea(self)
         self.file_viewport.setWidgetResizable(True)
         self.file_viewport.setGeometry(0, 120, self.width(), self.height() - 120)
-        self.file_viewport.setStyleSheet(style["scrollbar"])
+        self.file_viewport.setStyleSheet(style["scrollbar"] + style["file_contents_container"])
 
         self.files = QWidget()
         self.files.setStyleSheet(style["file_contents_container"])
