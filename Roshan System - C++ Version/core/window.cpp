@@ -82,7 +82,7 @@ namespace core
             this->blockSignals(true);
             this->setVisible(false);
 
-            QPixmap background = this->parentWidget()->grab(geometry());
+            QPixmap background = this->parentWidget()->grab(this->geometry());
 
             this->blockSignals(false);
             this->setVisible(wasVisible);
@@ -105,6 +105,8 @@ namespace core
             scene.render(&imagePainter, QRectF(), QRectF(0, 0, this->width(), this->height()));
 
             painter.drawImage(0, 0, blurredImage);
+
+            delete blur;
         }
 
         painter.setBrush(QColor(0, 0, 0, 140));

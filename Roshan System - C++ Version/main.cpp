@@ -14,6 +14,7 @@
 #include <string>
 #include <iostream>
 #include "mainWidgets/taskbar.h"
+#include <boost/dll/import.hpp>
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
@@ -28,6 +29,8 @@ protected:
     QHBoxLayout *taskbarLayout;
     json style;
     bool ready = false;
+    std::map<std::string, QWidget*> apps;
+    std::map<std::string, boost::dll::shared_library*> loadedDlls;
 
     void resizeEvent(QResizeEvent* event) override
     {
@@ -67,10 +70,11 @@ public:
         this->taskbar->setStyleSheet(QString::fromStdString(style["taskbar"]));
         this->taskbarLayout = new QHBoxLayout(this->taskbar);
 
-        if (fs::exists(fs::path("settings.json")) && fs::file_size(fs::path("settings.json")) > 0)
+        fs::path _settingsFile = "settings.json";
+
+        if (fs::exists(_settingsFile) && fs::file_size(_settingsFile) > 0)
         {
-            std::ifstream settingsFile("settings.json");
-            std::string settingsContents;
+            std::ifstream settingsFile(_settingsFile);
             if (settingsFile.is_open())
             {
                 settingsJSON = json::parse(settingsFile);
@@ -79,7 +83,7 @@ public:
         }
         else
         {
-            std::ofstream settingsFile("settings.json");
+            std::ofstream settingsFile(_settingsFile);
             settingsJSON = {
                 {"theme", "dark"},
                 {"background", "textures/background7.png"},
@@ -90,9 +94,61 @@ public:
         }
         this->backgroundimg.load(QString::fromStdString(settingsJSON["background"].get<std::string>()));
 
+        json appsJSON;
+        fs::path _appsFile = "apps.json";
+        if (fs::exists(_appsFile) || fs::file_size(_appsFile) > 0)
+        {
+            std::ifstream appsFile(_appsFile);
+            if (appsFile.is_open())
+            {
+                appsJSON = json::parse(appsFile);
+            }
+            appsFile.close();
+        }
+        else
+        {
+            appsJSON = {};
+        }
+
+        std::vector<std::pair<std::string, std::string>> dllPaths;
+
+        for (const auto& [key, value]: appsJSON.items())
+        {
+            dllPaths.push_back({key, value["filepath"].get<std::string>()});
+        }
+
+        for (const auto& [key, value] : dllPaths)
+        {
+            fs::path dllPath = value;
+
+            try
+            {
+                this->loadedDlls[key] = new boost::dll::shared_library(dllPath);
+                std::cout << "1. Put dll reference in the std::map\n";
+                auto createApp = this->loadedDlls[key]->get<QWidget*(QWidget*)>("createApp");
+                std::cout << "2. CreateApp reference got\n";
+                QWidget* app = createApp(this);
+                app->setParent(this);
+                std::cout << "3. Created App\n";
+                this->apps[key] = app;
+                std::cout << "4. Put App reference in the apps std::map" << std::endl;
+            }
+            catch (std::exception& e)
+            {
+                std::cerr << "Error: " << e.what() << " of loading app " << key;
+            }
+        }
+
         this->ready = true;
-        auto *test = createWindow(this, "Test", 960, 480, "textures/logo.png");
-        showWin(test);
+        // auto *test = createWindow(this, "Test", 960, 480, "textures/logo.png");
+        // showWin(test);
+    }
+    ~App()
+    {
+        for (const auto& [key, ptr]: this->loadedDlls)
+        {
+            delete ptr;
+        }
     }
 };
 
@@ -100,7 +156,6 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     App win;
-    std::ifstream settingsFile("settings.json");
 
     if (win.settingsJSON.value("fullscreen", true))
     {
