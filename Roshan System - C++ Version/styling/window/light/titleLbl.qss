@@ -1,6 +1,6 @@
 ﻿QLabel {
     background-color: transparent;
-    color: black;
+    color: #1e1e1e;
     font-size: 15px;
     font-weight: bold;
 }

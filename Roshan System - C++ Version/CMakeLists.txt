@@ -41,11 +41,7 @@ qt_add_executable(
 #        MACOSX_BUNDLE TRUE
 #)
 
-add_library(PongGame SHARED apps/Pong/Pong.h apps/Pong/Pong.cpp)
-
-target_link_libraries(PongGame PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets nlohmann_json::nlohmann_json RoshanSystemCoreLib)
-
-set_target_properties(RoshanSystemCoreLib PongGame PROPERTIES
+set_target_properties(RoshanSystemCoreLib PROPERTIES
         WINDOWS_EXPORT_ALL_SYMBOLS ON
         CXX_VISIBILITY_PRESET default
         C_VISIBILITY_PRESET default

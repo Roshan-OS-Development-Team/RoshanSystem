@@ -24,10 +24,14 @@
 #include <QImage>
 #include <QPainterPath>
 
+#include <nlohmann/json.hpp>
+
 #include <string>
 #include <utility>
 #include <map>
+#include <fstream>
 
+using json = nlohmann::json;
 
 #include "style.h"
 
@@ -40,6 +44,7 @@ namespace core
         int startX = 0;
         int startY = 0;
         std::map<std::string, std::string> style = core::get_qss_styles("../styling/window");
+        json settingsJSON;
     protected:
         void mousePressEvent(QMouseEvent* event) override;
         void mouseMoveEvent(QMouseEvent* event) override;

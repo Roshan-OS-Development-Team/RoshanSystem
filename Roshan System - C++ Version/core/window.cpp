@@ -42,6 +42,11 @@ namespace core
         closeBtn->move(this->width() - 40, 10);
         closeBtn->setStyleSheet(QString::fromStdString(style["closeBtn"]));
         connect(closeBtn, &QPushButton::clicked, this, &Window::hide);
+
+        {
+            std::ifstream settingsFile("settings.json");
+            this->settingsJSON = json::parse(settingsFile);
+        }
     }
 
     void Window::mousePressEvent(QMouseEvent* event)
@@ -109,7 +114,15 @@ namespace core
             delete blur;
         }
 
-        painter.setBrush(QColor(0, 0, 0, 140));
+        if (settingsJSON["theme"] == "dark")
+        {
+            painter.setBrush(QColor(0, 0, 0, 140));
+        }
+
+        if (settingsJSON["theme"] == "light")
+        {
+            painter.setBrush(QColor(255, 255, 255, 140));
+        }
         painter.setPen(Qt::NoPen);
         painter.drawRect(this->rect());
 

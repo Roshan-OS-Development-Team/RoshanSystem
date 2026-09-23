@@ -114,7 +114,7 @@ public:
 
         for (const auto& [key, value]: appsJSON.items())
         {
-            dllPaths.push_back({key, value["filepath"].get<std::string>()});
+            dllPaths.emplace_back(key, value["filepath"].get<std::string>());
         }
 
         for (const auto& [key, value] : dllPaths)
@@ -124,14 +124,10 @@ public:
             try
             {
                 this->loadedDlls[key] = new boost::dll::shared_library(dllPath);
-                std::cout << "1. Put dll reference in the std::map\n";
                 auto createApp = this->loadedDlls[key]->get<QWidget*(QWidget*)>("createApp");
-                std::cout << "2. CreateApp reference got\n";
                 QWidget* app = createApp(this);
                 app->setParent(this);
-                std::cout << "3. Created App\n";
                 this->apps[key] = app;
-                std::cout << "4. Put App reference in the apps std::map" << std::endl;
             }
             catch (std::exception& e)
             {
@@ -140,8 +136,8 @@ public:
         }
 
         this->ready = true;
-        // auto *test = createWindow(this, "Test", 960, 480, "textures/logo.png");
-        // showWin(test);
+        auto *test = createWindow(this, "Test", 960, 480, "textures/logo.png");
+        showWin(test);
     }
     ~App()
     {

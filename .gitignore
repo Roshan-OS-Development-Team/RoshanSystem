@@ -366,7 +366,9 @@ Roshan\ System\ -\ Python\ Version/login_details.json
 Roshan\ System\ -\ Python\ Version/packages
 Roshan\ System\ -\ Python\ Version/installed_packages.json
 Roshan\ System\ -\ C++\ Version/cmake-build-debug/
+Roshan\ System\ -\ C++\ Version/cmake-build-release/
 Roshan\ System\ -\ C++\ Version/settings.json
+Roshan\ System\ -\ C++\ Version/login_details.json
 
 # === Pyinstaller and accidently C++ stuff ===
 build/
