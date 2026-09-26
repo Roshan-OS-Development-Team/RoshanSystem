@@ -9,21 +9,76 @@
 namespace core
 {
     SaveFileDialong::SaveFileDialong(QWidget* parent, std::vector<std::string> fileExtensions, callbackFunction* callback):
-    Window(parent, "Save a file", {960, 480}, "textures/fileexplorer.png"), _fileExtensions(fileExtensions), _cb(callback)
+    Window(parent, "Save a file", {960, 480}, "textures/explorer.png"), _fileExtensions(fileExtensions), _cb(callback)
     {
-        filePages = new QWidget(this);
-        filePages->setGeometry(10, 60, this->width() - 20, this->height() - 70);
-        filePagesLayout = new QVBoxLayout(filePages);
+        this->filePages = new QWidget(this);
+        this->filePages->setGeometry(10, 60, this->width() - 20, this->height() - 70);
+        this->filePagesLayout = new QVBoxLayout(this->filePages);
         styles = core::get_qss_styles("styling/filedialog");
+        this->makeGUI("user_dir");
+    }
+
+    bool SaveFileDialong::checkExtension(std::string fileName)
+    {
+        for (std::string& fileExtension: _fileExtensions)
+        {
+            if (fileName.ends_with(fileExtension))
+            {
+                return true;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return false;
     }
 
     void SaveFileDialong::makeGUI(std::string path)
     {
         fs::path _path = path;
 
+        for (QPushButton *btn: this->filePages->findChildren<QPushButton*>())
+        {
+            btn->deleteLater();
+        }
+
         for (auto file : fs::directory_iterator(_path))
         {
-            
+            if (file.is_directory())
+            {
+                auto *FolderBtn = new QPushButton(this->filePages);
+                FolderBtn->setText(QString::fromStdString(file.path().filename().stem().string()));
+                this->connect(FolderBtn, &QPushButton::clicked, [this, file]()
+                {
+                   this->makeGUI(file.path().string());
+                });
+                FolderBtn->setStyleSheet(QString::fromStdString(this->styles["button"]));
+                this->filePagesLayout->addWidget(FolderBtn);
+            }
+            else
+            {
+                if (checkExtension(file.path().filename().string()))
+                {
+                    auto *FileBtn = new QPushButton(this->filePages);
+                    FileBtn->setText(QString::fromStdString(file.path().filename().string()));
+                    FileBtn->setStyleSheet(QString::fromStdString(this->styles["button"]));
+                }
+            }
         }
     }
+}
+
+ROSHANSYSTEMLIB_API core::SaveFileDialong* createSaveFileDialog(QWidget* parent, const char* fileExtensions[], int fileExtensionCount, callbackFunction* callbackFunction)
+{
+    std::vector<std::string> _fileExtensions;
+
+    for (int index = 0; index <= fileExtensionCount - 1; ++index)
+    {
+        std::string temp(fileExtensions[index]);
+        _fileExtensions.push_back(temp);
+    }
+
+    return new core::SaveFileDialong(parent, _fileExtensions, callbackFunction);
 }

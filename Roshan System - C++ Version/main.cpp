@@ -16,6 +16,8 @@
 #include "mainWidgets/taskbar.h"
 #include <boost/dll/import.hpp>
 
+#include "filedialog.h"
+
 using json = nlohmann::json;
 namespace fs = std::filesystem;
 
@@ -136,7 +138,8 @@ public:
         }
 
         this->ready = true;
-        auto *test = createWindow(this, "Test", 960, 480, "textures/logo.png");
+        const char* extensions = {".txt"};
+        auto *test = createSaveFileDialog(this, &extensions, 1, &App::fileDialogCallback);
         showWin(test);
     }
     ~App()
@@ -146,10 +149,26 @@ public:
             delete ptr;
         }
     }
+
+    static void fileDialogCallback(const char* filename)
+    {
+        std::cout << filename << "\n";
+    }
 };
 
 int main(int argc, char *argv[])
 {
+    fs::path user_dir = "user_dir";
+
+    if (!fs::exists(user_dir))
+    {
+        fs::create_directory(user_dir);
+    }
+    else
+    {
+        user_dir.clear();
+    }
+
     QApplication app(argc, argv);
     App win;
 
