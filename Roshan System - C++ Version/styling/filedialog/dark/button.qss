@@ -8,7 +8,3 @@
 QPushButton:hover {
     background-color: rgba(50, 0, 255, 204);
 }
-
-QPushButton:pressed {
-    background-color: rgba(30, 0, 255, 204);
-}

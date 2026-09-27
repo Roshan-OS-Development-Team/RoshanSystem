@@ -2,8 +2,6 @@
 // Created by Roshan on 13/09/2026.
 //
 
-#define RoshanSystemCoreLib_EXPORTS
-
 #include "filedialog.h"
 
 namespace core
