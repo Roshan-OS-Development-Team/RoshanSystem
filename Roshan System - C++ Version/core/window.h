@@ -6,13 +6,16 @@
 #undef ROSHANSYSTEMLIB_API
 #endif
 
-#ifdef RoshanSystemCoreLib_EXPORTS
 #ifdef _WIN32
-#define ROSHANSYSTEMLIB_API extern "C" __declspec(dllexport)
-#endif
+    #ifdef RoshanSystemCoreLib_EXPORTS
+        #define ROSHANSYSTEMLIB_API __declspec(dllexport)
+    #else
+        #define ROSHANSYSTEMLIB_API __declspec(dllimport)
+    #endif
 #else
-#define ROSHANSYSTEMLIB_API
+    #define ROSHANSYSTEMLIB_API
 #endif
+
 
 #ifndef ROSHANSYSTEM_WINDOW_H
 #define ROSHANSYSTEM_WINDOW_H
