@@ -7,7 +7,9 @@
 #endif
 
 #ifdef RoshanSystemCoreLib_EXPORTS
-#define ROSHANSYSTEMLIB_API __declspec(dllexport)
+#ifdef _WIN32
+#define ROSHANSYSTEMLIB_API extern "C" __declspec(dllexport)
+#endif
 #else
 #define ROSHANSYSTEMLIB_API
 #endif
