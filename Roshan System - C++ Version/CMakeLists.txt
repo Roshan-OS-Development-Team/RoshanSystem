@@ -36,10 +36,10 @@ qt_add_executable(
         mainWidgets/taskbar.h
 )
 
-#set_target_properties(RoshanSystem PROPERTIES
-#        WIN32_EXECUTABLE TRUE
-#        MACOSX_BUNDLE TRUE
-#)
+set_target_properties(RoshanSystem PROPERTIES
+        WIN32_EXECUTABLE TRUE
+        MACOSX_BUNDLE TRUE
+)
 
 set_target_properties(RoshanSystemCoreLib PROPERTIES
         WINDOWS_EXPORT_ALL_SYMBOLS ON
