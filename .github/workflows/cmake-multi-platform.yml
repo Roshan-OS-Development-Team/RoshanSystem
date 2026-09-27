@@ -101,13 +101,13 @@ jobs:
       run: |
         cd 'Roshan System - C++ Version'
         mkdir build
-        cmake -G "Ninja" -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='C:/vcpkg/scripts/buildsystems/vcpkg.cmake'
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='C:/vcpkg/scripts/buildsystems/vcpkg.cmake'
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: |
         cd 'Roshan System - C++ Version'
-        cmake --build build
+        cmake --build build --config Release
     - name: Deploy App for Windows
       if: matrix.os == 'windows-latest'
       run: |
