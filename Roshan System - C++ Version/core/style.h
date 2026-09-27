@@ -12,10 +12,14 @@
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
+#ifdef ROSHANSYSTEMLIB_API
+#undef ROSHANSYSTEMLIB_API
+#endif
+
 #ifdef RoshanSystemCoreLib_EXPORTS
 #define ROSHANSYSTEMLIB_API __declspec(dllexport)
 #else
-#define ROSHANSYSTEMLIB_API __declspec(dllimport)
+#define ROSHANSYSTEMLIB_API
 #endif
 
 

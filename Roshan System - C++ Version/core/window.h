@@ -2,10 +2,14 @@
 // Created by Roshan on 01/09/2026.
 //
 
+#ifdef ROSHANSYSTEMLIB_API
+#undef ROSHANSYSTEMLIB_API
+#endif
+
 #ifdef RoshanSystemCoreLib_EXPORTS
 #define ROSHANSYSTEMLIB_API __declspec(dllexport)
 #else
-#define ROSHANSYSTEMLIB_API __declspec(dllimport)
+#define ROSHANSYSTEMLIB_API
 #endif
 
 #ifndef ROSHANSYSTEM_WINDOW_H
