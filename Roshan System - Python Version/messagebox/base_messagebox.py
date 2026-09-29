@@ -8,20 +8,22 @@ import core
 
 style = core.get_qss_styles("styling/base_messagebox")
 
+
 class MessageBoxYesNo(core.Window):
     """
     Title: sets the title of the messagebox
     Message: sets the message of the messagebox
-    Callback Function: passes in True to the function if true else it will be false
+    Callback Function: passes in True to the function if true else it will be False
     """
+
     def __init__(
-            self,
-            master, 
-            title: str = "Messagebox Yes No", 
-            message: str = "A yes or no messagebox", 
-            messageboxTexture: str = "textures/confirm.png",
-            callbackFunction: Callable[[bool], None] = print
-        ):
+        self,
+        master,
+        title: str = "Messagebox Yes No",
+        message: str = "A yes or no messagebox",
+        messageboxTexture: str = "textures/confirm.png",
+        callbackFunction: Callable[[bool], None] = print,
+    ):
         super().__init__(master, title, (640, 360), messageboxTexture)
         self.textureLabel = QLabel(self)
         self.textureLabel.setGeometry(50, 100, 100, 100)
@@ -30,7 +32,7 @@ class MessageBoxYesNo(core.Window):
                 100,
                 100,
                 Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.SmoothTransformation
+                Qt.TransformationMode.SmoothTransformation,
             )
         )
 
@@ -49,14 +51,32 @@ class MessageBoxYesNo(core.Window):
         self.noBtn.move(425, 250)
         self.noBtn.setStyleSheet(style["button"])
 
+
+class MessageBoxYesNoCancel(MessageBoxYesNo):
+    def __init__(
+        self,
+        master,
+        title: str = "Messagebox Yes No Cancel",
+        message: str = "A yes or no or cancel \nmessagebox",
+        messageboxTexture: str = "textures/confirm.png",
+        callbackFunction: Callable[[bool], None] = print,
+    ):
+        super().__init__(master, title, message, messageboxTexture, callbackFunction)
+
+        self.cancelBtn = QPushButton("Cancel", self)
+        self.cancelBtn.move(330, 250)
+        self.cancelBtn.clicked.connect(self.deleteLater)
+        self.cancelBtn.setStyleSheet(style["button"])
+
 def main():
     app = QApplication(["--style=fusion"])
     win = QMainWindow()
-    win.setWindowTitle("Message box yes no")
+    win.setWindowTitle("Message box yes no cancel")
     win.resize(640, 360)
-    MessageBoxYesNo(win)
+    MessageBoxYesNoCancel(win)
     win.show()
     app.exec()
+
 
 if __name__ == "__main__":
     main()
