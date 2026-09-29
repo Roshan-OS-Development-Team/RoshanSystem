@@ -115,7 +115,7 @@ class Window(QWidget):
 
                 self.hide()
 
-                background: QPixmap = self.parentWidget().grab(self.geometry())
+                background: QPixmap = self.parentWidget().grab(self.geometry()) # type: ignore
 
                 self.show()
 
@@ -129,7 +129,7 @@ class Window(QWidget):
                 item.setGraphicsEffect(blur)
                 scene.addItem(item)
 
-                self._blurredBg: QImage = QImage(self.size(), QImage.Format.Format_ARGB32_Premultiplied)
+                self._blurredBg: QImage | None = QImage(self.size(), QImage.Format.Format_ARGB32_Premultiplied)
                 self._blurredBg.fill(Qt.GlobalColor.transparent)
 
                 imagePainter: QPainter = QPainter(self._blurredBg)
@@ -276,7 +276,7 @@ class WebWindow(QWidget):
 
                 self.hide()
 
-                background: QPixmap = self.parentWidget().grab(self.geometry())
+                background: QPixmap = self.parentWidget().grab(self.geometry()) # type: ignore
 
                 self.show()
 

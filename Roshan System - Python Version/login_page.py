@@ -2,8 +2,16 @@ import hashlib
 import json
 import os
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QResizeEvent
+from PySide6.QtCore import Qt, QRectF
+from PySide6.QtGui import (
+    QPixmap,
+    QResizeEvent,
+    QImage,
+    QPaintEvent,
+    QPainter,
+    QPainterPath,
+    QColor
+)
 from PySide6.QtWidgets import (
     QApplication,
     QLabel,
@@ -11,8 +19,10 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QPushButton,
     QWidget,
+    QGraphicsBlurEffect,
+    QGraphicsScene,
+    QGraphicsPixmapItem
 )
-
 
 class LoginPage(QWidget):
     def __init__(self, master: QWidget):
@@ -107,6 +117,9 @@ class LoginPage(QWidget):
             self.loginBtn.setText("Sign up")
             self.loginBtn.move(self.width() // 2, 270)
 
+        self._blurDirty = True
+        self._blurredBg = None
+
     def resizeEvent(self, event: QResizeEvent, /) -> None:
         super().resizeEvent(event)
         self.background.setGeometry(0, 0, self.width(), self.height())
@@ -158,6 +171,57 @@ class LoginPage(QWidget):
             return 1
         else:
             return 0
+
+    def paintEvent(self, event: QPaintEvent):
+        painter: QPainter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        clipPath: QPainterPath = QPainterPath()
+        clipPath.addRoundedRect(self.rect(), 10, 10)
+        painter.setClipPath(clipPath)
+
+        if self.parentWidget():
+
+            if self._blurDirty or self._blurredBg is None:
+
+                self.hide()
+
+                background: QPixmap = self.parentWidget().grab(self.geometry())  # type: ignore
+
+                self.show()
+
+                blur: QGraphicsBlurEffect = QGraphicsBlurEffect(self)
+                blur.setBlurRadius(15)
+                blur.setBlurHints(QGraphicsBlurEffect.BlurHint.PerformanceHint)
+
+                scene: QGraphicsScene = QGraphicsScene()
+                item: QGraphicsPixmapItem = QGraphicsPixmapItem()
+                item.setPixmap(background)
+                item.setGraphicsEffect(blur)
+                scene.addItem(item)
+
+                self._blurredBg: QImage | None = QImage(
+                    self.size(), QImage.Format.Format_ARGB32_Premultiplied
+                )
+                self._blurredBg.fill(Qt.GlobalColor.transparent)
+
+                imagePainter: QPainter = QPainter(self._blurredBg)
+
+                scene.render(
+                    imagePainter, QRectF(), QRectF(0, 0, self.width(), self.height())
+                )
+
+                imagePainter.end()
+
+                self._blurDirty = False
+
+            painter.drawImage(0, 0, self._blurredBg)
+
+        painter.setBrush(QColor(0, 0, 0, 140))
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.drawRect(self.rect())
+
+        super().paintEvent(event)
+
 
 if __name__ == "__main__":
     app = QApplication(["--style=fusion"])
