@@ -6,7 +6,7 @@ lines: dict[str, int] = {}
 files: dict[str, int] = {"folders": 0}
 chars: dict[str, int] = {}
 
-foldersOrFilesToIgnore = {".vscode", ".idea", "__pycache__", "line_counter.py", "cmake-build-debug", "cmake-build-release"}
+foldersOrFilesToIgnore = {".vscode", ".idea", "__pycache__", "line_counter.py", "cmake-build-debug", "cmake-build-release", "build"}
 
 def count_lines(filepath: str):
     with os.scandir(filepath) as entries:
