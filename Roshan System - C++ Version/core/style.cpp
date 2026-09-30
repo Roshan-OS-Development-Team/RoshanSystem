@@ -6,7 +6,7 @@
 
 namespace core
 {
-    std::map<std::string, std::string> get_qss_styles(std::string filepath)
+    std::unordered_map<std::string, std::string> get_qss_styles(std::string filepath)
     {
         fs::path settingspath = "settings.json";
         json settingsJSON;
@@ -32,7 +32,7 @@ namespace core
             targetPath /= settingsJSON["theme"].get<std::string>();
         }
 
-        std::map<std::string, std::string> styles;
+        std::unordered_map<std::string, std::string> styles;
 
         for (const auto& entry: fs::directory_iterator(targetPath))
         {

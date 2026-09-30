@@ -6,7 +6,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include "core/core.h"
-#include <map>
+#include <unordered_map>
 #include <QString>
 #include <fstream>
 #include <filesystem>
@@ -31,8 +31,8 @@ protected:
     QHBoxLayout *taskbarLayout;
     json style;
     bool ready = false;
-    std::map<std::string, QWidget*> apps;
-    std::map<std::string, boost::dll::shared_library*> loadedDlls;
+    std::unordered_map<std::string, QWidget*> apps;
+    std::unordered_map<std::string, boost::dll::shared_library*> loadedDlls;
 
     void resizeEvent(QResizeEvent* event) override
     {

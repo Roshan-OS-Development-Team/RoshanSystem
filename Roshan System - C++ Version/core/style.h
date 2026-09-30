@@ -4,7 +4,7 @@
 
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <filesystem>
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -31,7 +31,7 @@ using json = nlohmann::json;
 #define ROSHANSYSTEM_STYLE_H
 namespace core
 {
-    std::map<std::string, std::string> get_qss_styles(std::string filepath);
+    std::unordered_map<std::string, std::string> get_qss_styles(std::string filepath);
 }
 
 extern "C" {
