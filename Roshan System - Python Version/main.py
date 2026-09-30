@@ -5,6 +5,10 @@ import subprocess  # Handles dependency handling
 import sys  # Handles command-line arguments arguments for the interal QApplication
 from typing import TypedDict  # Imports typed dict for type annotations
 
+os.chdir(
+    os.path.dirname(os.path.abspath(__file__))
+)  # Makes the working directory to this folder
+
 # === Start of PySide6 imports ===
 try:
     from PySide6.QtCore import Qt
@@ -40,9 +44,7 @@ except ModuleNotFoundError:
 
 # === End of PySide6 imports ===
 
-os.chdir(
-    os.path.dirname(os.path.abspath(__file__))
-)  # Makes the working directory to this folder
+
 import core  # Imports the window class for type annotation and for settings and dynamic styling
 from login_page import LoginPage  # Imports the Login Page for ROS
 
@@ -92,8 +94,6 @@ class App(QMainWindow):
 
         self.setWindowIcon(app_ico)  # It sets the icon of the window
 
-        self.container = QWidget()  # This contains all the apps, start menu and taskbar
-
         # This gets the background based on the setttings background
         self.background = QPixmap(settings["background"]).scaled(
             self.width(),
@@ -103,15 +103,12 @@ class App(QMainWindow):
         )
 
         # This makes a label to show the background
-        self.backgroundlabel = QLabel(self.container)
+        self.backgroundlabel = QLabel(self)
         self.backgroundlabel.setPixmap(self.background)
         self.backgroundlabel.setGeometry(0, 0, self.width(), self.height())
         self.backgroundlabel.lower()
 
-        # This sets the central widget of the window to the container
-        self.setCentralWidget(self.container)
-
-        self.taskbar = QWidget(self.container)  # This initalizes the taskbar
+        self.taskbar = QWidget(self)  # This initalizes the taskbar
 
         self.taskbar.setStyleSheet(style["taskbar"])  # This sets the taskbar's style
 
@@ -124,7 +121,7 @@ class App(QMainWindow):
         self.startmenu_opened: bool = (
             False  # It stores if the start menu is open or not
         )
-        self.startmenu = QWidget(self.container)
+        self.startmenu = QWidget(self)
         if settings["taskbar_alignment"] == "center":
             self.taskbar_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
             self.startmenu.setGeometry(
@@ -218,31 +215,42 @@ class App(QMainWindow):
         self.apps["settings"] = {"instance": self.settings(), "ico": settings_ico}
         # self.apps["settings"]["instance"].hide()
         self.loginPage = LoginPage(self)
+
         self.ready = True
+
+        if settings["fullscreen"]:
+            self.loginPage.setGeometry(self.rect())
+        else:
+            self.loginPage.setGeometry(0, 0, 1200, 800)
 
     def resizeEvent(self, event: QResizeEvent, /) -> None:
         super().resizeEvent(event)
         if self.ready:
-            self.taskbar.setGeometry(0, self.height() - 70, self.width(), 70)
+
+            width = self.rect().width()
+            height = self.rect().height()
+
+            self.taskbar.setGeometry(0, height - 70, width, 70)
+
             self.background = QPixmap(settings["background"]).scaled(
-                self.width(),
-                self.height(),
+                width,
+                height,
                 Qt.AspectRatioMode.IgnoreAspectRatio,
                 Qt.TransformationMode.SmoothTransformation,
             )
             self.backgroundlabel.setPixmap(self.background)
-            self.backgroundlabel.setGeometry(0, 0, self.width(), self.height())
+            self.backgroundlabel.setGeometry(0, 0, width, height)
             self.backgroundlabel.lower()
+
             if settings["taskbar_alignment"] == "left":
-                self.startmenu.setGeometry(10, self.height() - 480, 400, 400)
+                self.startmenu.setGeometry(10, height - 480, 400, 400)
             elif settings["taskbar_alignment"] == "center":
                 self.startmenu.setGeometry(
-                    self.width() // 2 - 200, self.height() - 480, 400, 400
+                    width // 2 - 200, height - 480, 400, 400
                 )
 
             try:
-                self.loginPage.setGeometry(0, 0, self.width(), self.height())
-                self.loginPage.resizeEvent(event)
+                self.loginPage.setGeometry(0, 0, width, height)
             except RuntimeError:
                 pass
 
@@ -316,19 +324,6 @@ class App(QMainWindow):
 
             settings["fullscreen"] = fullscreenOn
 
-        def toggleMaximized(isMaximized: bool):
-            if isMaximized:
-                if settings["fullscreen"]:
-                    self.showFullScreen()
-                else:
-                    self.showMaximized()
-            else:
-                if settings["fullscreen"]:
-                    self.showFullScreen()
-                else:
-                    self.resize(1200, 800)
-                    self.show()
-
         def toggleTaskbarAlignment(isCentered: bool):
             if isCentered:
                 self.taskbar_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
@@ -352,17 +347,6 @@ class App(QMainWindow):
             fullscreenSwitch.handleSwitch()
 
         personalization_tab_layout.addWidget(fullscreenSwitch)
-
-        maximizedSwitch = core.HorizontalSwitch(
-            personalization_tab_container,
-            "Maximized Off",
-            "Maximized On",
-            toggleMaximized
-        )
-        if settings["maximized"]:
-            maximizedSwitch.handleSwitch()
-
-        personalization_tab_layout.addWidget(maximizedSwitch)
 
         taskbarAlignmentSwitch = core.HorizontalSwitch(
             personalization_tab_container,
@@ -414,13 +398,14 @@ class App(QMainWindow):
 if __name__ == "__main__":
     if not "--style=fusion" in sys.argv:
         sys.argv.append("--style=fusion")
+
     app = QApplication(sys.argv)
     win = App()
+
     if settings["fullscreen"]:
         win.showFullScreen()
-    elif not settings["fullscreen"] and settings["maximized"]:
-        win.showMaximized()
     else:
         win.resize(1200, 800)
         win.show()
+
     sys.exit(app.exec())
