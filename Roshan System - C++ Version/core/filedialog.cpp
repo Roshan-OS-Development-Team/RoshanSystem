@@ -6,7 +6,7 @@
 
 namespace core
 {
-    SaveFileDialong::SaveFileDialong(QWidget* parent, std::vector<std::string> fileExtensions, callbackFunction* callback):
+    SaveFileDialog::SaveFileDialog(QWidget* parent, std::vector<std::string> fileExtensions, callbackFunction* callback):
     Window(parent, "Save a file", {960, 480}, "textures/explorer.png"), _fileExtensions(fileExtensions), _cb(callback)
     {
         this->filePages = new QWidget(this);
@@ -16,7 +16,7 @@ namespace core
         this->makeGUI("user_dir");
     }
 
-    bool SaveFileDialong::checkExtension(std::string fileName)
+    bool SaveFileDialog::checkExtension(const std::string& fileName)
     {
         for (std::string& fileExtension: _fileExtensions)
         {
@@ -33,7 +33,7 @@ namespace core
         return false;
     }
 
-    void SaveFileDialong::makeGUI(std::string path)
+    void SaveFileDialog::makeGUI(std::string path)
     {
         fs::path _path = path;
 
@@ -68,7 +68,7 @@ namespace core
     }
 }
 
-ROSHANSYSTEMLIB_API core::SaveFileDialong* createSaveFileDialog(QWidget* parent, const char* fileExtensions[], int fileExtensionCount, callbackFunction* callbackFunction)
+ROSHANSYSTEMLIB_API core::SaveFileDialog* createSaveFileDialog(QWidget* parent, const char* fileExtensions[], int fileExtensionCount, callbackFunction* callbackFunction)
 {
     std::vector<std::string> _fileExtensions;
 
@@ -78,5 +78,5 @@ ROSHANSYSTEMLIB_API core::SaveFileDialong* createSaveFileDialog(QWidget* parent,
         _fileExtensions.push_back(temp);
     }
 
-    return new core::SaveFileDialong(parent, _fileExtensions, callbackFunction);
+    return new core::SaveFileDialog(parent, _fileExtensions, callbackFunction);
 }

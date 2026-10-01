@@ -39,7 +39,7 @@ typedef void callbackFunction(const char* filename);
 
 namespace core
 {
-    class SaveFileDialong: public Window
+    class SaveFileDialog: public Window
     {
         Q_OBJECT
     private:
@@ -49,12 +49,12 @@ namespace core
         QWidget* filePages;
         QVBoxLayout* filePagesLayout;
         std::unordered_map<std::string, std::string> styles;
-        bool checkExtension(std::string fileName);
+        bool checkExtension(const std::string& fileName);
     public:
-        SaveFileDialong(QWidget* parent, std::vector<std::string> fileExtensions, callbackFunction* callback);
+        SaveFileDialog(QWidget* parent, std::vector<std::string> fileExtensions, callbackFunction* callback);
     };
 }
 
 #endif //ROSHANSYSTEM_FILEDIALOG_H
 
-ROSHANSYSTEMLIB_API core::SaveFileDialong* createSaveFileDialog(QWidget* parent, const char* fileExtensions[], int fileExtensionCount, callbackFunction* callbackFunction);
+ROSHANSYSTEMLIB_API core::SaveFileDialog* createSaveFileDialog(QWidget* parent, const char* fileExtensions[], int fileExtensionCount, callbackFunction* callbackFunction);
