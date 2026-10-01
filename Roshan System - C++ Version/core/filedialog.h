@@ -30,7 +30,7 @@
 #include <string>
 #include <iterator>
 #include <span>
-#include <map>
+#include <unordered_map>
 #include "style.h"
 
 namespace fs = std::filesystem;
@@ -48,7 +48,7 @@ namespace core
         callbackFunction* _cb;
         QWidget* filePages;
         QVBoxLayout* filePagesLayout;
-        std::map<std::string, std::string> styles;
+        std::unordered_map<std::string, std::string> styles;
         bool checkExtension(std::string fileName);
     public:
         SaveFileDialong(QWidget* parent, std::vector<std::string> fileExtensions, callbackFunction* callback);
