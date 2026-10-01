@@ -37,7 +37,7 @@
 
 #include <string>
 #include <utility>
-#include <map>
+#include <unordered_map>
 #include <fstream>
 
 using json = nlohmann::json;
@@ -52,7 +52,7 @@ namespace core
     private:
         int startX = 0;
         int startY = 0;
-        std::map<std::string, std::string> style = core::get_qss_styles("../styling/window");
+        std::unordered_map<std::string, std::string> style = core::get_qss_styles("../styling/window");
         json settingsJSON;
     protected:
         void mousePressEvent(QMouseEvent* event) override;

@@ -10,7 +10,7 @@ namespace core
     Window(parent, "Save a file", {960, 480}, "textures/explorer.png"), _fileExtensions(fileExtensions), _cb(callback)
     {
         this->filePages = new QWidget(this);
-        this->filePages->setGeometry(10, 60, this->width() - 20, this->height() - 70);
+        this->filePages->setGeometry(10, 60, this->width() - 20, this->height() - 120);
         this->filePagesLayout = new QVBoxLayout(this->filePages);
         styles = core::get_qss_styles("styling/filedialog");
         this->makeGUI("user_dir");
