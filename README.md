@@ -3,9 +3,9 @@
 [![Python](https://img.shields.io/badge/Python-PySide6-3776ab?logo=python&logoColor=white)](Roshan%20System%20-%20Python%20Version)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Experimental-orange.svg)]()
-[![Web Apps](https://img.shields.io/badge/HTML-Web%20Apps-orange?logo=html5&logoColor=white)](Roshan%20System%20-%20Python%20Version)
-[![Web Apps](https://img.shields.io/badge/CSS-Web%20Apps-blue?logo=css&logoColor=white)](Roshan%20System%20-%20Python%20Version)
-[![Web Apps](https://img.shields.io/badge/Javascript-Web%20Apps-yellow?logo=javascript&logoColor=white)](Roshan%20System%20-%20Python%20Version)
+[![Web Apps](https://img.shields.io/badge/HTML-Web%20Apps-orange?logo=html5&logoColor=white)](https://github.com/Roshan-OS-Development-Team/ROS-Paint-App)
+[![Web Apps](https://img.shields.io/badge/CSS-Web%20Apps-blue?logo=css&logoColor=white)](https://github.com/Roshan-OS-Development-Team/ROS-Paint-App)
+[![Web Apps](https://img.shields.io/badge/Javascript-Web%20Apps-yellow?logo=javascript&logoColor=white)](https://github.com/Roshan-OS-Development-Team/ROS-Paint-App)
 
 
 #### WARNING — Early v19 snapshot
